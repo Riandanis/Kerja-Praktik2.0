@@ -7,5 +7,23 @@
 @stop
 
 @section('content')
-    <p>You are logged in!</p>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Jadwal Rapat</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+
+                    <div id="calendar">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @stop
+
+
