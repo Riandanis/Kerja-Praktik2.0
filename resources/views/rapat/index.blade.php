@@ -32,6 +32,7 @@
                                 <button type="button" class="btn btn-default">Batal</button>
                             </a>
                             <button type="submit" class="btn btn-success pull-right">Simpan</button>
+                            
                             <script>
                             var counter = 1;
 
