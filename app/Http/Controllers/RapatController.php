@@ -14,7 +14,7 @@ class RapatController extends Controller
      */
     public function index()
     {
-        //
+        return view('rapat.index');
     }
 
     /**
@@ -35,7 +35,16 @@ class RapatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $r = new Rapat();
+
+        // $a->id_perusahaan = $req->input('id_anakperu');
+        // $a->nama_perusahaan = $req->input('nama_anakperu');
+        // $a->tlp_perusahaan = $req->input('tlp_anakperu');
+        // $a->email_perusahaan = $req->input('email_anakperu');
+
+        // $a->save();
+        // $req->session()->flash('alert-success', 'Data anak perusahaan telah ditambahkan');
+        return redirect ('/home');
     }
 
     /**
