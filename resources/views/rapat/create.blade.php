@@ -9,21 +9,36 @@
                                 <label for="JudulRapat" class="col-sm-3 control-label">Judul Rapat<span style="color: red">*</span></label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="Judul_Rapat" placeholder="Judul Rapat"required>
+                                    <input type="text" class="form-control" name="headline" placeholder="Judul Rapat" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="TTW" class="col-sm-3 control-label">Tanggal, Waktu</label>
+                                <label for="TTW" class="col-sm-3 control-label">Tanggal</label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="Tanggal" placeholder="Tempat, waktu">
+                                    <input type="date" class="form-control" name="tanggal" placeholder="Tempat, waktu">
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="TTW" class="col-sm-3 control-label">Waktu</label>
+
+                                <div class="col-sm-9">
+                                    <input type="time" class="form-control" name="jam" placeholder="Tempat, waktu">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="TTW" class="col-sm-3 control-label">Tempat</label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="tempat" placeholder="Tempat, waktu">
+                                </div>
+                            </div>
+
                             <div class="form-group" id="dynamicInput">
                                 <label for="TlpAccMgr" class="col-sm-3 control-label">Peserta 1</label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="Peserta[]" placeholder="Peserta">
+                                    <input type="text" class="form-control" name="attendee" placeholder="Peserta">
                                 </div>
                             </div>
                              <input type="button" value="+" onClick="addInput('dynamicInput')">
@@ -42,7 +57,7 @@
                                  }
                                  else {
                                       var newdiv = document.createElement('div');
-                                      newdiv.innerHTML = "Peserta " + (counter + 1) + " <br><input type='text' name='Peserta[]' placeholder='Peserta'>";
+                                      newdiv.innerHTML = "Peserta " + (counter + 1) + " <br><input type='text' name='peserta[]' placeholder='Peserta'>";
                                       document.getElementById(divName).appendChild(newdiv);
                                       counter++;
                                  }
