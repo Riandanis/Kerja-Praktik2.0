@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Rapat;
+use App\Attendee;
 use Illuminate\Http\Request;
 
 class RapatController extends Controller
@@ -35,17 +37,36 @@ class RapatController extends Controller
      */
     public function store(Request $request)
     {
-        // $r = new Rapat();
+        $tanggal = $request->input('tanggal');
+        $jam = $request->input('jam');
+        $waktu = $tanggal . " " . $jam;
 
-        // $a->id_perusahaan = $req->input('id_anakperu');
-        // $a->nama_perusahaan = $req->input('nama_anakperu');
-        // $a->tlp_perusahaan = $req->input('tlp_anakperu');
-        // $a->email_perusahaan = $req->input('email_anakperu');
+        $rapat = new Rapat();
+        $rapat->headline = $request->input('headline');
+        $rapat->waktu_rapat = $waktu;
+        $rapat->tempat_rapat = $request->input('tempat');
+        $rapat->save();
 
-        // $a->save();
-        // $req->session()->flash('alert-success', 'Data anak perusahaan telah ditambahkan');
-        dd($request);
-        return redirect ('/home');
+        $attendee = $request->input('attendee');
+        $peserta = $request->input('peserta');
+
+        $id = $rapat->id_rapat;
+        $att = new Attendee();
+        $att->id_rapat = $id;
+        $att->ket_attendee = $attendee;
+        $att->save();
+
+        if(count($peserta)){
+            foreach($peserta as $p){
+                $pes = new Attendee();
+                $pes->id_rapat = $id;
+                $pes->ket_attendee = $p;
+                $pes->save();
+            }    
+        }
+        
+        // dd($request);
+        return redirect ('/rapatnya');
     }
 
     /**
