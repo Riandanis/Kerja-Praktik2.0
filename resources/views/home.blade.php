@@ -8,6 +8,20 @@
 
 @section('content')
 
+    <style>
+        .detail-calendar{
+            display: none;
+            position: fixed;
+            bottom: -20px;
+            width: 88%;
+            background-color: white;
+            z-index: 1;
+            height: auto;
+            border-top-color: #605ca8;
+            max-height: 200px;
+            overflow-y: scroll;
+        }
+    </style>
     <div class="row">
         <div class="col-md-12">
             <div class="box">
@@ -20,6 +34,61 @@
                     <div id="calendar">
 
                     </div>
+                </div>
+            </div>
+            <div class="box detail-calendar">
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fa fa-times"></i></button>
+                </div>
+                <div class="box-body">
+                    <div class="row" style="margin-top: 20px">
+                        <div class="col-md-6">
+                            <a href="#" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah Rapat</a>
+                        </div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th colspan="3"></th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>rapat</td>
+                                <td width="30px">Lanjutkan</td>
+                                <td width="30px">Lihat</td>
+                                <td width="30px">Download</td>
+                            </tr>
+                            <tr>
+                                <td>rapat</td>
+                                <td width="30px">Lanjutkan</td>
+                                <td width="30px">Lihat</td>
+                                <td width="30px">Download</td>
+                            </tr>
+                            <tr>
+                                <td>rapat</td>
+                                <td width="30px">Lanjutkan</td>
+                                <td width="30px">Lihat</td>
+                                <td width="30px">Download</td>
+                            </tr>
+                            <tr>
+                                <td>rapat</td>
+                                <td width="30px">Lanjutkan</td>
+                                <td width="30px">Lihat</td>
+                                <td width="30px">Download</td>
+                            </tr>
+                            <tr>
+                                <td>rapat</td>
+                                <td width="30px">Lanjutkan</td>
+                                <td width="30px">Lihat</td>
+                                <td width="30px">Download</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
