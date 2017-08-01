@@ -44,6 +44,7 @@ class RapatController extends Controller
 
         // $a->save();
         // $req->session()->flash('alert-success', 'Data anak perusahaan telah ditambahkan');
+        dd($request);
         return redirect ('/home');
     }
 

@@ -42,7 +42,7 @@
                                  }
                                  else {
                                       var newdiv = document.createElement('div');
-                                      newdiv.innerHTML = "Peserta " + (counter + 1) + " <br><input type='text' name='myInputs[]' placeholder='Peserta'>";
+                                      newdiv.innerHTML = "Peserta " + (counter + 1) + " <br><input type='text' name='Peserta[]' placeholder='Peserta'>";
                                       document.getElementById(divName).appendChild(newdiv);
                                       counter++;
                                  }
