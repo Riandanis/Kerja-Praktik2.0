@@ -16,4 +16,8 @@ class Topik extends Model
     public function topik_agenda(){
     	return $this->belongsTo('App\Topik', 'id_agenda');
     }
+
+    public function topik_diskusi(){
+    	return $this->hasMany('App\Diskusi', 'id_topik');
+    }
 }
