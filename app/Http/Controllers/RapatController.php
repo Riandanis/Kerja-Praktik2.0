@@ -24,7 +24,7 @@ class RapatController extends Controller
      */
     public function create()
     {
-        //
+        return view('rapat.create');
     }
 
     /**
@@ -55,7 +55,7 @@ class RapatController extends Controller
      */
     public function show(Rapat $rapat)
     {
-        //
+        return view('detil_rapat.create');
     }
 
     /**

@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/rapatnya', 'RapatController@index')->name('rapatnya');
+Route::get('/rapatnya', 'RapatController@create')->name('rapatnya');
+Route::get('/detil','RapatController@show')->name('detil');
 Route::post('/rapatnya/store', 'RapatController@store');
