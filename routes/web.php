@@ -19,4 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/pdf', 'HomeController@pdf');
-Route::get('/pgen', 'HomeController@pdfgen');
+Route::get('/agenda', 'AgendaController@index');
+Route::get('/topik/tambah', 'TopikController@create');
+
+

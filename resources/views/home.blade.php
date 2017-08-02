@@ -9,7 +9,7 @@
 @section('content')
 
     <style>
-        .detail-calendar{
+        #detail-calendar{
             display: none;
             position: fixed;
             bottom: -20px;
@@ -20,6 +20,7 @@
             border-top-color: #605ca8;
             max-height: 200px;
             overflow-y: scroll;
+            overflow-x: hidden;
         }
     </style>
     <div class="row">
@@ -36,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div class="box detail-calendar">
+            <div class="box" id="detail-calendar">
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
                         <i class="fa fa-times"></i></button>
@@ -55,37 +56,7 @@
                             </tr>
 
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>rapat</td>
-                                <td width="30px">Lanjutkan</td>
-                                <td width="30px">Lihat</td>
-                                <td width="30px">Download</td>
-                            </tr>
-                            <tr>
-                                <td>rapat</td>
-                                <td width="30px">Lanjutkan</td>
-                                <td width="30px">Lihat</td>
-                                <td width="30px">Download</td>
-                            </tr>
-                            <tr>
-                                <td>rapat</td>
-                                <td width="30px">Lanjutkan</td>
-                                <td width="30px">Lihat</td>
-                                <td width="30px">Download</td>
-                            </tr>
-                            <tr>
-                                <td>rapat</td>
-                                <td width="30px">Lanjutkan</td>
-                                <td width="30px">Lihat</td>
-                                <td width="30px">Download</td>
-                            </tr>
-                            <tr>
-                                <td>rapat</td>
-                                <td width="30px">Lanjutkan</td>
-                                <td width="30px">Lihat</td>
-                                <td width="30px">Download</td>
-                            </tr>
+                        <tbody id="insert_here">
 
                         </tbody>
                     </table>
