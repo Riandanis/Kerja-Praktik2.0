@@ -25,9 +25,10 @@ Route::post('/agenda/store/{id}', 'AgendaController@store');
 Route::post('/agenda/edit/{id}', 'AgendaController@update');
 Route::get('/agenda/delete/{id}', 'AgendaController@destroy');
 
-Route::get('/topik/tambah', 'TopikController@create');
+Route::get('/topik/tambah/{rapat}/{id}', 'TopikController@create');
+Route::post('/topik/store/{id}', 'TopikController@store');
 
-Route::get('/rapat', 'RapatController@index');
+Route::get('/rapat', 'RapatController@rapat');
 Route::get('/rapatnya', 'RapatController@create')->name('rapatnya');
 Route::get('/detil','RapatController@show')->name('detil');
 Route::post('/rapatnya/store', 'RapatController@store');

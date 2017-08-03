@@ -16,12 +16,16 @@ class RapatController extends Controller
      */
     public function index()
     {
-
-
         //return view('rapat.index');
         $rapat = DB::table('rapats')->orderBy('id_rapat')->paginate(25);
         return view('home', ['rapat'=>$rapat]);
+    }
 
+    public function rapat()
+    {
+        //return view('rapat.index');
+        $rapat = DB::table('rapats')->orderBy('id_rapat')->paginate(25);
+        return view('rapat', ['rapat'=>$rapat]);
     }
 
     /**

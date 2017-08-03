@@ -84,9 +84,11 @@
                                 <td>{{$a->id_agenda}}</td>
                                 <td>{{$a->nama_agenda}}</td>
                                 <td style="width:30px;">
-                                    <button class="btn btn-default" data-widget="Tambah topik" data-toggle="tooltip" title="Tambah topik">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
+                                    <a href="{{url('topik/tambah/'.$id.'/'.$a->id_agenda)}}">
+                                        <button class="btn btn-default" data-widget="Tambah topik" data-toggle="tooltip" title="Tambah topik">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </a>
                                 </td>
                                 <td style="width:30px;">
                                     <button class="btn btn-default" data-widget="Lihat topik" data-toggle="tooltip" title="Lihat topik">
