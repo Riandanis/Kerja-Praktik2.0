@@ -16,8 +16,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
-
+Route::get('/home', 'RapatController@index')->name('home');
+Route::get('/allRapat', 'RapatController@renderRapat');
 Route::get('/pdf', 'HomeController@pdf');
 Route::get('/agenda', 'AgendaController@index');
 Route::get('/topik/tambah', 'TopikController@create');

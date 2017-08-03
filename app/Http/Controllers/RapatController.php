@@ -16,7 +16,7 @@ class RapatController extends Controller
      */
     public function index()
     {
-        return view('rapat.index');
+        return view ('home');
     }
 
     /**
@@ -24,6 +24,15 @@ class RapatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function renderRapat()
+    {
+        $allRapat = DB::table('rapats')
+            ->select('headline', 'waktu_rapat')
+            ->get();
+//        dd($allRapat);
+        return json_encode($allRapat);
+    }
     public function create()
     {
         return view('rapat.create');
