@@ -1,5 +1,8 @@
+<?php
+
 namespace App\Http\Controllers;
 
+use DB;
 use App\Agenda;
 use Illuminate\Http\Request;
 
@@ -10,9 +13,14 @@ class AgendaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        return view('agenda');
+        // $agenda = Agenda::find($id);
+        $agenda = DB::table('agendas')->where('agendas.id_rapat', '=', $id)
+                ->join('rapats', 'agendas.id_rapat', '=', 'rapats.id_rapat')
+                ->get();
+        // dd($agenda);
+        return view('agenda', ['agenda'=>$agenda, 'id'=>$id]);
     }
 
     /**
@@ -31,9 +39,23 @@ class AgendaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        // dd($id);
+        $agenda = new Agenda;
+        $agenda->id_rapat = $id;
+        $agenda->nama_agenda = $request->input('nama');
+        // $agenda->save();
+        // return redirect('agenda/'.$id);
+
+        if($agenda->save()){
+            $request->session()->flash('alert-success', 'Agenda telah ditambahkan');
+            return redirect('agenda/'.$id);
+        }
+        else{
+            $request->session()->flash('alert-danger', 'Agenda gagal ditambahkan');
+            return redirect('agenda/'.$id);
+        }
     }
 
     /**
@@ -65,9 +87,20 @@ class AgendaController extends Controller
      * @param  \App\Agenda  $agenda
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Agenda $agenda)
+    public function update(Request $request, $id)
     {
-        //
+        $edit = Agenda::where('id_agenda', $id)->first();
+        $id_rapat = $edit->id_rapat;
+        $edit->nama_agenda = $request['nama'];
+
+        if($edit->save()){
+            $request->session()->flash('alert-success', 'Agenda berhasil diperbarui.');
+            return redirect('agenda/'.$id_rapat);
+        }
+        else{
+            $request->session()->flash('alert-danger', 'Agenda gagal diperbarui.');
+            return redirect('agenda/'.$id_rapat);
+        }
     }
 
     /**
@@ -76,8 +109,20 @@ class AgendaController extends Controller
      * @param  \App\Agenda  $agenda
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Agenda $agenda)
+    public function destroy(Request $request, $id)
     {
-        //
+        $del = Agenda::find($id);
+        $id_rapat = $del->id_rapat;
+
+        if($del->delete())
+        {
+            $request->session()->flash('alert-success', 'Agenda berhasil dihapus.');
+            return redirect('agenda/'.$id_rapat);
+        }
+        else
+        {
+            $request->session()->flash('alert-danger', 'Agenda gagal dihapus.');
+            return redirect ('agenda/'.$id_rapat);
+        }
     }
 }
