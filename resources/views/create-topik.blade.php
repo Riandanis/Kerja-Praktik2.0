@@ -7,6 +7,17 @@
 @stop
 
 @section('content')
+    <style>
+        .btn-circle {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 12px;
+            line-height: 1.428571429;
+            border-radius: 15px;
+        }
+    </style>
     <div class="row">
         <div class="col-md-12">
             <div class="box">
@@ -26,7 +37,7 @@
                                 </div>
                             </div>
                             <div id="form-section">
-                                <div id="discussion-coy" class="wadu">
+                                <div id="discussion-coy">
                                     <div id="discussion-section" style="display: none">
                                         <br>
                                         <br>
@@ -38,11 +49,11 @@
                                                 <input type="text" class="form-control" name="diskusi[0]" placeholder="Hasil Diskusi" diskusi="0">
                                             </div>
                                             <div class="col-sm-2">
-                                                <button type="button" class="btn btn-default" id="delete-discussion-button" style="margin-left:10px; margin-top: 0px"><i class="fa fa-times"></i></button>
+                                                <button type="button" class="btn btn-default fa fa-times" id="delete-discussion-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>
                                             </div>
                                         </div>
                                         <div id="discussion-action">
-                                            <div id="action-section">
+                                            <div id="action-section" style="margin-top: 40px">
                                                 <div class="form-group">
                                                     <label for="Action" class="col-sm-2 control-label">Action</label>
 
@@ -50,8 +61,42 @@
                                                         <textarea class="form-control" name="action[0][]" placeholder="Action"></textarea>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <button type="button" class="btn btn-default" id="delete-action-button" style="margin-left:10px; margin-top: 10px"><i class="fa fa-times"></i></button>
+                                                        <button type="button" class="btn btn-default fa fa-times" id="delete-action-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>
+
                                                     </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group" style="margin-left: 75px">
+                                                            <label for="KeteranganAct" class="col-sm-4 control-label">Keterangan</label>
+
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control" name="keterangan[0][]" style="width: 105px">
+                                                                    <option>Informasi</option>
+                                                                    <option>Target</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4" style="margin-left: -110px">
+                                                        <div class="form-group">
+                                                            <label for="PICAct" class="col-sm-4 control-label">PIC</label>
+
+                                                            <div class="col-sm-8">
+                                                                <input type="email" name="pic[0][]" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4" style="margin-left: -30px;">
+                                                        <div class="form-group">
+                                                            <label for="DueDate" class="col-sm-4 control-label">Due Date</label>
+
+                                                            <div class="col-sm-8">
+                                                                <input type="date" name="due_date[0][]" placeholder="Due Date" class="form-control" id="datepicker1" style="width: 170px" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -76,27 +121,31 @@
     <script>
         $(document).ready(function(){
 
+
+
             const MAX_FIELDS = 10;
-            var totalDiscussion = 1;
+            var totalDiscussion = 0;
             var ind = 0;
-            var totalAction = 1;
-            var discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('<button type="button" class="btn btn-default" id="delete-discussion-button" style="margin-left:10px; margin-top: 0px"><i class="fa fa-times"></i></button>','').replace('diskusi[0]', 'diskusi['+totalDiscussion+']').replace('action[0][]', 'action['+totalDiscussion+'][]').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+ind+'"');
+            var totalAction = 0;
+            var discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('<button type="button" class="btn btn-default fa fa-times" id="delete-discussion-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>','').replace('diskusi[0]', 'diskusi['+totalDiscussion+']').replace('action[0][]', 'action['+totalDiscussion+'][]').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+totalDiscussion+'"').replace('name="keterangan[0][]"', 'name="keterangan['+totalDiscussion+'][]"').replace('name="pic[0][]"', 'name="pic['+totalDiscussion+'][]"').replace('name="due_date[0][]"', 'name="due_date['+totalDiscussion+'][]"');
             const formContent = $('#form-section');
-            var discussionActionFieldsClone = $('#action-section')[0].outerHTML.replace('<button type="button" class="btn btn-default" id="delete-action-button" style="margin-left:10px; margin-top: 10px"><i class="fa fa-times"></i></button>');
+            var discussionActionFieldsClone = $('#action-section')[0].outerHTML.replace('<button type="button" class="btn btn-default fa fa-times" id="delete-action-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>');
             const actionFieldsClone = $('#discussion-action')[0].outerHTML;
 
-            if (totalDiscussion==1) {
+            if (totalDiscussion==0) {
                 $(formContent).append(discussionSectionClone);
+                console.log(discussionSectionClone);
                 totalDiscussion++;
                 ind++;
             }
 
             $('#add-discussion-button').on('click', function(e){ //on add input button click
                 e.preventDefault();
-                discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('diskusi[0]', 'diskusi['+totalDiscussion+']').replace('action[0][]', 'action['+totalDiscussion+'][]').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+ind+'"');
+                discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('diskusi[0]', 'diskusi['+totalDiscussion+']').replace('action[0][]', 'action['+totalDiscussion+'][]').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+totalDiscussion+'"').replace('name="keterangan[0][]"', 'name="keterangan['+totalDiscussion+'][]"').replace('name="pic[0][]"', 'name="pic['+totalDiscussion+'][]"').replace('name="due_date[0][]"', 'name="due_date['+totalDiscussion+'][]"');
 //                console.log(discussionSectionClone);
                 if( totalDiscussion < MAX_FIELDS){ //max input box allowed
-                    $('#form-section').append(discussionSectionClone);
+                    $(formContent).append(discussionSectionClone);
+                    console.log(discussionSectionClone);
                     totalDiscussion++;
                     ind++;
                 }
@@ -105,10 +154,9 @@
             $(document).on('click', '#add-action-button', function(e) {
                 var btnParent = $(e.target.parentNode.childNodes[9]);
                 var nthDiscussion = $(e.target.parentNode.childNodes[7].childNodes[3].childNodes[1]).attr('diskusi');
-                console.log(nthDiscussion);
-                discussionActionFieldsClone = $('#action-section')[0].outerHTML.replace('action[0][]', 'action['+nthDiscussion+'][]');
+
+                discussionActionFieldsClone = $(actionFieldsClone)[0].outerHTML.replace('action[0][]', 'action['+nthDiscussion+'][]');
                 totalAction++;
-//                console.log($(btnParent));
 
                 btnParent.append(discussionActionFieldsClone);
             });
@@ -116,18 +164,13 @@
             $(document).on('click', '#delete-action-button', function(e) {
                 var btnParent = $(e.target.parentNode.parentNode.parentNode);
                 totalAction--;
-                console.log(btnParent);
                 btnParent.remove();
             });
 
             $(document).on('click', '#delete-discussion-button', function(e) {
-                var btnParent = $(e.target).parents();
-//                if (btnParent[0].includes("</i>")) console.log('iiiii');
-//                else console.log('bbbb');
+                var btnParent = $(e.target.parentNode.parentNode.parentNode);
                 totalDiscussion--;
-//                console.log($(e.target).parents());
-                console.log(btnParent);
-//                btnParent.remove();
+                btnParent.remove();
             });
 
         })
