@@ -25,4 +25,14 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function pdf()
+    {
+        return view('pdf');
+    }
+
+    public function pdfgen()
+    {
+        return view ('pdf-generated');
+    }
 }

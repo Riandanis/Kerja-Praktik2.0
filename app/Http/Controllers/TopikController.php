@@ -24,7 +24,7 @@ class TopikController extends Controller
      */
     public function create()
     {
-        //
+        return view('create-topik');
     }
 
     /**
@@ -83,3 +83,4 @@ class TopikController extends Controller
         //
     }
 }
+
