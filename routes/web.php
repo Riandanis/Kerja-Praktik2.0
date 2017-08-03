@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::get('/home', 'RapatController@index')->name('home');
+Route::get('/rapat/tambah', 'RapatController@create');
 Route::get('/allRapat', 'RapatController@renderRapat');
 Route::get('/pdf', 'HomeController@pdf');
 
@@ -27,7 +28,7 @@ Route::get('/agenda/delete/{id}', 'AgendaController@destroy');
 
 Route::get('/topik/tambah', 'TopikController@create');
 
-Route::get('/rapat', 'RapatController@index');
+Route::get('/rapat', 'RapatController@rapat');
 Route::get('/rapatnya', 'RapatController@create')->name('rapatnya');
 Route::get('/detil','RapatController@show')->name('detil');
 Route::post('/rapatnya/store', 'RapatController@store');

@@ -48,7 +48,7 @@
                 <div class="box-body">
                     <div class="row" style="margin-top: 20px">
                         <div class="col-md-6">
-                            <a href="#" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah Rapat</a>
+                            <a id="tambahrapat" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah Rapat</a>
                         </div>
                     </div>
                     <table class="table">

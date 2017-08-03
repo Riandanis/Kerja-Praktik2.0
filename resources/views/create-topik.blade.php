@@ -123,14 +123,14 @@
 
 
 
-            const MAX_FIELDS = 10;
+            var MAX_FIELDS = 10;
             var totalDiscussion = 0;
             var ind = 0;
             var totalAction = 0;
             var discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('<button type="button" class="btn btn-default fa fa-times" id="delete-discussion-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>','').replace('diskusi[0]', 'diskusi['+totalDiscussion+']').replace('action[0][]', 'action['+totalDiscussion+'][]').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+totalDiscussion+'"').replace('name="keterangan[0][]"', 'name="keterangan['+totalDiscussion+'][]"').replace('name="pic[0][]"', 'name="pic['+totalDiscussion+'][]"').replace('name="due_date[0][]"', 'name="due_date['+totalDiscussion+'][]"');
-            const formContent = $('#form-section');
+            var formContent = $('#form-section');
             var discussionActionFieldsClone = $('#action-section')[0].outerHTML.replace('<button type="button" class="btn btn-default fa fa-times" id="delete-action-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>');
-            const actionFieldsClone = $('#discussion-action')[0].outerHTML;
+            var actionFieldsClone = $('#discussion-action')[0].outerHTML;
 
             if (totalDiscussion==0) {
                 $(formContent).append(discussionSectionClone);
