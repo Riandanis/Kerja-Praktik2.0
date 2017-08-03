@@ -1,9 +1,11 @@
+<?php
+
 namespace App\Http\Controllers;
 
-use App\Agenda;
+use App\Action;
 use Illuminate\Http\Request;
 
-class AgendaController extends Controller
+class ActionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -12,7 +14,7 @@ class AgendaController extends Controller
      */
     public function index()
     {
-        return view('agenda');
+        //
     }
 
     /**
@@ -39,10 +41,10 @@ class AgendaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Agenda  $agenda
+     * @param  \App\Action  $action
      * @return \Illuminate\Http\Response
      */
-    public function show(Agenda $agenda)
+    public function show(Action $action)
     {
         //
     }
@@ -50,10 +52,10 @@ class AgendaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Agenda  $agenda
+     * @param  \App\Action  $action
      * @return \Illuminate\Http\Response
      */
-    public function edit(Agenda $agenda)
+    public function edit(Action $action)
     {
         //
     }
@@ -62,10 +64,10 @@ class AgendaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Agenda  $agenda
+     * @param  \App\Action  $action
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Agenda $agenda)
+    public function update(Request $request, Action $action)
     {
         //
     }
@@ -73,10 +75,10 @@ class AgendaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Agenda  $agenda
+     * @param  \App\Action  $action
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Agenda $agenda)
+    public function destroy(Action $action)
     {
         //
     }

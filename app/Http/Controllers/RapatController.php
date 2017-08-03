@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Rapat;
+use App\Attendee;
 use Illuminate\Http\Request;
 
 class RapatController extends Controller
@@ -14,7 +16,7 @@ class RapatController extends Controller
      */
     public function index()
     {
-        //
+        return view('rapat.index');
     }
 
     /**
@@ -24,7 +26,7 @@ class RapatController extends Controller
      */
     public function create()
     {
-        //
+        return view('rapat.create');
     }
 
     /**
@@ -35,7 +37,36 @@ class RapatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tanggal = $request->input('tanggal');
+        $jam = $request->input('jam');
+        $waktu = $tanggal . " " . $jam;
+
+        $rapat = new Rapat();
+        $rapat->headline = $request->input('headline');
+        $rapat->waktu_rapat = $waktu;
+        $rapat->tempat_rapat = $request->input('tempat');
+        $rapat->save();
+
+        $attendee = $request->input('attendee');
+        $peserta = $request->input('peserta');
+
+        $id = $rapat->id_rapat;
+        $att = new Attendee();
+        $att->id_rapat = $id;
+        $att->ket_attendee = $attendee;
+        $att->save();
+
+        if(count($peserta)){
+            foreach($peserta as $p){
+                $pes = new Attendee();
+                $pes->id_rapat = $id;
+                $pes->ket_attendee = $p;
+                $pes->save();
+            }    
+        }
+        
+        // dd($request);
+        return redirect ('/rapatnya');
     }
 
     /**
@@ -46,7 +77,7 @@ class RapatController extends Controller
      */
     public function show(Rapat $rapat)
     {
-        //
+        return view('detil_rapat.create');
     }
 
     /**

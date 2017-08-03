@@ -12,14 +12,18 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('/pdf', 'HomeController@pdf');
 Route::get('/agenda', 'AgendaController@index');
 Route::get('/topik/tambah', 'TopikController@create');
 
+
+Route::get('/rapatnya', 'RapatController@create')->name('rapatnya');
+Route::get('/detil','RapatController@show')->name('detil');
+Route::post('/rapatnya/store', 'RapatController@store');
 
