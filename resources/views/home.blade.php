@@ -13,7 +13,9 @@
             display: none;
             position: fixed;
             bottom: -20px;
-            width: 88%;
+            width: auto;
+            min-width: 1110px;
+            max-width: 1200px;
             background-color: white;
             z-index: 1;
             height: auto;
