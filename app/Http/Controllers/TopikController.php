@@ -15,9 +15,14 @@ class TopikController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($rapat, $id)
     {
-        //
+        //$rapat id_rapat, $id id_agenda
+        $topik = DB::table('topiks')->where('id_agenda', '=', $id)->get();
+        $agenda = DB::table('agendas')->select('id_agenda', 'id_rapat', 'nama_agenda')
+                ->where('id_agenda', '=', $id)->first();
+
+        return view('topik', ['topik'=>$topik, 'agenda'=>$agenda]);
     }
 
     /**
@@ -38,8 +43,9 @@ class TopikController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request, $rapat, $id)
     {
+        $id_rapat = $rapat;
         //insert topik
         $top = new Topik();
         $top->id_agenda = $id;
@@ -58,7 +64,8 @@ class TopikController extends Controller
         // dd($diskusi, $action, $jenis, $pic, $date);
 
         // dd($ac[$i][$j]);
-        if(count($diskusi)){
+        // dd($diskusi[0]);
+        if($diskusi[0]!=null){
             //insert diskusi
             $i = 0; 
             foreach($diskusi as $dis){
@@ -94,7 +101,10 @@ class TopikController extends Controller
                 $i++;
             }
         }
-        return redirect('rapat');
+        else{
+            return redirect('agenda/'.$rapat);
+        }
+        return redirect('agenda/'.$rapat);
     }
 
     /**
@@ -137,9 +147,15 @@ class TopikController extends Controller
      * @param  \App\Topik  $topik
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Topik $topik)
+    public function destroy(Request $request, $id)
     {
-        //
+        $del = Topik::find($id);
+        $id_agenda = $del->id_agenda;
+        $id_rapat = DB::table('agendas')->select('id_rapat')
+                    ->where('id_agenda', '=', $id_agenda)->first();
+
+        $del->delete();
+
     }
 }
 

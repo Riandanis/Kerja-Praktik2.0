@@ -26,7 +26,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form class="form-horizontal" method="post" action="{{url('topik/store', $agenda)}}">
+                    <form class="form-horizontal" method="post" action="{{url('topik/store/'.$rapat.'/'.$agenda)}}">
                         {{csrf_field()}}
                         <div class="box-body">
                             <div class="form-group">

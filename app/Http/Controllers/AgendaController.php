@@ -15,12 +15,12 @@ class AgendaController extends Controller
      */
     public function index($id)
     {
-        // $agenda = Agenda::find($id);
+        $rapat = DB::table('rapats')->select('id_rapat', 'headline')
+                ->where('rapats.id_rapat', '=', $id)->first();
         $agenda = DB::table('agendas')->where('agendas.id_rapat', '=', $id)
-                ->join('rapats', 'agendas.id_rapat', '=', 'rapats.id_rapat')
                 ->get();
-        // dd($agenda);
-        return view('agenda', ['agenda'=>$agenda, 'id'=>$id]);
+     
+        return view('agenda', ['agenda'=>$agenda, 'rapat'=>$rapat]);
     }
 
     /**
