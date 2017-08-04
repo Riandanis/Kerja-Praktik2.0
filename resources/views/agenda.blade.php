@@ -92,21 +92,27 @@
                                     </a>
                                 </td>
                                 <td style="width:30px;">
-                                    <a href="{{url('topik/'.$rapat->id_rapat.'/'.$a->id_agenda)}}">
-                                        <button class="btn btn-default" data-widget="Lihat topik" data-toggle="tooltip" title="Lihat topik">
-                                            <i class="fa fa-eye"></i>
-                                        </button>
-                                    </a>
+                                <span data-widget="Lihat topik" data-toggle="tooltip" title="Lihat topik">
+                                    <button class="btn btn-default topik-button" data-toggle="modal" data-target="#modal-topik" data-id="{{$a->id_agenda}}">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                </span>
+
                                 </td>
                                 <td style="width:30px;">
-                                    <button id="btn-edit" type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$a->id_agenda}}" data-rapat="{{$rapat->headline}}" data-name="{{$a->nama_agenda}}">
-                                        <i class="fa fa-pencil"></i>
-                                    </button>
+                                    <span data-widget="Edit agenda" data-toggle="tooltip" title="Edit agenda">
+                                        <button id="btn-edit" type="button" class="btn btn-default edit-button" data-toggle="modal" data-target="#modal-default" data-id="{{$a->id_agenda}}" data-rapat="{{$rapat->headline}}" data-name="{{$a->nama_agenda}}">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+                                    </span>
+
                                 </td>
                                 <td align="center" width="30px">
-                                    <button type="button" class="btn btn-default delete-button" data-name="{{$a->nama_agenda}}" data-id="{{$a->id_agenda}}" data-toggle="modal" data-target="#modal-danger">
+                                    <span data-widget="Hapus agenda" data-toggle="tooltip" title="Hapus agenda">
+                                         <button type="button" class="btn btn-default delete-button" data-name="{{$a->nama_agenda}}" data-id="{{$a->id_agenda}}" data-toggle="modal" data-target="#modal-danger">
                                         <i class="fa fa-trash"></i>
                                     </button>
+                                    </span>
                                 </td>
                             </tr>
                             <?php $i++?>
@@ -178,6 +184,37 @@
                         </div>
                     </div>
                 </div>
+                <div id="modal-topik" class="modal fade" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Hapus Agenda</h4>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-condensed">
+                                    <tbody>
+                                        @foreach ($topik as $t)
+                                        <tr class="topik">
+                                            <td></td>
+
+                                        </tr>
+                                            @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                <a id="del-btn">
+                                    <button type="submit" class="btn btn-danger pull-right" style="margin-left: 4px ;">Hapus</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
                 @else
                     <p>Data tidak ditemukan</p>
                 @endif
@@ -185,6 +222,7 @@
             </div>
         </div>
     </div>
+    <?php $tes=1;?>
     
     <script>
         $(document).on("click", ".edit-button", function(){
@@ -203,6 +241,12 @@
             var nama_agenda = $(this).data('name');
             $("#del-btn").attr('href','{{url('agenda/delete')}}' + '/' + id_agenda)
             $("#show-name").html('Anda yakin ingin menghapus agenda ' + nama_agenda + '?')
+        });
+
+        $(document).on("click", ".topik-button", function() {
+            var id_agenda = $(this).data('id');
+            
+
         })
     </script>
 @stop

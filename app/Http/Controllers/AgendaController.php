@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class AgendaController extends Controller
 {
-    /**
+      /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -16,11 +16,17 @@ class AgendaController extends Controller
     public function index($id)
     {
         $rapat = DB::table('rapats')->select('id_rapat', 'headline')
-                ->where('rapats.id_rapat', '=', $id)->first();
+            ->where('rapats.id_rapat', '=', $id)->first();
         $agenda = DB::table('agendas')->where('agendas.id_rapat', '=', $id)
-                ->get();
-     
-        return view('agenda', ['agenda'=>$agenda, 'rapat'=>$rapat]);
+            ->get();
+        $topik = array();
+        foreach ($agenda as $ag) {
+
+            $topik[$ag->id_agenda] = DB::table('topiks')->where('id_agenda','=', $ag->id_agenda)->get();
+
+        }
+//        dd($topik);
+        return view('agenda', ['agenda'=>$agenda, 'rapat'=>$rapat, 'topik'=>$topik]);
     }
 
     /**
