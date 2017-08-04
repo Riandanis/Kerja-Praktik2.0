@@ -22,6 +22,7 @@ Route::get('/allRapat', 'RapatController@renderRapat');
 Route::get('/pdf', 'HomeController@pdf');
 
 Route::get('/agenda/{id}', 'AgendaController@index');
+Route::post('/agenda/topik/{id}', 'AgendaController@topik');
 Route::post('/agenda/store/{id}', 'AgendaController@store');
 Route::post('/agenda/edit/{id}', 'AgendaController@update');
 Route::get('/agenda/delete/{id}', 'AgendaController@destroy');
