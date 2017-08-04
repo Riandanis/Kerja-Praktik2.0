@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Topik;
+use App\Diskusi;
+use App\Action;
 use Illuminate\Http\Request;
 
 class TopikController extends Controller
@@ -22,9 +25,11 @@ class TopikController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($rapat, $id)
     {
-        return view('create-topik');
+        $rapat = $rapat;
+        $agenda = $id;
+        return view('create-topik', ['agenda' => $agenda, 'rapat'=>$rapat]);
     }
 
     /**
@@ -33,9 +38,63 @@ class TopikController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        //insert topik
+        $top = new Topik();
+        $top->id_agenda = $id;
+        $top->nama_topik = $request->input('topik');
+        $top->save();
+
+        //get id_topik
+        $topik = $top->id_topik;
+        
+        //get value from form
+        $diskusi = $request->input('diskusi');
+        $action = $request->input('action');
+        $jenis = $request->input('keterangan');
+        $pic = $request->input('pic');
+        $date = $request->input('due_date');
+        // dd($diskusi, $action, $jenis, $pic, $date);
+
+        // dd($ac[$i][$j]);
+        if(count($diskusi)){
+            //insert diskusi
+            $i = 0; 
+            foreach($diskusi as $dis){
+                $d = new Diskusi;
+                $d->id_topik = $topik;
+                $d->nama_diskusi = $dis;
+                $d->save();
+
+                $id_dis = $d->id_diskusi;
+
+                if(count($action)){
+                    $j = 0;
+
+                    //insert action
+                    foreach($action[$i] as $act){
+                        $a = new Action;
+                        $a->id_diskusi = $id_dis;
+                        $a->deskripsi = $act;
+                        $a->due_date = $date[$i][$j];
+                        $a->email_pic = $pic[$i][$j];
+                        $a->jenis_action = $jenis[$i][$j];
+
+                        if($jenis[$i][$j] == 'Informasi'){
+                            $a->status = 1;
+                        }
+                        else{
+                            $a->status = 0;
+                        }
+                        $a->save();
+                        $j++;
+                    }
+                }
+                $i++;
+            }
+        }
+        return redirect('rapat');
     }
 
     /**

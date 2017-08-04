@@ -22,6 +22,7 @@ class RapatController extends Controller
         return view('home', ['rapat'=>$rapat]);
     }
 
+
     public function rapat()
     {
 
