@@ -46,11 +46,7 @@
                         <i class="fa fa-times"></i></button>
                 </div>
                 <div class="box-body">
-                    <div class="row" style="margin-top: 20px">
-                        <div class="col-md-6">
-                            <a href="#" class='btn btn-primary'><i class="fa fa-plus-circle"></i> Tambah Rapat</a>
-                        </div>
-                    </div>
+                    <h5 style="margin-top: 5px"><strong></strong></h5>
                     <table class="table">
                         <thead>
                             <tr>

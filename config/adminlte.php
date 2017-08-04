@@ -111,7 +111,10 @@ return [
         [
             'text' => 'Beranda',
             'url'  => 'home',
-            'icon'  => 'home',
+        ],
+        [
+            'text' => 'Rapat',
+            'url'  => 'rapat/tambah',
         ],
 
     ],

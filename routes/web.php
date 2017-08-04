@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::get('/home', 'RapatController@index')->name('home');
+Route::get('/rapat/tambah', 'RapatController@create');
 Route::get('/allRapat', 'RapatController@renderRapat');
 Route::get('/pdf', 'HomeController@pdf');
 

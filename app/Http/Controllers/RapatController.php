@@ -16,13 +16,16 @@ class RapatController extends Controller
      */
     public function index()
     {
+
         //return view('rapat.index');
         $rapat = DB::table('rapats')->orderBy('id_rapat')->paginate(25);
         return view('home', ['rapat'=>$rapat]);
     }
 
+
     public function rapat()
     {
+
         //return view('rapat.index');
         $rapat = DB::table('rapats')->orderBy('id_rapat')->paginate(25);
         return view('rapat', ['rapat'=>$rapat]);
@@ -37,14 +40,26 @@ class RapatController extends Controller
     public function renderRapat()
     {
         $allRapat = DB::table('rapats')
-            ->select('headline', 'waktu_rapat')
+            ->select('id_rapat','headline', 'waktu_rapat')
             ->get();
-//        dd($allRapat);
-        return json_encode($allRapat);
+        $events = array();
+        foreach ($allRapat as $rapat) {
+            $waktu = explode(" ", $rapat->waktu_rapat)[1];
+            $e = array();
+            $e['id'] = $rapat->id_rapat;
+            $e['title'] = $rapat->headline;
+            $e['start'] = $rapat->waktu_rapat;
+            $e['end'] = $rapat->waktu_rapat;
+            $e['allDay'] = false;
+
+            array_push($events, $e);
+        }
+//        dd($events);
+        return json_encode($events);
     }
     public function create()
     {
-        return view('rapat.create');
+        return view('create-rapat');
     }
 
     /**
