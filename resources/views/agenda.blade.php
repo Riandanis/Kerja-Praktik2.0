@@ -196,8 +196,9 @@
                                 <table class="table table-condensed">
                                     <tbody>
                                         @foreach ($topik as $t)
-                                        <tr>
-                                            <td>{{$topik[id_agenda}->nama_topik}}</td>
+                                        <tr class="topik">
+                                            <td></td>
+
                                         </tr>
                                             @endforeach
                                     </tbody>
@@ -221,6 +222,7 @@
             </div>
         </div>
     </div>
+    <?php $tes=1;?>
     
     <script>
         $(document).on("click", ".edit-button", function(){
@@ -243,6 +245,7 @@
 
         $(document).on("click", ".topik-button", function() {
             var id_agenda = $(this).data('id');
+            
 
         })
     </script>

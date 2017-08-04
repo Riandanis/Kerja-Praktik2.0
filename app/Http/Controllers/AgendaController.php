@@ -19,13 +19,13 @@ class AgendaController extends Controller
             ->where('rapats.id_rapat', '=', $id)->first();
         $agenda = DB::table('agendas')->where('agendas.id_rapat', '=', $id)
             ->get();
-//        $topik = array();
+        $topik = array();
         foreach ($agenda as $ag) {
 
             $topik[$ag->id_agenda] = DB::table('topiks')->where('id_agenda','=', $ag->id_agenda)->get();
 
         }
-        dd($topik);
+//        dd($topik);
         return view('agenda', ['agenda'=>$agenda, 'rapat'=>$rapat, 'topik'=>$topik]);
     }
 
