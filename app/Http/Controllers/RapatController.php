@@ -54,7 +54,7 @@ class RapatController extends Controller
 
             array_push($events, $e);
         }
-        dd($events);
+
         return json_encode($events);
     }
     public function create()
