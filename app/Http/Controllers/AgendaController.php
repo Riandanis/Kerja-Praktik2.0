@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use App\Agenda;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class AgendaController extends Controller
 {
@@ -27,6 +28,12 @@ class AgendaController extends Controller
         }
 //        dd($topik);
         return view('agenda', ['agenda'=>$agenda, 'rapat'=>$rapat, 'topik'=>$topik]);
+    }
+
+    public function renderTopik() {
+        $id_agenda = Input::get('q');
+        $topik = DB::table('topiks')->where('id_agenda', '=', $id_agenda)->get();
+        return json_encode($topik);
     }
 
     /**

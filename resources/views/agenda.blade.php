@@ -194,13 +194,8 @@
                             </div>
                             <div class="modal-body">
                                 <table class="table table-condensed">
-                                    <tbody>
-                                        @foreach ($topik as $t)
-                                        <tr class="topik">
-                                            <td></td>
+                                    <tbody id="insert-topik">
 
-                                        </tr>
-                                            @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -245,7 +240,21 @@
 
         $(document).on("click", ".topik-button", function() {
             var id_agenda = $(this).data('id');
-            
+            console.log(id_agenda);
+            $.ajax({
+                type: "GET",
+                url: "/topik",
+                data: {
+                    q: id_agenda
+                },
+                success: function (data) {
+                    $('#insert-topik').append('<tr><td><strong>Topik</strong></td><td></td></tr>');
+                    data = JSON.parse(data);
+                    data.forEach(function(obj){
+                        $('#insert-topik').append('<tr><td>'+obj.nama_topik+'</td><td>Edit</td></tr>');
+                    });
+                }
+            })
 
         })
     </script>
