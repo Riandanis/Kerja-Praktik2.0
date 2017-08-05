@@ -190,20 +190,14 @@
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Hapus Agenda</h4>
+                                <h4 class="modal-title">Topik</h4>
                             </div>
                             <div class="modal-body">
-                                <table class="table table-condensed">
+                                <table class="table table-responsive">
                                     <tbody id="insert-topik">
 
                                     </tbody>
                                 </table>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-default" data-dismiss="modal">Batal</button>
-                                <a id="del-btn">
-                                    <button type="submit" class="btn btn-danger pull-right" style="margin-left: 4px ;">Hapus</button>
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -239,8 +233,8 @@
         });
 
         $(document).on("click", ".topik-button", function() {
+            $('#insert-topik').empty();
             var id_agenda = $(this).data('id');
-            console.log(id_agenda);
             $.ajax({
                 type: "GET",
                 url: "/topik",
@@ -248,10 +242,12 @@
                     q: id_agenda
                 },
                 success: function (data) {
-                    $('#insert-topik').append('<tr><td><strong>Topik</strong></td><td></td></tr>');
+//                    $('#insert-topik').append('<tr><td><strong>Topik</strong></td><td></td></tr>');
                     data = JSON.parse(data);
                     data.forEach(function(obj){
-                        $('#insert-topik').append('<tr><td>'+obj.nama_topik+'</td><td>Edit</td></tr>');
+                        var str ="\{\{url(\'topik/edit\','+obj.id_topik+')\}\}";
+                        console.log(str);
+                        $('#insert-topik').append('<tr><td width="500px">'+obj.nama_topik+'</td><td width="30px"><a href="/topik/edit/'+obj.id_topik+'"><button class="btn btn-default">Edit</button></a></td><td><a href="#"><button class="btn btn-danger">Hapus</button></a></td></tr>');
                     });
                 }
             })

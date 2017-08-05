@@ -124,9 +124,10 @@ class TopikController extends Controller
      * @param  \App\Topik  $topik
      * @return \Illuminate\Http\Response
      */
-    public function edit(Topik $topik)
+    public function edit(Topik $topik, $id)
     {
-        //
+        $topik = DB::table('topiks')->where('id_topik', '=', $id)->get();
+        return view('edit-topik', ['topik' => $topik]);
     }
 
     /**

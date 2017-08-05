@@ -28,6 +28,7 @@ Route::post('/agenda/edit/{id}', 'AgendaController@update');
 Route::get('/agenda/delete/{id}', 'AgendaController@destroy');
 
 Route::get('/topik', 'AgendaController@renderTopik');
+Route::get('/topik/edit/{id}', 'TopikController@edit');
 Route::get('/topik/tambah/{rapat}/{id}', 'TopikController@create');
 Route::post('/topik/store/{rapat}/{id}', 'TopikController@store');
 Route::get('/topik/{rapat}/{id}', 'TopikController@index');
