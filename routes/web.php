@@ -33,6 +33,7 @@ Route::get('/topik/tambah/{rapat}/{id}', 'TopikController@create');
 Route::post('/topik/store/{rapat}/{id}', 'TopikController@store');
 Route::get('/topik/{rapat}/{id}', 'TopikController@index');
 Route::get('/topik/delete/{id}', 'TopikController@destroy');
+Route::get('/renderAll', 'TopikController@renderAll');
 
 Route::get('/rapat', 'RapatController@rapat');
 Route::get('/rapatnya', 'RapatController@create')->name('rapatnya');

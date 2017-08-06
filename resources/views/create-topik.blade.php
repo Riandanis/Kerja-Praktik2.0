@@ -121,9 +121,6 @@
     <script>
         $(document).ready(function(){
 
-
-
-
             const MAX_FIELDS = 11;
             var totalDiscussion = 0;
             var ind = 0;

@@ -29,11 +29,12 @@
                     <form class="form-horizontal" method="post" action="#">
                         {{csrf_field()}}
                         <div class="box-body">
+                            <input type="hidden" id="id_top" value="{{$topik[0]->id_topik}}" data-id="{{$topik[0]->id_topik}}">
                             <div class="form-group">
                                 <label for="Topik" class="col-sm-2 control-label">Topik <span style="color: red">*</span></label>
 
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" name="topik" placeholder="Topik" value="{{$topik[0]->nama_topik}}" required>
+                                    <input type="text" class="form-control" name="topik" placeholder="Topik" value="" required>
                                 </div>
                             </div>
                             <div id="form-section">
@@ -46,7 +47,7 @@
                                             <label for="HasilDiskusi" class="col-sm-2 control-label">Hasil Diskusi</label>
 
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" name="diskusi[0]" placeholder="Hasil Diskusi" value="{{$diskusi[0]->nama_diskusi}}" diskusi="0">
+                                                <input type="text" class="form-control" name="diskusi[0]" placeholder="Hasil Diskusi" value="" diskusi="0">
                                             </div>
                                             <div class="col-sm-2">
                                                 <button type="button" class="btn btn-default fa fa-times" id="delete-discussion-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>
@@ -58,7 +59,7 @@
                                                     <label for="Action" class="col-sm-2 control-label">Action</label>
 
                                                     <div class="col-sm-8">
-                                                        <textarea class="form-control" name="action[0][0]" placeholder="Action"> {{$action[0]->deskripsi}}</textarea>
+                                                        <textarea class="form-control" name="action[0][0]" placeholder="Action"></textarea>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <button type="button" class="btn btn-default fa fa-times" id="delete-action-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>
@@ -72,7 +73,7 @@
 
                                                             <div class="col-sm-8">
                                                                 <select class="form-control" name="keterangan[0][0]" style="width: 105px">
-                                                                    <option selected="selected">{{$action[0]->keterangan}}</option>
+                                                                    <option selected="selected"></option>
                                                                     <option>Informasi</option>
                                                                     <option>Target</option>
                                                                 </select>
@@ -121,24 +122,29 @@
     </div>
     <script>
         $(document).ready(function(){
+            var id_top = $('#id_top').data('id');
+            $.ajax ({
+                type: "GET",
+                url: "/renderAll",
+                data: {
+                    idtop: id_top
+                },
+                success: function (data){
+                    data = JSON.parse(data);
+                    var actionByIdTopik = _.groupBy(data.action, 'id_topik');
+                    var diskusiByIdTopik = _.groupBy(data.diskusi, 'id_topik');
+                    var flattenData = _.map(data.topik, function(topik) {
+                        var id_topik = topik.id_topik;
+                        return _.assign(topik, {
+                            actionList: actionByIdTopik[id_topik],
+                            diskusiList: diskusiByIdTopik[id_topik]
+                        })
+                    })
 
-            const MAX_FIELDS = 11;
-            var totalDiscussion = Number("<?php echo count($diskusi)?>");
-            var ind = 0;
-            var totalAction = 0;
-            const formContent = $('#form-section');
-            var discussionActionFieldsClone = $('#action-section')[0].outerHTML.replace('<button type="button" class="btn btn-default fa fa-times" id="delete-action-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>');
-            var actionFieldsClone = $('#discussion-action')[0].outerHTML;
-            var i;
-            <?php $i=0?>
-            for (i=0; i<totalDiscussion; i++) {
-                var diskusiVal = "<?php echo $diskusi[$i]->nama_diskusi?>";
-                var actionVal = "<?php echo $action[$i]->deskripsi?>";
-                var keteranganVal = "<?php echo $action[$i]->keterangan?>";
-                var discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('diskusi[0]', 'diskusi['+i+']').replace('action[0][]', 'action['+i+'][0]').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+i+'"').replace('name="keterangan[0][]"', 'name="keterangan['+i+'][0]"').replace('name="pic[0][]"', 'name="pic['+i+'][0]"').replace('name="due_date[0][]"', 'name="due_date['+i+'][0]"').replace('value="{{$diskusi[0]->nama_diskusi}}"', 'value="'+diskusiVal+'"').replace('{{$action[0]->deskripsi}}', actionVal).replace('<option selected="selected">{{$action[0]->keterangan}}</option>', '<option selected="selected">'+keteranganVal+'</option>');
+                    console.log(flattenData[0].actionList);
+                }
+            });
 
-                $(formContent).append(discussionSectionClone);
-            }
 //            if (totalDiscussion==0) {
 //                $(formContent).append(discussionSectionClone);
 //                console.log(discussionSectionClone);
