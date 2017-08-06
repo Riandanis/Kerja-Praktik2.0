@@ -124,10 +124,21 @@ class TopikController extends Controller
      * @param  \App\Topik  $topik
      * @return \Illuminate\Http\Response
      */
-    public function edit(Topik $topik, $id)
+    public function edit($id)
     {
-        $topik = DB::table('topiks')->where('id_topik', '=', $id)->get();
-        return view('edit-topik', ['topik' => $topik]);
+        $topik = DB::table('topiks')->where('id_topik','=', $id)->get();
+        $diskusi = DB::table('topiks')
+                    ->join('diskusis', 'diskusis.id_topik','=','topiks.id_topik')
+                    ->where('topiks.id_topik','=',$id)
+                    ->get();
+
+        $action = DB::table('topiks')
+                    ->join('diskusis', 'diskusis.id_topik', '=', 'topiks.id_topik')
+                    ->join('actions', 'actions.id_diskusi','=', 'diskusis.id_diskusi')
+                    ->where('topiks.id_topik','=',$id)
+                    ->get();
+        dd($diskusi,$action);
+        return view('edit-topik', ['topik'=>$topik, 'action' => $action, 'diskusi'=>$diskusi]);
     }
 
     /**

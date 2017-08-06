@@ -33,7 +33,7 @@
                                 <label for="Topik" class="col-sm-2 control-label">Topik <span style="color: red">*</span></label>
 
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" name="topik" placeholder="Topik" value="{{$topik[0]->nama_topik}}"required>
+                                    <input type="text" class="form-control" name="topik" placeholder="Topik" value="{{$topik[0]->nama_topik}}" required>
                                 </div>
                             </div>
                             <div id="form-section">
@@ -46,7 +46,7 @@
                                             <label for="HasilDiskusi" class="col-sm-2 control-label">Hasil Diskusi</label>
 
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" name="diskusi[0]" placeholder="Hasil Diskusi" diskusi="0">
+                                                <input type="text" class="form-control" name="diskusi[0]" placeholder="Hasil Diskusi" value="{{$diskusi[0]->nama_diskusi}}" diskusi="0">
                                             </div>
                                             <div class="col-sm-2">
                                                 <button type="button" class="btn btn-default fa fa-times" id="delete-discussion-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>
@@ -58,7 +58,7 @@
                                                     <label for="Action" class="col-sm-2 control-label">Action</label>
 
                                                     <div class="col-sm-8">
-                                                        <textarea class="form-control" name="action[0][]" placeholder="Action"></textarea>
+                                                        <textarea class="form-control" name="action[0][0]" placeholder="Action"> {{$action[0]->deskripsi}}</textarea>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <button type="button" class="btn btn-default fa fa-times" id="delete-action-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>
@@ -71,7 +71,8 @@
                                                             <label for="KeteranganAct" class="col-sm-4 control-label">Keterangan</label>
 
                                                             <div class="col-sm-8">
-                                                                <select class="form-control" name="keterangan[0][]" style="width: 105px">
+                                                                <select class="form-control" name="keterangan[0][0]" style="width: 105px">
+                                                                    <option selected="selected">{{$action[0]->keterangan}}</option>
                                                                     <option>Informasi</option>
                                                                     <option>Target</option>
                                                                 </select>
@@ -83,7 +84,7 @@
                                                             <label for="PICAct" class="col-sm-4 control-label">PIC</label>
 
                                                             <div class="col-sm-8">
-                                                                <input type="email" name="pic[0][]" class="form-control">
+                                                                <input type="email" name="pic[0][0]" class="form-control">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -92,7 +93,7 @@
                                                             <label for="DueDate" class="col-sm-4 control-label">Due Date</label>
 
                                                             <div class="col-sm-8">
-                                                                <input type="date" name="due_date[0][]" placeholder="Due Date" class="form-control" id="datepicker1" style="width: 170px">
+                                                                <input type="date" name="due_date[0][0]" placeholder="Due Date" class="form-control" id="datepicker1" style="width: 170px">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -122,55 +123,62 @@
         $(document).ready(function(){
 
             const MAX_FIELDS = 11;
-            var totalDiscussion = 0;
+            var totalDiscussion = Number("<?php echo count($diskusi)?>");
             var ind = 0;
             var totalAction = 0;
-            var discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('<button type="button" class="btn btn-default fa fa-times" id="delete-discussion-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>','').replace('diskusi[0]', 'diskusi['+totalDiscussion+']').replace('action[0][]', 'action['+totalDiscussion+']['+totalAction+']').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+totalDiscussion+'"').replace('name="keterangan[0][]"', 'name="keterangan['+totalDiscussion+']['+totalAction+']"').replace('name="pic[0][]"', 'name="pic['+totalDiscussion+']['+totalAction+']"').replace('name="due_date[0][]"', 'name="due_date['+totalDiscussion+']['+totalAction+']"');
             const formContent = $('#form-section');
             var discussionActionFieldsClone = $('#action-section')[0].outerHTML.replace('<button type="button" class="btn btn-default fa fa-times" id="delete-action-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>');
             var actionFieldsClone = $('#discussion-action')[0].outerHTML;
+            var i;
+            <?php $i=0?>
+            for (i=0; i<totalDiscussion; i++) {
+                var diskusiVal = "<?php echo $diskusi[$i]->nama_diskusi?>";
+                var actionVal = "<?php echo $action[$i]->deskripsi?>";
+                var keteranganVal = "<?php echo $action[$i]->keterangan?>";
+                var discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('diskusi[0]', 'diskusi['+i+']').replace('action[0][]', 'action['+i+'][0]').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+i+'"').replace('name="keterangan[0][]"', 'name="keterangan['+i+'][0]"').replace('name="pic[0][]"', 'name="pic['+i+'][0]"').replace('name="due_date[0][]"', 'name="due_date['+i+'][0]"').replace('value="{{$diskusi[0]->nama_diskusi}}"', 'value="'+diskusiVal+'"').replace('{{$action[0]->deskripsi}}', actionVal).replace('<option selected="selected">{{$action[0]->keterangan}}</option>', '<option selected="selected">'+keteranganVal+'</option>');
 
-
-            if (totalDiscussion==0) {
                 $(formContent).append(discussionSectionClone);
-                console.log(discussionSectionClone);
-                totalDiscussion++;
-                ind++;
             }
-
-            $('#add-discussion-button').on('click', function(e){ //on add input button click
-                e.preventDefault();
-                discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('diskusi[0]', 'diskusi['+totalDiscussion+']').replace('action[0][]', 'action['+totalDiscussion+'][]').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+totalDiscussion+'"').replace('name="keterangan[0][]"', 'name="keterangan['+totalDiscussion+'][]"').replace('name="pic[0][]"', 'name="pic['+totalDiscussion+'][]"').replace('name="due_date[0][]"', 'name="due_date['+totalDiscussion+'][]"');
+//            if (totalDiscussion==0) {
+//                $(formContent).append(discussionSectionClone);
 //                console.log(discussionSectionClone);
-                if( totalDiscussion < MAX_FIELDS){ //max input box allowed
-                    $(formContent).append(discussionSectionClone);
-                    console.log(discussionSectionClone);
-                    totalDiscussion++;
-                    ind++;
-                }
-            });
-
-            $(document).on('click', '#add-action-button', function(e) {
-                var btnParent = $(e.target.parentNode.childNodes[9]);
-                var nthDiscussion = $(e.target.parentNode.childNodes[7].childNodes[3].childNodes[1]).attr('diskusi');
-
-                discussionActionFieldsClone = $(actionFieldsClone)[0].outerHTML.replace('action[0][]', 'action['+nthDiscussion+'][]').replace('keterangan[0][]', 'keterangan['+nthDiscussion+'][]').replace('pic[0][]', 'pic['+nthDiscussion+'][]').replace('due_date[0][]', 'due_date['+nthDiscussion+'][]');
-                totalAction++;
-
-                btnParent.append(discussionActionFieldsClone);
-            });
-
-            $(document).on('click', '#delete-action-button', function(e) {
-                var btnParent = $(e.target.parentNode.parentNode.parentNode);
-                totalAction--;
-                btnParent.remove();
-            });
-
-            $(document).on('click', '#delete-discussion-button', function(e) {
-                var btnParent = $(e.target.parentNode.parentNode.parentNode);
-                totalDiscussion--;
-                btnParent.remove();
-            });
+//                totalDiscussion++;
+//                ind++;
+//            }
+//
+//            $('#add-discussion-button').on('click', function(e){ //on add input button click
+//                e.preventDefault();
+//                discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('diskusi[0]', 'diskusi['+totalDiscussion+']').replace('action[0][]', 'action['+totalDiscussion+'][]').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+totalDiscussion+'"').replace('name="keterangan[0][]"', 'name="keterangan['+totalDiscussion+'][]"').replace('name="pic[0][]"', 'name="pic['+totalDiscussion+'][]"').replace('name="due_date[0][]"', 'name="due_date['+totalDiscussion+'][]"');
+////                console.log(discussionSectionClone);
+//                if( totalDiscussion < MAX_FIELDS){ //max input box allowed
+//                    $(formContent).append(discussionSectionClone);
+//                    console.log(discussionSectionClone);
+//                    totalDiscussion++;
+//                    ind++;
+//                }
+//            });
+//
+//            $(document).on('click', '#add-action-button', function(e) {
+//                var btnParent = $(e.target.parentNode.childNodes[9]);
+//                var nthDiscussion = $(e.target.parentNode.childNodes[7].childNodes[3].childNodes[1]).attr('diskusi');
+//
+//                discussionActionFieldsClone = $(actionFieldsClone)[0].outerHTML.replace('action[0][]', 'action['+nthDiscussion+'][]').replace('keterangan[0][]', 'keterangan['+nthDiscussion+'][]').replace('pic[0][]', 'pic['+nthDiscussion+'][]').replace('due_date[0][]', 'due_date['+nthDiscussion+'][]');
+//                totalAction++;
+//
+//                btnParent.append(discussionActionFieldsClone);
+//            });
+//
+//            $(document).on('click', '#delete-action-button', function(e) {
+//                var btnParent = $(e.target.parentNode.parentNode.parentNode);
+//                totalAction--;
+//                btnParent.remove();
+//            });
+//
+//            $(document).on('click', '#delete-discussion-button', function(e) {
+//                var btnParent = $(e.target.parentNode.parentNode.parentNode);
+//                totalDiscussion--;
+//                btnParent.remove();
+//            });
 
         })
 
