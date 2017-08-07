@@ -12,12 +12,12 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Tambah Rapat</h3>
+                    <h3 class="box-title">Tambah Minutes of Meeting</h3>
                 </div>
 
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form class="form-horizontal" action="#" method="post">
+                    <form class="form-horizontal" action="{{url('rapat/store')}}" method="post">
                         {{csrf_field()}}
                         <div class="box-body">
                             <div class="form-group">
@@ -41,6 +41,13 @@
                                     <input type="time" class="form-control" placeholder="Waktu Rapat" name="waktu_rapat">
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="TempatRapat" class="col-sm-2 control-label">Tempat Rapat</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="Tempat Rapat" name="tempat">
+                                </div>
+                            </div>
                             <div id="attendee-section">
                                 <div class="form-group" id="dynamicInput">
                                     <label for="AttendeeRapat" class="col-sm-2 control-label">Attendee</label>
@@ -57,7 +64,7 @@
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">
-                            <a href="#">
+                            <a href="{{url('home')}}">
                                 <button type="button" class="btn btn-default">Batal</button>
                             </a>
                             <button type="submit" class="btn btn-success pull-right">Simpan</button>
