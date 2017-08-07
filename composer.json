@@ -6,13 +6,12 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "barryvdh/laravel-dompdf": "^0.8.0",
         "doctrine/dbal": "^2.5",
         "jeroennoten/laravel-adminlte": "^1.19",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "laravelcollective/html": "^5.4",
-        "mpdf/mpdf": "^6.1",
-        "santigarcor/laratrust": "4.0.*"
+        "laravelcollective/html": "^5.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

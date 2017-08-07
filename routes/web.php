@@ -40,3 +40,7 @@ Route::get('/rapatnya', 'RapatController@create')->name('rapatnya');
 Route::get('/detil','RapatController@show')->name('detil');
 Route::post('/rapatnya/store', 'RapatController@store');
 
+Route::get('/pdfgen', 'HomeController@pdf');
+Route::get('/pdf',array('as'=>'htmltopdfview','uses'=>'HomeController@pdfgen'));
+
+
