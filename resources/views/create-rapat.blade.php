@@ -31,14 +31,14 @@
                                 <label for="DateRapat" class="col-sm-2 control-label">Tanggal Rapat </label>
 
                                 <div class="col-sm-10">
-                                    <input type="date" class="form-control" placeholder="Tanggal Rapat" name="tanggal_rapat" required>
+                                    <input type="date" class="form-control" placeholder="YYYY-MM-DD" name="tanggal_rapat" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="TimeRapat" class="col-sm-2 control-label">Waktu Rapat</label>
 
                                 <div class="col-sm-10">
-                                    <input type="time" class="form-control" placeholder="Waktu Rapat" name="waktu_rapat">
+                                    <input type="time" class="form-control" placeholder="HH:MM" name="waktu_rapat">
                                 </div>
                             </div>
                             <div class="form-group">
