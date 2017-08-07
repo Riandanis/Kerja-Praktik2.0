@@ -12,12 +12,12 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Tambah Rapat</h3>
+                    <h3 class="box-title">Tambah Minutes of Meeting</h3>
                 </div>
 
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form class="form-horizontal" action="#" method="post">
+                    <form class="form-horizontal" action="{{url('rapat/store')}}" method="post">
                         {{csrf_field()}}
                         <div class="box-body">
                             <div class="form-group">
@@ -57,7 +57,7 @@
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">
-                            <a href="#">
+                            <a href="{{url('home')}}">
                                 <button type="button" class="btn btn-default">Batal</button>
                             </a>
                             <button type="submit" class="btn btn-success pull-right">Simpan</button>
