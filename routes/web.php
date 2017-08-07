@@ -37,7 +37,7 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/topik/delete/{id}', 'TopikController@destroy');
 
     Route::get('/rapat', 'RapatController@rapat');
-    Route::post('/rapatnya/store', 'RapatController@store');
+    Route::post('/rapat/store', 'RapatController@store');
     Route::get('/rapatnya', 'RapatController@create')->name('rapatnya');
     Route::get('/detil','RapatController@show')->name('detil');
     Route::post('/rapatnya/store', 'RapatController@store');
