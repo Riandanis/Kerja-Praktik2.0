@@ -126,12 +126,12 @@ class AgendaController extends Controller
         if($del->delete())
         {
             $request->session()->flash('alert-success', 'Agenda berhasil dihapus.');
-            return redirect('agenda/'.$id_rapat ,['allNotif'=>$this->allNotif]);
+            return redirect('agenda/'.$id_rapat);
         }
         else
         {
             $request->session()->flash('alert-danger', 'Agenda gagal dihapus.');
-            return redirect ('agenda/'.$id_rapat , ['allNotif'=>$this->allNotif]);
+            return redirect ('agenda/'.$id_rapat );
         }
     }
 }

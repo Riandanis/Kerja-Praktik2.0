@@ -8,6 +8,8 @@ use App\Http\Requests;
 use PDF;
 use DB;
 use Illuminate\Support\Facades\App;
+
+use Spipu\Html2Pdf\Html2Pdf;
 class HomeController extends Controller
 {
     /**
@@ -82,8 +84,19 @@ class HomeController extends Controller
         $tanggal_rapat = $piece[0];
         $waktu_rapat = explode(":",$piece[1])[0].":".explode(":",$piece[1])[1];
 //        dd($agenda, $topik, $diskusi, $action);
-//        $pdf=PDF::loadview('newpdf', [''])
+//        $pdf=PDF::loadview('newpdf', ['attendee'=>$attendee, 'rapat'=>$rapat, 'agenda'=>$agenda, 'topik'=>$topik, 'diskusi'=>$diskusi, 'action'=>$action, 'tanggal_rapat'=>$tanggal_rapat,'waktu_rapat'=>$waktu_rapat]);
+//        return $pdf->stream();
         return view ('newpdf', ['allNotif'=>$this->allNotif, 'attendee'=>$attendee, 'rapat'=>$rapat, 'agenda'=>$agenda, 'topik'=>$topik, 'diskusi'=>$diskusi, 'action'=>$action,'tanggal_rapat'=>$tanggal_rapat, 'waktu_rapat'=>$waktu_rapat]);
+    }
+
+    public function pdftest($id)
+    {
+        $dir = 'localhost:8000';
+        $page = file_get_contents($dir.'/rapat/'.$id);
+
+        $html2pdf = new Html2Pdf();
+        $html2pdf->writeHTML($page);
+        $html2pdf->output();
     }
 
 }
