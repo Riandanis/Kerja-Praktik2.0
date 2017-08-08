@@ -161,10 +161,10 @@
                         return o;
                     });
 
-                    console.log(flattenData[0].actionList);
 
                     for (i=0; i<flattenData[0].diskusiList.length; i++){
                         var j=0;
+                        console.log(flattenData[0].actionList[j].isAppended);
                         var tanggal = flattenData[0].actionList[j].due_date.toString("yyyy-MM-dd");
                         if (flattenData[0].actionList[j].id_diskusi == flattenData[0].diskusiList[i].id_diskusi && flattenData[0].actionList[j].isAppended==0) {
                             console.log('ada action');
@@ -175,7 +175,6 @@
                                 .replace('value="pic"', 'value="'+flattenData[0].actionList[j].email_pic+'"')
                                 .replace('value="duedate"', 'value="'+tanggal+'"');
                             containerKu.append(discussionSectionClone);
-                            totalDiscussion++;
                             flattenData[0].actionList[j].isAppended=1;
                         }
                         else if (flattenData[0].actionList[j].id_diskusi != flattenData[0].diskusiList[i].id_diskusi) {
@@ -190,8 +189,9 @@
                         }
                         totalDiscussion++;
                         for (j=1; j<flattenData[0].actionList.length;j++) {
+                            console.log(flattenData[0].actionList[j].isAppended);
                             if (flattenData[0].diskusiList[i].id_diskusi == flattenData[0].actionList[j].id_diskusi && flattenData[0].actionList[j].isAppended==0) {
-                                console.log(flattenData[0].actionList[j].id_diskusi);
+//                                console.log(flattenData[0].actionList[j].id_diskusi);
                                 tanggal = flattenData[0].actionList[j].due_date.toString("yyyy-MM-dd");
                                 var discussionActionFieldsClone = $('#action-section')[0].outerHTML.replace('name="keterangan[0][0]"', 'name="keterangan['+i+']['+j+']"').replace('name="pic[0][0]"', 'name="pic['+i+']['+j+']"').replace('name="due_date[0][0]"', 'name="due_date['+i+']['+j+']"')
                                     .replace('<textarea class="form-control" name="action[0][0]" placeholder="Action">Action</textarea>', '<textarea class="form-control" name="action['+i+']['+j+']">'+flattenData[0].actionList[j].deskripsi+'</textarea>')
