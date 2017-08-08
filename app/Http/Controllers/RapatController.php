@@ -139,7 +139,7 @@ class RapatController extends Controller
      */
     public function edit(Rapat $rapat)
     {
-        //
+        return view('edit-rapat',['allNotif'=>$this->allNotif])
     }
 
     /**
