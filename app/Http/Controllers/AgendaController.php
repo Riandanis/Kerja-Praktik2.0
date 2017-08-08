@@ -13,13 +13,18 @@ class AgendaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $allNotif;
+    public function __construct()
+    {
+        $this->allNotif = DB::select("SELECT * FROM actions WHERE actions.status = '0'");   
+    }
     public function index($id)
     {
         $rapat = DB::table('rapats')->select('id_rapat', 'headline')
             ->where('rapats.id_rapat', '=', $id)->first();
         $agenda = DB::table('agendas')->where('agendas.id_rapat', '=', $id)
             ->get();
-        return view('agenda', ['agenda'=>$agenda, 'rapat'=>$rapat]);
+        return view('agenda', ['agenda'=>$agenda, 'rapat'=>$rapat,'allNotif'=>$this->allNotif]);
     }
 
     /**
@@ -49,11 +54,11 @@ class AgendaController extends Controller
 
         if($agenda->save()){
             $request->session()->flash('alert-success', 'Agenda telah ditambahkan');
-            return redirect('agenda/'.$id);
+            return redirect('agenda/'.$id ,['allNotif'=>$this->allNotif]);
         }
         else{
             $request->session()->flash('alert-danger', 'Agenda gagal ditambahkan');
-            return redirect('agenda/'.$id);
+            return redirect('agenda/'.$id, ['allNotif'=>$this->allNotif]);
         }
     }
 
@@ -94,11 +99,11 @@ class AgendaController extends Controller
 
         if($edit->save()){
             $request->session()->flash('alert-success', 'Agenda berhasil diperbarui.');
-            return redirect('agenda/'.$id_rapat);
+            return redirect('agenda/'.$id_rapat , ['allNotif'=>$this->allNotif]);
         }
         else{
             $request->session()->flash('alert-danger', 'Agenda gagal diperbarui.');
-            return redirect('agenda/'.$id_rapat);
+            return redirect('agenda/'.$id_rapat , ['allNotif'=>$this->allNotif]);
         }
     }
 
@@ -116,12 +121,12 @@ class AgendaController extends Controller
         if($del->delete())
         {
             $request->session()->flash('alert-success', 'Agenda berhasil dihapus.');
-            return redirect('agenda/'.$id_rapat);
+            return redirect('agenda/'.$id_rapat ,['allNotif'=>$this->allNotif]);
         }
         else
         {
             $request->session()->flash('alert-danger', 'Agenda gagal dihapus.');
-            return redirect ('agenda/'.$id_rapat);
+            return redirect ('agenda/'.$id_rapat , ['allNotif'=>$this->allNotif]);
         }
     }
 }

@@ -14,12 +14,17 @@ class RapatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $allNotif;
+    public function __construct()
+    {
+        $this->allNotif = DB::select("SELECT * FROM actions WHERE actions.status = '0'");   
+    }
     public function index()
     {
 
         //return view('rapat.index');
         $rapat = DB::table('rapats')->orderBy('id_rapat')->paginate(25);
-        return view('home', ['rapat'=>$rapat]);
+        return view('home', ['rapat'=>$rapat,'allNotif'=>$this->allNotif]);
     }
 
 
@@ -28,7 +33,7 @@ class RapatController extends Controller
 
         //return view('rapat.index');
         $rapat = DB::table('rapats')->orderBy('id_rapat')->paginate(25);
-        return view('rapat', ['rapat'=>$rapat]);
+        return view('rapat', ['rapat'=>$rapat,'allNotif'=>$this->allNotif]);
     }
 
     /**
@@ -59,7 +64,7 @@ class RapatController extends Controller
     }
     public function create()
     {
-        return view('create-rapat');
+        return view('create-rapat',['allNotif'=>$this->allNotif]);
     }
 
     /**
@@ -92,7 +97,7 @@ class RapatController extends Controller
             }
         }
 
-        return redirect ('/home');
+        return redirect ('/home',['allNotif'=>$this->allNotif]);
     }
 
     /**
@@ -103,7 +108,7 @@ class RapatController extends Controller
      */
     public function show(Rapat $rapat)
     {
-        return view('detil_rapat.create');
+        return view('detil_rapat.create',['allNotif'=>$this->allNotif]);
     }
 
     /**

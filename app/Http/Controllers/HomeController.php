@@ -11,6 +11,11 @@ class HomeController extends Controller
      *
      * @return void
      */
+    protected $allNotif;
+    public function __construct()
+    {
+        $this->allNotif = DB::select("SELECT * FROM actions WHERE actions.status = '0'");   
+    }
     public function __construct()
     {
         $this->middleware('auth');
@@ -23,16 +28,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('home',['allNotif'=>$this->allNotif]);
     }
 
     public function pdf()
     {
-        return view('pdf');
+        return view('pdf',['allNotif'=>$this->allNotif]);
     }
 
     public function pdfgen()
     {
-        return view ('pdf-generated');
+        return view ('pdf-generated',['allNotif'=>$this->allNotif]);
     }
 }

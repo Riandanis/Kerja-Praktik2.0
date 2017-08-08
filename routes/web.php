@@ -41,6 +41,8 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/rapatnya', 'RapatController@create')->name('rapatnya');
     Route::get('/detil','RapatController@show')->name('detil');
     Route::post('/rapatnya/store', 'RapatController@store');
-
+    Route::get('/action','ActionController@index');
+    Route::post('/action/update/{id}','ActionController@update');
+    Route::get('/action/delete/{id}','ActionController@destroy');
 });
 

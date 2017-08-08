@@ -15,6 +15,11 @@ class TopikController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $allNotif;
+    public function __construct()
+    {
+        $this->allNotif = DB::select("SELECT * FROM actions WHERE actions.status = '0'");   
+    }
     public function index($rapat, $id)
     {
         //$rapat id_rapat, $id id_agenda
@@ -22,7 +27,7 @@ class TopikController extends Controller
         $agenda = DB::table('agendas')->select('id_agenda', 'id_rapat', 'nama_agenda')
                 ->where('id_agenda', '=', $id)->first();
 
-        return view('topik', ['topik'=>$topik, 'agenda'=>$agenda]);
+        return view('topik', ['topik'=>$topik, 'agenda'=>$agenda, 'allNotif'=>$this->allNotif]);
     }
 
     /**
@@ -34,7 +39,7 @@ class TopikController extends Controller
     {
         $rapat = $rapat;
         $agenda = $id;
-        return view('create-topik', ['agenda' => $agenda, 'rapat'=>$rapat]);
+        return view('create-topik', ['agenda' => $agenda, 'rapat'=>$rapat, 'allNotif'=>$this->allNotif]);
     }
 
     /**
@@ -102,9 +107,9 @@ class TopikController extends Controller
             }
         }
         else{
-            return redirect('agenda/'.$rapat);
+            return redirect('agenda/'.$rapat , ['allNotif'=>$this->allNotif]);
         }
-        return redirect('agenda/'.$rapat);
+        return redirect('agenda/'.$rapat , ['allNotif'=>$this->allNotif]);
     }
 
     /**
