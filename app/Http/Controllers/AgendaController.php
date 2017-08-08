@@ -44,15 +44,13 @@ class AgendaController extends Controller
         $agenda = new Agenda;
         $agenda->id_rapat = $id;
         $agenda->nama_agenda = $request->input('nama');
-        // $agenda->save();
-        // return redirect('agenda/'.$id);
 
         if($agenda->save()){
-            $request->session()->flash('alert-success', 'Agenda telah ditambahkan');
+            $request->session()->flash('alert-success', 'Agenda telah ditambahkan.');
             return redirect('agenda/'.$id);
         }
         else{
-            $request->session()->flash('alert-danger', 'Agenda gagal ditambahkan');
+            $request->session()->flash('alert-danger', 'Agenda gagal ditambahkan.');
             return redirect('agenda/'.$id);
         }
     }

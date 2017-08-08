@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'AdminLTE')
+@section('title', 'MOTRA - Tambah Topik')
 
 @section('content_header')
     <h1>Agenda</h1>
