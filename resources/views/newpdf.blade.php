@@ -1,5 +1,6 @@
 <?php
-ini_set('max_execution_time', 300);
+ini_set('max_execution_time', 900);
+
 ?>
 
 
@@ -12,9 +13,7 @@ ini_set('max_execution_time', 300);
         cssStyle:[{fontSize:'30px'},{fontWeight:'bold'}]});">
     <button>render</button>
 </a> -->
-<body onload="window.print()">
-
-
+<body onload="window.start()">
 <style>
     body
     {
@@ -62,11 +61,15 @@ ini_set('max_execution_time', 300);
         width: 100%;
     }
 </style>
-<div class="col-sm-12">
-    <div class="col-sm-6">
-        <img src="/image/telkom_logo.png" width="100px">
+<body>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="col-sm-6">
+            <img src="/image/telkom_logo.png" width="100px" style="margin-left: 20px; margin-top: 20px">
+        </div>
     </div>
 </div>
+
 <div style="margin-left:5%; margin-right: 5%; margin-top: 5%">
     <div id="content" align="center">
         <h5 align="left" style="font-family: 'Arial'"><strong>Minutes of Meeting</strong></h5>
@@ -107,7 +110,7 @@ ini_set('max_execution_time', 300);
                 <tr>
                     <th style="width: 30px">No.</th>
                     <th>Topik</th>
-                    <th>Diskusi</th>
+                    <th>Hasil Diskusi</th>
                     <th>Action</th>
                 </tr>
                 </thead>

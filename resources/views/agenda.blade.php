@@ -25,6 +25,23 @@
                 </div>
             </div>
         @endif
+            @if(Session::has('alert-success-topik'))
+                <div class="col-md-12">
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                        {{Session::get('alert-success')}}
+                    </div>
+                </div>
+            @elseif(Session::has('alert-danger-topik'))
+                <div class="col-md-12">
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-times"></i> Gagal!</h4>
+                        {{Session::get('alert-danger')}}
+                    </div>
+                </div>
+            @endif
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header">
@@ -245,7 +262,7 @@
                     data.forEach(function(obj){
                         var str ="\{\{url(\'topik/edit\','+obj.id_topik+')\}\}";
                         console.log(str);
-                        $('#insert-topik').append('<tr><td width="500px">'+obj.nama_topik+'</td><td width="30px"><a href="/topik/edit/'+obj.id_topik+'"><button class="btn btn-default">Edit</button></a></td><td><a href="#"><button class="btn btn-danger">Hapus</button></a></td></tr>');
+                        $('#insert-topik').append('<tr><td width="500px">'+obj.nama_topik+'</td><td width="30px"><a href="/topik/edit/'+obj.id_topik+'"><button class="btn btn-default">Edit</button></a></td><td><a href="/hapus/topik/'+obj.id_topik+'"><button class="btn btn-danger">Hapus</button></a></td></tr>');
                     });
                 }
             })
