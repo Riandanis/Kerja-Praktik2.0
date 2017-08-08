@@ -56,32 +56,34 @@ class TopikController extends Controller
         $top = new Topik();
         $top->id_agenda = $id;
         $top->nama_topik = $request->input('topik');
-    
+        $top->save();
+
+        //get id_topik
+        $topik = $top->id_topik;
+        
         //get value from form
         $diskusi = $request->input('diskusi');
         $action = $request->input('action');
         $jenis = $request->input('keterangan');
         $pic = $request->input('pic');
         $date = $request->input('due_date');
-        
+        // dd($diskusi, $action, $jenis, $pic, $date);
+
+        // dd($ac[$i][$j]);
+        // dd($diskusi[0]);
         if($diskusi[0]!=null){
-            $top->save();
-            
-            //get id_topik
-            $topik = $top->id_topik;
-            
             //insert diskusi
             $i = 0; 
             foreach($diskusi as $dis){
                 $d = new Diskusi;
                 $d->id_topik = $topik;
                 $d->nama_diskusi = $dis;
-                
+                $d->save();
+
+                $id_dis = $d->id_diskusi;
+
                 if($action[$i][0]!=null){
-                    $d->save();
-                    $id_dis = $d->id_diskusi;
                     $j = 0;
-                    $flag = 0;
 
                     //insert action
                     foreach($action[$i] as $act){
@@ -98,47 +100,17 @@ class TopikController extends Controller
                         else{
                             $a->status = 0;
                         }
-                        
-                        if($a->save()){
-                            $j++;
-                            $flag = 1;
-                        }
-                        else{
-                            $flag = 0;
-                            $request->session()->flash('alert-success', 'Action pada diskusi gagal ditambahkan');
-                            return redirect('agenda/'.$rapat);
-                        }    
-                    }
-
-                    if($flag == 1){
-                        $request->session()->flash('alert-success', 'Topik rapat, diskusi dan action berhasil ditambahkan.');
-                        return redirect('agenda/'.$rapat);
-                    }
-                }
-                else{
-                    if($d->save()){
-                        $request->session()->flash('alert-success', 'Topik rapat dan diskusi berhasil ditambahkan. Tidak ada dan action yang terdaftar.');
-                        return redirect('agenda/'.$rapat);
-                    }
-                    else{
-                        $request->session()->flash('alert-danger', 'Diskusi pada topik gagal ditambahkan.');
-                        return redirect('agenda/'.$rapat);
+                        $a->save();
+                        $j++;
                     }
                 }
                 $i++;
             }
         }
         else{
-
-            if($top->save()){
-                $request->session()->flash('alert-success', 'Topik rapat berhasil ditambahkan. Tidak ada diskusi dan action yang terdaftar.');
-                return redirect('agenda/'.$rapat, ['allNotif'=>$this->allNotif]);
-            }
-            else{
-                $request->session()->flash('alert-danger', 'Topik rapat gagal ditambahkan.');
-                return redirect('agenda/'.$rapat, ['allNotif'=>$this->allNotif]);
-            }
+            return redirect('agenda/'.$rapat);
         }
+        return redirect('agenda/'.$rapat);
     }
 
     /**
