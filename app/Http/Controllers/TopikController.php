@@ -7,6 +7,7 @@ use App\Topik;
 use App\Diskusi;
 use App\Action;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class TopikController extends Controller
 {
@@ -124,9 +125,28 @@ class TopikController extends Controller
      * @param  \App\Topik  $topik
      * @return \Illuminate\Http\Response
      */
-    public function edit(Topik $topik)
+    public function edit($id)
     {
-        //
+        $topik = DB::table('topiks')->where('id_topik', '=', $id)->get();
+        return view('edit-topik', ['topik'=>$topik]);
+    }
+
+    public function renderAll ()
+    {
+        $id = Input::get('idtop');
+        $data = array();
+        $data['topik'] = DB::table('topiks')->where('id_topik','=', $id)->get();
+        $data['diskusi'] = DB::table('topiks')
+            ->join('diskusis', 'diskusis.id_topik','=','topiks.id_topik')
+            ->where('topiks.id_topik','=',$id)
+            ->get();
+
+        $data['action'] = DB::table('topiks')
+            ->join('diskusis', 'diskusis.id_topik', '=', 'topiks.id_topik')
+            ->join('actions', 'actions.id_diskusi','=', 'diskusis.id_diskusi')
+            ->where('topiks.id_topik','=',$id)
+            ->get();
+        return json_encode($data);
     }
 
     /**

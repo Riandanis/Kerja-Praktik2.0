@@ -184,8 +184,25 @@
                         </div>
                     </div>
                 </div>
-                
 
+                <div id="modal-topik" class="modal fade" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Topik</h4>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-responsive">
+                                    <tbody id="insert-topik">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </div>
                 @else
                     <p>Data tidak ditemukan</p>
@@ -216,8 +233,24 @@
         });
 
         $(document).on("click", ".topik-button", function() {
+            $('#insert-topik').empty();
             var id_agenda = $(this).data('id');
-            
+            $.ajax({
+                type: "GET",
+                url: "/topik",
+                data: {
+                    q: id_agenda
+                },
+                success: function (data) {
+//                    $('#insert-topik').append('<tr><td><strong>Topik</strong></td><td></td></tr>');
+                    data = JSON.parse(data);
+                    data.forEach(function(obj){
+                        var str ="\{\{url(\'topik/edit\','+obj.id_topik+')\}\}";
+                        console.log(str);
+                        $('#insert-topik').append('<tr><td width="500px">'+obj.nama_topik+'</td><td width="30px"><a href="/topik/edit/'+obj.id_topik+'"><button class="btn btn-default">Edit</button></a></td><td><a href="#"><button class="btn btn-danger">Hapus</button></a></td></tr>');
+                    });
+                }
+            })
 
         })
     </script>
