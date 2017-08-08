@@ -26,7 +26,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form class="form-horizontal" method="post" action="#">
+                    <form class="form-horizontal" method="post" action="{{url('/topik/update/'.$id)}}">
                         {{csrf_field()}}
                         <div class="box-body">
                             <input type="hidden" id="id_top" value="{{$topik[0]->id_topik}}" data-id="{{$topik[0]->id_topik}}">
@@ -46,7 +46,7 @@
                                         <label for="HasilDiskusi" class="col-sm-2 control-label">Hasil Diskusi</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" name="diskusi[0]" placeholder="Hasil Diskusi" value="diskusi" diskusi="0">
+                                            <input type="text" class="form-control" name="diskusi[0]" placeholder="Hasil Diskusi" value="" diskusi="0">
                                         </div>
                                         <div class="col-sm-2">
                                             <button type="button" class="btn btn-default fa fa-times" id="delete-discussion-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>
@@ -58,7 +58,7 @@
                                                 <label for="Action" class="col-sm-2 control-label">Action</label>
 
                                                 <div class="col-sm-8">
-                                                    <textarea class="form-control" name="action[0][0]" placeholder="Action">Action</textarea>
+                                                    <textarea class="form-control" name="action[0][0]" placeholder="Action"></textarea>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <button type="button" class="btn btn-default fa fa-times" id="delete-action-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>
@@ -84,7 +84,7 @@
                                                         <label for="PICAct" class="col-sm-4 control-label">PIC</label>
 
                                                         <div class="col-sm-8">
-                                                            <input type="email" name="pic[0][0]" value="pic" placeholder="Email PIC" class="form-control">
+                                                            <input type="email" name="pic[0][0]" value="" placeholder="Email PIC" class="form-control">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -165,14 +165,14 @@
                     for (i=0; i<flattenData[0].diskusiList.length; i++){
                         var j=0;
                         console.log(flattenData[0].actionList[j].isAppended);
-                        var tanggal = flattenData[0].actionList[j].due_date.toString("yyyy-MM-dd");
+                        var tanggal = flattenData[0].actionList[j].due_date;
                         if (flattenData[0].actionList[j].id_diskusi == flattenData[0].diskusiList[i].id_diskusi && flattenData[0].actionList[j].isAppended==0) {
                             console.log('ada action');
                             discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('diskusi[0]', 'diskusi['+i+']').replace('action[0][0]', 'action['+i+']['+j+']').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+i+'"').replace('name="keterangan[0][0]"', 'name="keterangan['+i+']['+j+']"').replace('name="pic[0][0]"', 'name="pic['+i+']['+j+']"').replace('name="due_date[0][0]"', 'name="due_date['+i+']['+j+']"')
-                                .replace('value="diskusi"', 'value="'+flattenData[0].diskusiList[i].nama_diskusi+'"')
-                                .replace('<textarea class="form-control" name="action[0][0]" placeholder="Action">Action</textarea>',  '<textarea class="form-control" name="action[0][0]">'+flattenData[0].actionList[j].deskripsi+'</textarea>')
+                                .replace('placeholder="Hasil Diskusi" value=""', 'placeholder="Hasil Diskusi" value="'+flattenData[0].diskusiList[i].nama_diskusi+'"')
+                                .replace('<textarea class="form-control" name="action[0][0]" placeholder="Action"></textarea>',  '<textarea class="form-control" name="action[0][0]">'+flattenData[0].actionList[j].deskripsi+'</textarea>')
                                 .replace('<option value="keterangan" selected="selected">Keterangan</option>', '<option value="'+flattenData[0].actionList[j].jenis_action+'" selected="selected">'+flattenData[0].actionList[i].jenis_action+'</option>')
-                                .replace('value="pic"', 'value="'+flattenData[0].actionList[j].email_pic+'"')
+                                .replace('value="" placeholder="Email PIC"', 'value="'+flattenData[0].actionList[j].email_pic+'"')
                                 .replace('value="duedate"', 'value="'+tanggal+'"');
                             containerKu.append(discussionSectionClone);
                             flattenData[0].actionList[j].isAppended=1;
@@ -180,10 +180,10 @@
                         else if (flattenData[0].actionList[j].id_diskusi != flattenData[0].diskusiList[i].id_diskusi) {
                             console.log('ga ada action');
                             discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('diskusi[0]', 'diskusi['+i+']').replace('action[0][0]', 'action['+i+']['+j+']').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+i+'"').replace('name="keterangan[0][0]"', 'name="keterangan['+i+']['+j+']"').replace('name="pic[0][0]"', 'name="pic['+i+']['+j+']"').replace('name="due_date[0][0]"', 'name="due_date['+i+']['+j+']"')
-                                .replace('value="diskusi"', 'value="'+flattenData[0].diskusiList[i].nama_diskusi+'"')
-                                .replace('<textarea class="form-control" name="action[0][0]" placeholder="Action">Action</textarea>',  '<textarea class="form-control" placeholder="Action" name="action[0][0]"></textarea>')
+                                .replace('placeholder="Hasil Diskusi" value=""', 'placeholder="Hasil Diskusi" value="'+flattenData[0].diskusiList[i].nama_diskusi+'"')
+                                .replace('<textarea class="form-control" name="action[0][0]" placeholder="Action"></textarea>',  '<textarea class="form-control" placeholder="Action" name="action[0][0]"></textarea>')
                                 .replace('<option value="keterangan" selected="selected">Keterangan</option>', '<option selected="selected">Keterangan</option>')
-                                .replace('value="pic"', '')
+                                .replace('value="" placeholder="Email PIC"', '')
                                 .replace('value="duedate"', '');
                             containerKu.append(discussionSectionClone);
                         }
@@ -192,11 +192,11 @@
                             console.log(flattenData[0].actionList[j].isAppended);
                             if (flattenData[0].diskusiList[i].id_diskusi == flattenData[0].actionList[j].id_diskusi && flattenData[0].actionList[j].isAppended==0) {
 //                                console.log(flattenData[0].actionList[j].id_diskusi);
-                                tanggal = flattenData[0].actionList[j].due_date.toString("yyyy-MM-dd");
+                                tanggal = flattenData[0].actionList[j].due_date;
                                 var discussionActionFieldsClone = $('#action-section')[0].outerHTML.replace('name="keterangan[0][0]"', 'name="keterangan['+i+']['+j+']"').replace('name="pic[0][0]"', 'name="pic['+i+']['+j+']"').replace('name="due_date[0][0]"', 'name="due_date['+i+']['+j+']"')
-                                    .replace('<textarea class="form-control" name="action[0][0]" placeholder="Action">Action</textarea>', '<textarea class="form-control" name="action['+i+']['+j+']">'+flattenData[0].actionList[j].deskripsi+'</textarea>')
+                                    .replace('<textarea class="form-control" name="action[0][0]" placeholder="Action"></textarea>', '<textarea class="form-control" name="action['+i+']['+j+']">'+flattenData[0].actionList[j].deskripsi+'</textarea>')
                                     .replace('<option value="keterangan" selected="selected">Keterangan</option>', '<option value="' + flattenData[0].actionList[j].jenis_action + '" selected="selected">' + flattenData[0].actionList[j].jenis_action + '</option>')
-                                    .replace('value="pic"', 'value="' + flattenData[0].actionList[j].email_pic + '"')
+                                    .replace('value="" placeholder="Email PIC"', 'value="' + flattenData[0].actionList[j].email_pic + '"')
                                     .replace('value="duedate"', 'value="' + tanggal + '"');
                                 var parent = containerKu.children()[i].childNodes[9];
                                 $(parent).append(discussionActionFieldsClone);
@@ -216,7 +216,7 @@
 
             $('#add-discussion-button').on('click', function(e){ //on add input button click
                 e.preventDefault();
-                discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('diskusi[0]', 'diskusi['+totalDiscussion+']').replace('action[0][]', 'action['+totalDiscussion+'][]').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+totalDiscussion+'"').replace('name="keterangan[0][]"', 'name="keterangan['+totalDiscussion+'][]"').replace('name="pic[0][]"', 'name="pic['+totalDiscussion+'][]"').replace('name="due_date[0][]"', 'name="due_date['+totalDiscussion+'][]"');
+                discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('diskusi[0]', 'diskusi['+totalDiscussion+']').replace('action[0][0]', 'action['+totalDiscussion+'][]').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+totalDiscussion+'"').replace('name="keterangan[0][0]"', 'name="keterangan['+totalDiscussion+'][]"').replace('name="pic[0][0]"', 'name="pic['+totalDiscussion+'][]"').replace('name="due_date[0][0]"', 'name="due_date['+totalDiscussion+'][]"');
 //                console.log(discussionSectionClone);
                 if( totalDiscussion < MAX_FIELDS){ //max input box allowed
                     $(formContent).append(discussionSectionClone);
@@ -230,7 +230,7 @@
                 var btnParent = $(e.target.parentNode.childNodes[9]);
                 var nthDiscussion = $(e.target.parentNode.childNodes[7].childNodes[3].childNodes[1]).attr('diskusi');
 
-                discussionActionFieldsClone = $('#discussion-action')[0].outerHTML.replace('action[0][]', 'action['+nthDiscussion+'][]').replace('keterangan[0][]', 'keterangan['+nthDiscussion+'][]').replace('pic[0][]', 'pic['+nthDiscussion+'][]').replace('due_date[0][]', 'due_date['+nthDiscussion+'][]');
+                discussionActionFieldsClone = $('#discussion-action')[0].outerHTML.replace('action[0][0]', 'action['+nthDiscussion+'][]').replace('keterangan[0][0]', 'keterangan['+nthDiscussion+'][]').replace('pic[0][0]', 'pic['+nthDiscussion+'][]').replace('due_date[0][0]', 'due_date['+nthDiscussion+'][]');
                 totalAction++;
 
                 btnParent.append(discussionActionFieldsClone);

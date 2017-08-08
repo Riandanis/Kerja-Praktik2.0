@@ -133,7 +133,8 @@ class TopikController extends Controller
     public function edit($id)
     {
         $topik = DB::table('topiks')->where('id_topik', '=', $id)->get();
-        return view('edit-topik', ['topik'=>$topik]);
+        return view('edit-topik', ['topik'=>$topik, 'id'=>$id,'allNotif'=>$this->allNotif]);
+
     }
 
     public function renderAll ()
