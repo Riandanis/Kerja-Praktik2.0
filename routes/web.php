@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function() {
 
   Route::get('/topik', 'AgendaController@renderTopik');
   Route::get('/topik/edit/{id}', 'TopikController@edit');
+  Route::post('/topik/update/{id}', 'TopikController@update');
   Route::get('/topik/tambah/{rapat}/{id}', 'TopikController@create');
   Route::post('/topik/store/{rapat}/{id}', 'TopikController@store');
   Route::get('/topik/{rapat}/{id}', 'TopikController@index');

@@ -128,7 +128,7 @@ class TopikController extends Controller
     public function edit($id)
     {
         $topik = DB::table('topiks')->where('id_topik', '=', $id)->get();
-        return view('edit-topik', ['topik'=>$topik]);
+        return view('edit-topik', ['topik'=>$topik, 'id'=>$id]);
     }
 
     public function renderAll ()
@@ -156,9 +156,1846 @@ class TopikController extends Controller
      * @param  \App\Topik  $topik
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Topik $topik)
+    public function update(Request $request, $id)
     {
-        //
+        //update topik
+        $edit_top = Topik::where('id_topik', $id)->first();
+        $edit_top->nama_topik = $request->input('topik');
+        $edit_top->save();
+
+        $id_topik = $id;
+        $nama_topik = $request->input('topik');
+        $diskusi = $request->input('diskusi');
+        $action = $request->input('action');
+        $jenis = $request->input('keterangan');
+        $pic = $request->input('pic');
+        $date = $request->input('due_date');
+
+        //nambah diskusi
+        $i = 0;
+        foreach($diskusi as $d){
+            $edit_d = Diskusi::where('nama_diskusi', $d)
+                    ->where('id_topik', $id)->first();
+            if($edit_d==null){
+                $baru = new Diskusi();
+                $baru->id_topik = $id;
+                $baru->nama_diskusi = $edit_d;
+                $baru->save(); 
+
+                $id_d = $baru->id_diskusi;
+
+                //insert action
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis_action[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            else{
+                $id_d = $edit_d->id_diskusi;
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                                ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            // dd($date[$i][$j]);
+                            // $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            $i++;
+        }$edit_d = Diskusi::where('nama_diskusi', $d)
+                    ->where('id_topik', $id)->first();
+            if($edit_d==null){
+                $baru = new Diskusi();
+                $baru->id_topik = $id;
+                $baru->nama_diskusi = $edit_d;
+                $baru->save(); 
+
+                $id_d = $baru->id_diskusi;
+
+                //insert action
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis_action[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            else{
+                $id_d = $edit_d->id_diskusi;
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            // dd($date[$i][$j]);
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            $i++;$edit_d = Diskusi::where('nama_diskusi', $d)
+                    ->where('id_topik', $id)->first();
+            if($edit_d==null){
+                $baru = new Diskusi();
+                $baru->id_topik = $id;
+                $baru->nama_diskusi = $edit_d;
+                $baru->save(); 
+
+                $id_d = $baru->id_diskusi;
+
+                //insert action
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis_action[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            else{
+                $id_d = $edit_d->id_diskusi;
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            // dd($date[$i][$j]);
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            $i++;$edit_d = Diskusi::where('nama_diskusi', $d)
+                    ->where('id_topik', $id)->first();
+            if($edit_d==null){
+                $baru = new Diskusi();
+                $baru->id_topik = $id;
+                $baru->nama_diskusi = $edit_d;
+                $baru->save(); 
+
+                $id_d = $baru->id_diskusi;
+
+                //insert action
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis_action[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            else{
+                $id_d = $edit_d->id_diskusi;
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            // dd($date[$i][$j]);
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            $i++;$edit_d = Diskusi::where('nama_diskusi', $d)
+                    ->where('id_topik', $id)->first();
+            if($edit_d==null){
+                $baru = new Diskusi();
+                $baru->id_topik = $id;
+                $baru->nama_diskusi = $edit_d;
+                $baru->save(); 
+
+                $id_d = $baru->id_diskusi;
+
+                //insert action
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis_action[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            else{
+                $id_d = $edit_d->id_diskusi;
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            // dd($date[$i][$j]);
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            $i++;$edit_d = Diskusi::where('nama_diskusi', $d)
+                    ->where('id_topik', $id)->first();
+            if($edit_d==null){
+                $baru = new Diskusi();
+                $baru->id_topik = $id;
+                $baru->nama_diskusi = $edit_d;
+                $baru->save(); 
+
+                $id_d = $baru->id_diskusi;
+
+                //insert action
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis_action[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            else{
+                $id_d = $edit_d->id_diskusi;
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            // dd($date[$i][$j]);
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            $i++;$edit_d = Diskusi::where('nama_diskusi', $d)
+                    ->where('id_topik', $id)->first();
+            if($edit_d==null){
+                $baru = new Diskusi();
+                $baru->id_topik = $id;
+                $baru->nama_diskusi = $edit_d;
+                $baru->save(); 
+
+                $id_d = $baru->id_diskusi;
+
+                //insert action
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis_action[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            else{
+                $id_d = $edit_d->id_diskusi;
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            // dd($date[$i][$j]);
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            $i++;$edit_d = Diskusi::where('nama_diskusi', $d)
+                    ->where('id_topik', $id)->first();
+            if($edit_d==null){
+                $baru = new Diskusi();
+                $baru->id_topik = $id;
+                $baru->nama_diskusi = $edit_d;
+                $baru->save(); 
+
+                $id_d = $baru->id_diskusi;
+
+                //insert action
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis_action[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            else{
+                $id_d = $edit_d->id_diskusi;
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            // dd($date[$i][$j]);
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            $i++;$edit_d = Diskusi::where('nama_diskusi', $d)
+                    ->where('id_topik', $id)->first();
+            if($edit_d==null){
+                $baru = new Diskusi();
+                $baru->id_topik = $id;
+                $baru->nama_diskusi = $edit_d;
+                $baru->save(); 
+
+                $id_d = $baru->id_diskusi;
+
+                //insert action
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis_action[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            else{
+                $id_d = $edit_d->id_diskusi;
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            // dd($date[$i][$j]);
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            $i++;$edit_d = Diskusi::where('nama_diskusi', $d)
+                    ->where('id_topik', $id)->first();
+            if($edit_d==null){
+                $baru = new Diskusi();
+                $baru->id_topik = $id;
+                $baru->nama_diskusi = $edit_d;
+                $baru->save(); 
+
+                $id_d = $baru->id_diskusi;
+
+                //insert action
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis_action[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            else{
+                $id_d = $edit_d->id_diskusi;
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            // dd($date[$i][$j]);
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            $i++;$edit_d = Diskusi::where('nama_diskusi', $d)
+                    ->where('id_topik', $id)->first();
+            if($edit_d==null){
+                $baru = new Diskusi();
+                $baru->id_topik = $id;
+                $baru->nama_diskusi = $edit_d;
+                $baru->save(); 
+
+                $id_d = $baru->id_diskusi;
+
+                //insert action
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis_action[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            else{
+                $id_d = $edit_d->id_diskusi;
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            // dd($date[$i][$j]);
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            $i++;$edit_d = Diskusi::where('nama_diskusi', $d)
+                    ->where('id_topik', $id)->first();
+            if($edit_d==null){
+                $baru = new Diskusi();
+                $baru->id_topik = $id;
+                $baru->nama_diskusi = $edit_d;
+                $baru->save(); 
+
+                $id_d = $baru->id_diskusi;
+
+                //insert action
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis_action[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            else{
+                $id_d = $edit_d->id_diskusi;
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            // dd($date[$i][$j]);
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            $i++;$edit_d = Diskusi::where('nama_diskusi', $d)
+                    ->where('id_topik', $id)->first();
+            if($edit_d==null){
+                $baru = new Diskusi();
+                $baru->id_topik = $id;
+                $baru->nama_diskusi = $edit_d;
+                $baru->save(); 
+
+                $id_d = $baru->id_diskusi;
+
+                //insert action
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis_action[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            else{
+                $id_d = $edit_d->id_diskusi;
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            // dd($date[$i][$j]);
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            $i++;$edit_d = Diskusi::where('nama_diskusi', $d)
+                    ->where('id_topik', $id)->first();
+            if($edit_d==null){
+                $baru = new Diskusi();
+                $baru->id_topik = $id;
+                $baru->nama_diskusi = $edit_d;
+                $baru->save(); 
+
+                $id_d = $baru->id_diskusi;
+
+                //insert action
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis_action[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            else{
+                $id_d = $edit_d->id_diskusi;
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            // dd($date[$i][$j]);
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            $i++;
+            $edit_d = Diskusi::where('nama_diskusi', $d)
+                    ->where('id_topik', $id)->first();
+            if($edit_d==null){
+                $baru = new Diskusi();
+                $baru->id_topik = $id;
+                $baru->nama_diskusi = $edit_d;
+                $baru->save(); 
+
+                $id_d = $baru->id_diskusi;
+
+                //insert action
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis_action[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            else{
+                $id_d = $edit_d->id_diskusi;
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            // dd($date[$i][$j]);
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            $i++;$edit_d = Diskusi::where('nama_diskusi', $d)
+                    ->where('id_topik', $id)->first();
+            if($edit_d==null){
+                $baru = new Diskusi();
+                $baru->id_topik = $id;
+                $baru->nama_diskusi = $edit_d;
+                $baru->save(); 
+
+                $id_d = $baru->id_diskusi;
+
+                //insert action
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis_action[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            else{
+                $id_d = $edit_d->id_diskusi;
+                $j=0;
+                foreach($action[$i] as $act){
+                    if($act!=null){
+                        $edit_a = Action::where('deskripsi', $act)
+                            ->where('id_diskusi', $id_d)->first();
+                        if($edit_a==null){
+                            $new = new Action();
+                            $new->id_diskusi = $id_d;
+                            $new->deskripsi = $act;
+                            $new->due_date = $date[$i][$j];
+                            $new->email_pic = $pic[$i][$j];
+
+                            if($jenis[$i][$j]=='keterangan'){
+                                $new->jenis_action = 'Informasi';
+                                $new->status = 1;
+                            }
+                            else{
+                                $new->jenis_action = $jenis[$i][$j];
+                                if($jenis[$i][$j] == 'Informasi'){
+                                    $new->status = 1;
+                                }
+                                else{
+                                    $new->status = 0;
+                                }
+                            }
+                            $new->save();
+                        }    
+                        else{
+                            // dd($date[$i][$j]);
+                            $edit_a->due_date = $date[$i][$j];
+                            $edit_a->email_pic = $pic[$i][$j];
+                            $edit_a->jenis_action = $jenis[$i][$j];
+                            if($jenis[$i][$j] == 'Informasi'){
+                                $edit_a->status = 1;
+                            }
+                            else{
+                                $edit_a->status = 0;
+                            }
+                            $edit_a->save();
+                        }
+                    }
+                    $j++;
+                }
+                $act = Action::where('id_diskusi', $id_d)
+                        ->whereNotIn('deskripsi', $action[$i])
+                        ->get();
+                foreach($act as $dba){
+                    $dba->delete();
+                }
+            }
+            $i++;
+            
+        //apus diskusi yg udah ga ada
+        $disk = Diskusi::where('id_topik', $id)
+                ->whereNotIn('nama_diskusi', $diskusi)
+                ->get();
+        foreach($disk as $db){
+            $db->delete();
+        }
+
+        return redirect('topik/edit'.$id);
+        // dd($nama_topik, $diskusi, $action, $jenis, $pic, $date);
     }
 
     /**
