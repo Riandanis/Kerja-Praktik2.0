@@ -59,11 +59,11 @@ class AgendaController extends Controller
 
         if($agenda->save()){
             $request->session()->flash('alert-success', 'Agenda telah ditambahkan.');
-            return redirect('agenda/'.$id, ['allNotif'=>$this->allNotif]);
+            return redirect('agenda/'.$id);
         }
         else{
             $request->session()->flash('alert-danger', 'Agenda gagal ditambahkan.');
-            return redirect('agenda/'.$id, ['allNotif'=>$this->allNotif]);
+            return redirect('agenda/'.$id);
         }
     }
 
