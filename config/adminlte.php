@@ -116,6 +116,10 @@ return [
             'text' => 'Rapat',
             'url'  => 'rapat/tambah',
         ],
+        [
+            'text' => 'List Target',
+            'url'  =>  'action',
+        ],
 
     ],
 

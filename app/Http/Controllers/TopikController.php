@@ -7,6 +7,7 @@ use App\Topik;
 use App\Diskusi;
 use App\Action;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class TopikController extends Controller
 {
@@ -15,6 +16,11 @@ class TopikController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $allNotif;
+    public function __construct()
+    {
+        $this->allNotif = DB::select("SELECT * FROM actions WHERE actions.status = '0'");   
+    }
     public function index($rapat, $id)
     {
         //$rapat id_rapat, $id id_agenda
@@ -22,7 +28,7 @@ class TopikController extends Controller
         $agenda = DB::table('agendas')->select('id_agenda', 'id_rapat', 'nama_agenda')
                 ->where('id_agenda', '=', $id)->first();
 
-        return view('topik', ['topik'=>$topik, 'agenda'=>$agenda]);
+        return view('topik', ['topik'=>$topik, 'agenda'=>$agenda, 'allNotif'=>$this->allNotif]);
     }
 
     /**
@@ -34,7 +40,7 @@ class TopikController extends Controller
     {
         $rapat = $rapat;
         $agenda = $id;
-        return view('create-topik', ['agenda' => $agenda, 'rapat'=>$rapat]);
+        return view('create-topik', ['agenda' => $agenda, 'rapat'=>$rapat, 'allNotif'=>$this->allNotif]);
     }
 
     /**
@@ -123,13 +129,14 @@ class TopikController extends Controller
             }
         }
         else{
+
             if($top->save()){
                 $request->session()->flash('alert-success', 'Topik rapat berhasil ditambahkan. Tidak ada diskusi dan action yang terdaftar.');
-                return redirect('agenda/'.$rapat);
+                return redirect('agenda/'.$rapat, ['allNotif'=>$this->allNotif]);
             }
             else{
                 $request->session()->flash('alert-danger', 'Topik rapat gagal ditambahkan.');
-                return redirect('agenda/'.$rapat);
+                return redirect('agenda/'.$rapat, ['allNotif'=>$this->allNotif]);
             }
         }
     }
@@ -151,9 +158,28 @@ class TopikController extends Controller
      * @param  \App\Topik  $topik
      * @return \Illuminate\Http\Response
      */
-    public function edit(Topik $topik)
+    public function edit($id)
     {
-        //
+        $topik = DB::table('topiks')->where('id_topik', '=', $id)->get();
+        return view('edit-topik', ['topik'=>$topik]);
+    }
+
+    public function renderAll ()
+    {
+        $id = Input::get('idtop');
+        $data = array();
+        $data['topik'] = DB::table('topiks')->where('id_topik','=', $id)->get();
+        $data['diskusi'] = DB::table('topiks')
+            ->join('diskusis', 'diskusis.id_topik','=','topiks.id_topik')
+            ->where('topiks.id_topik','=',$id)
+            ->get();
+
+        $data['action'] = DB::table('topiks')
+            ->join('diskusis', 'diskusis.id_topik', '=', 'topiks.id_topik')
+            ->join('actions', 'actions.id_diskusi','=', 'diskusis.id_diskusi')
+            ->where('topiks.id_topik','=',$id)
+            ->get();
+        return json_encode($data);
     }
 
     /**

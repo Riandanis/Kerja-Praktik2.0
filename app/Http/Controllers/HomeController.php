@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Rapat;
 use Illuminate\Http\Request;
-
+use App\Http\Requests;
+use PDF;
+use DB;
+use Illuminate\Support\Facades\App;
 class HomeController extends Controller
 {
     /**
@@ -11,6 +15,11 @@ class HomeController extends Controller
      *
      * @return void
      */
+    protected $allNotif;
+    public function __construct()
+    {
+        $this->allNotif = DB::select("SELECT * FROM actions WHERE actions.status = '0'");   
+    }
     public function __construct()
     {
         $this->middleware('auth');
@@ -23,16 +32,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('home',['allNotif'=>$this->allNotif]);
+    }
+
+    public function pdfgen(Request $request)
+    {
+        return view('pdf',['allNotif'=>$this->allNotif]);
+        $products = DB::table('rapats')->get();
+        $pdf=PDF::loadView('pdf-generated', ['products' => $products]);
+        return $pdf->stream();
     }
 
     public function pdf()
     {
-        return view('pdf');
-    }
-
-    public function pdfgen()
-    {
-        return view ('pdf-generated');
+        return view ('pdf-generated',['allNotif'=>$this->allNotif]);
     }
 }
