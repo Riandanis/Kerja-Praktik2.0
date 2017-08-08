@@ -93,7 +93,7 @@
                                 </td>
                                 <td style="width:30px;">
                                 <span data-widget="Lihat topik" data-toggle="tooltip" title="Lihat topik">
-                                    <button class="btn btn-default topik-button" data-toggle="modal" data-target="#" data-id="{{$a->id_agenda}}">
+                                    <button class="btn btn-default topik-button" data-toggle="modal" data-target="#modal-topik" data-id="{{$a->id_agenda}}">
                                         <i class="fa fa-eye"></i>
                                     </button>
                                 </span>
