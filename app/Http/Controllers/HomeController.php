@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Rapat;
 use Illuminate\Http\Request;
-
+use App\Http\Requests;
+use PDF;
+use DB;
+use Illuminate\Support\Facades\App;
 class HomeController extends Controller
 {
     /**
@@ -31,12 +35,15 @@ class HomeController extends Controller
         return view('home',['allNotif'=>$this->allNotif]);
     }
 
-    public function pdf()
+    public function pdfgen(Request $request)
     {
         return view('pdf',['allNotif'=>$this->allNotif]);
+        $products = DB::table('rapats')->get();
+        $pdf=PDF::loadView('pdf-generated', ['products' => $products]);
+        return $pdf->stream();
     }
 
-    public function pdfgen()
+    public function pdf()
     {
         return view ('pdf-generated',['allNotif'=>$this->allNotif]);
     }
