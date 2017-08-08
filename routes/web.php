@@ -18,7 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 Route::middleware(['auth'])->group(function() {
     Route::get('/', function () {
-        return view('home');
+        return redirect('/home');
     });
     Route::get('/home', 'RapatController@index')->name('home');
     Route::get('/rapat/tambah', 'RapatController@create');

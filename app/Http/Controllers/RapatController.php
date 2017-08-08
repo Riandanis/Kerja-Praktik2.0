@@ -138,8 +138,10 @@ class RapatController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Rapat $rapat)
-    {
-        return view('edit-rapat',['allNotif'=>$this->allNotif])
+    {   
+/*        $att = DB::select("SELECT * FROM attendees 
+            WHERE attendees.id_rapat = ")*/
+        return view('edit-rapat',['allNotif'=>$this->allNotif]);
     }
 
     /**
@@ -151,7 +153,7 @@ class RapatController extends Controller
      */
     public function update(Request $request, Rapat $rapat)
     {
-        //
+        
     }
 
     /**
