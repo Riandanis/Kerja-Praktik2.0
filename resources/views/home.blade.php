@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'AdminLTE')
+@section('title', 'MOTRA')
 
 @section('content_header')
     <h1>Dashboard</h1>
@@ -26,7 +26,24 @@
         }
     </style>
     <div class="row">
-        <div class="col-md-12">
+        @if(Session::has('alert-success'))
+            <div class="col-xs-12">
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                    {{Session::get('alert-success')}}
+                </div>
+            </div>
+        @elseif(Session::has('alert-danger'))
+            <div class="col-xs-12">
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-times"></i> Gagal!</h4>
+                    {{Session::get('alert-danger')}}
+                </div>
+            </div>
+        @endif
+        <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Jadwal Rapat</h3>
@@ -47,18 +64,20 @@
                 </div>
                 <div class="box-body">
                     <h5 style="margin-top: 5px"><strong></strong></h5>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th colspan="3"></th>
-                            </tr>
+                    <div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th colspan="3"></th>
+                                </tr>
 
-                        </thead>
-                        <tbody id="insert_here">
+                            </thead>
+                            <tbody id="insert_here">
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
