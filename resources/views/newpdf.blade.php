@@ -13,6 +13,7 @@ ini_set('max_execution_time', 900);
         cssStyle:[{fontSize:'30px'},{fontWeight:'bold'}]});">
     <button>render</button>
 </a> -->
+<body onload="window.start()">
 <style>
     body
     {
@@ -60,7 +61,7 @@ ini_set('max_execution_time', 900);
         width: 100%;
     }
 </style>
-<page>
+<body>
 <div class="row">
     <div class="col-sm-12">
         <div class="col-sm-6">
@@ -160,7 +161,7 @@ ini_set('max_execution_time', 900);
         </div>
     @endforeach
 </div>
-</page>
+</body>
 
 
 
