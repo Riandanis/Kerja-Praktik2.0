@@ -184,6 +184,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div id="modal-topik" class="modal fade" style="display: none;">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -202,7 +203,6 @@
                         </div>
                     </div>
                 </div>
-
                 </div>
                 @else
                     <p>Data tidak ditemukan</p>

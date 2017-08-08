@@ -77,7 +77,7 @@ class TopikController extends Controller
 
                 $id_dis = $d->id_diskusi;
 
-                if(count($action)){
+                if($action[$i][0]!=null){
                     $j = 0;
 
                     //insert action

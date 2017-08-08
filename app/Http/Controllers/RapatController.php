@@ -54,6 +54,7 @@ class RapatController extends Controller
 
             array_push($events, $e);
         }
+
         return json_encode($events);
     }
     public function create()
@@ -69,8 +70,8 @@ class RapatController extends Controller
      */
     public function store(Request $request)
     {
-        $tanggal = $request->input('tanggal');
-        $jam = $request->input('jam');
+        $tanggal = $request->input('tanggal_rapat');
+        $jam = $request->input('waktu_rapat');
         $waktu = $tanggal . " " . $jam;
 
         $rapat = new Rapat();
@@ -79,26 +80,19 @@ class RapatController extends Controller
         $rapat->tempat_rapat = $request->input('tempat');
         $rapat->save();
 
-        $attendee = $request->input('attendee');
         $peserta = $request->input('peserta');
 
         $id = $rapat->id_rapat;
-        $att = new Attendee();
-        $att->id_rapat = $id;
-        $att->ket_attendee = $attendee;
-        $att->save();
-
         if(count($peserta)){
             foreach($peserta as $p){
                 $pes = new Attendee();
                 $pes->id_rapat = $id;
                 $pes->ket_attendee = $p;
                 $pes->save();
-            }    
+            }
         }
-        
-        // dd($request);
-        return redirect ('/rapatnya');
+
+        return redirect ('/home');
     }
 
     /**
