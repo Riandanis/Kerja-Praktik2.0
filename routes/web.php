@@ -36,7 +36,7 @@ Route::middleware(['auth'])->group(function() {
   Route::post('/topik/update/{id}', 'TopikController@update');
   Route::get('/topik/tambah/{rapat}/{id}', 'TopikController@create');
   Route::post('/topik/store/{rapat}/{id}', 'TopikController@store');
-  Route::get('/topik/{rapat}/{id}', 'TopikController@index');
+  // Route::get('/topik/{rapat}/{id}', 'TopikController@index');
   Route::get('/topik/delete/{id}', 'TopikController@destroy');
   Route::get('/renderAll', 'TopikController@renderAll');
 

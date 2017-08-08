@@ -19,11 +19,11 @@ class TopikController extends Controller
     public function index($rapat, $id)
     {
         //$rapat id_rapat, $id id_agenda
-        $topik = DB::table('topiks')->where('id_agenda', '=', $id)->get();
-        $agenda = DB::table('agendas')->select('id_agenda', 'id_rapat', 'nama_agenda')
-                ->where('id_agenda', '=', $id)->first();
+        // $topik = DB::table('topiks')->where('id_agenda', '=', $id)->get();
+        // $agenda = DB::table('agendas')->select('id_agenda', 'id_rapat', 'nama_agenda')
+        //         ->where('id_agenda', '=', $id)->first();
 
-        return view('topik', ['topik'=>$topik, 'agenda'=>$agenda]);
+        // return view('topik', ['topik'=>$topik, 'agenda'=>$agenda]);
     }
 
     /**
@@ -103,6 +103,19 @@ class TopikController extends Controller
             }
         }
         else{
+            $d = new Diskusi;
+            $d->id_topik = $topik;
+            $d->nama_diskusi = 'Tidak Ada Diskusi';
+            $d->save();
+
+            $a = new Action;
+            $a->id_diskusi = $d->id_diskusi;
+            $a->deskripsi = 'Tidak Ada Action';
+            $a->jenis_action = 'Informasi';
+            $a->status = 1;
+
+            $a->save();
+
             return redirect('agenda/'.$rapat);
         }
         return redirect('agenda/'.$rapat);
@@ -285,8 +298,16 @@ class TopikController extends Controller
         $id_rapat = DB::table('agendas')->select('id_rapat')
                     ->where('id_agenda', '=', $id_agenda)->first();
 
-        $del->delete();
-
+        if($del->delete())
+        {
+            $request->session()->flash('alert-success', 'Topik berhasil dihapus.');
+            return redirect('/agenda/'.$id_rapat->id_rapat);
+        }
+        else
+        {
+            $request->session()->flash('alert-danger', 'Topik gagal dihapus.');
+            return redirect('/agenda/'.$id_rapat->id_rapat);
+        }
     }
 }
 
