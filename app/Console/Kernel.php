@@ -1,9 +1,13 @@
 <?php
 
 namespace App\Console;
+use App\Http\Controllers\NotifController;
+use DB;
+//use Notifikasi;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+
 
 class Kernel extends ConsoleKernel
 {
@@ -26,6 +30,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->call('App\Http\Controllers\NotifController@email')
+            ->everyMinute()/*->dailyAt('11:35')*/->timezone('Asia/Jakarta');
+
     }
 
     /**

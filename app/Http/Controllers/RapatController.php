@@ -14,12 +14,17 @@ class RapatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $allNotif;
+    public function __construct()
+    {
+        $this->allNotif = DB::select("SELECT * FROM actions WHERE actions.status = '0'");   
+    }
     public function index()
     {
 
         //return view('rapat.index');
         $rapat = DB::table('rapats')->orderBy('id_rapat')->paginate(25);
-        return view('home', ['rapat'=>$rapat]);
+        return view('home', ['rapat'=>$rapat,'allNotif'=>$this->allNotif]);
     }
 
 
@@ -28,7 +33,7 @@ class RapatController extends Controller
 
         //return view('rapat.index');
         $rapat = DB::table('rapats')->orderBy('id_rapat')->paginate(25);
-        return view('rapat', ['rapat'=>$rapat]);
+        return view('rapat', ['rapat'=>$rapat,'allNotif'=>$this->allNotif]);
     }
 
     /**
@@ -59,7 +64,7 @@ class RapatController extends Controller
     }
     public function create()
     {
-        return view('create-rapat');
+        return view('create-rapat',['allNotif'=>$this->allNotif]);
     }
 
     /**
@@ -78,21 +83,41 @@ class RapatController extends Controller
         $rapat->headline = $request->input('headline');
         $rapat->waktu_rapat = $waktu;
         $rapat->tempat_rapat = $request->input('tempat');
-        $rapat->save();
-
+        
         $peserta = $request->input('peserta');
 
-        $id = $rapat->id_rapat;
-        if(count($peserta)){
+        if($peserta[0]!=null){
+            $flag = 0;
+            $rapat->save();
+            $id = $rapat->id_rapat;
             foreach($peserta as $p){
                 $pes = new Attendee();
                 $pes->id_rapat = $id;
                 $pes->ket_attendee = $p;
-                $pes->save();
+                if($pes->save()){
+                    $flag = 1;
+                }
+                else{
+                    $flag = 0;
+                    $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
+                    return redirect('/home');
+                }
+            }
+            if($flag == 1){
+                $request->session()->flash('alert-success', 'Rapat berhasil ditambahkan.');
+                return redirect('/home');
             }
         }
-
-        return redirect ('/home');
+        else{
+            if($rapat->save()){
+                $request->session()->flash('alert-success', 'Rapat berhasil ditambahkan. Belum ada peserta rapat yang terdaftar.');
+                return redirect('/home', ['allNotif'=>$this->allNotif]);
+            }
+            else{
+                $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
+                return redirect('/home', ['allNotif'=>$this->allNotif]);
+            }
+        }
     }
 
     /**
@@ -103,7 +128,7 @@ class RapatController extends Controller
      */
     public function show(Rapat $rapat)
     {
-        return view('detil_rapat.create');
+        return view('detil_rapat.create',['allNotif'=>$this->allNotif]);
     }
 
     /**
@@ -114,7 +139,7 @@ class RapatController extends Controller
      */
     public function edit(Rapat $rapat)
     {
-        //
+        return view('edit-rapat',['allNotif'=>$this->allNotif])
     }
 
     /**
