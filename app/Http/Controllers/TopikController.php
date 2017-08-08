@@ -104,6 +104,7 @@ class TopikController extends Controller
                         $j++;
                     }
                 }
+
                 $i++;
             }
         }

@@ -153,7 +153,6 @@
                     flattenData[0].diskusiList = _.sortBy(flattenData[0].diskusiList, 'id_diskusi');
                     flattenData[0].actionList = _.sortBy(flattenData[0].actionList, 'id_diskusi');
 
-                    var flag = 0;
 
                     flattenData[0].actionList = flattenData[0].actionList.map(function(el){
                         var o = Object.assign({}, el);
@@ -177,7 +176,7 @@
                             containerKu.append(discussionSectionClone);
                             flattenData[0].actionList[j].isAppended=1;
                         }
-                        else if (flattenData[0].actionList[j].id_diskusi != flattenData[0].diskusiList[i].id_diskusi) {
+                        else {
                             console.log('ga ada action');
                             discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('diskusi[0]', 'diskusi['+i+']').replace('action[0][0]', 'action['+i+']['+j+']').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+i+'"').replace('name="keterangan[0][0]"', 'name="keterangan['+i+']['+j+']"').replace('name="pic[0][0]"', 'name="pic['+i+']['+j+']"').replace('name="due_date[0][0]"', 'name="due_date['+i+']['+j+']"')
                                 .replace('placeholder="Hasil Diskusi" value=""', 'placeholder="Hasil Diskusi" value="'+flattenData[0].diskusiList[i].nama_diskusi+'"')
