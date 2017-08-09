@@ -88,8 +88,8 @@
                                                         <label for="KeteranganAct" class="col-sm-4 control-label">Keterangan</label>
 
                                                         <div class="col-sm-8">
-                                                            <select class="form-control" name="keterangan[0][0]" style="width: 105px">
-                                                                <option value="Keterangan" selected="selected">Keterangan</option>
+                                                            <select class="form-control" name="keterangan[0][0]" style="width: 105px" id="select-form">
+                                                                <option value="Keterangan" selected="selected" disabled>Keterangan</option>
                                                                 <option value="Informasi">Informasi</option>
                                                                 <option value="Target">Target</option>
                                                             </select>
@@ -266,6 +266,19 @@
                 totalDiscussion--;
                 btnParent.remove();
             });
+
+            $(document).on('change', '#select-form', function(e){
+                var parentEmail = this.parentNode.parentNode.parentNode.parentNode.childNodes[3].childNodes[1].childNodes[3].childNodes[1];
+                var parentDate = this.parentNode.parentNode.parentNode.parentNode.childNodes[5].childNodes[1].childNodes[3].childNodes[1];
+                if (this.value == 'Informasi') {
+                    $(parentDate).prop("disabled", true);
+                    $(parentEmail).prop("disabled", true);
+                }
+                else if (this.value == 'Target') {
+                    $(parentDate).prop("disabled", false);
+                    $(parentEmail).prop("disabled", false);
+                }
+            })
 
         })
 
