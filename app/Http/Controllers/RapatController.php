@@ -181,42 +181,37 @@ class RapatController extends Controller
         $rpt->headline = $request->input('headline');
         $rpt->waktu_rapat = $waktu;
         $rpt->tempat_rapat = $request->input('tempat');
-        
+        $rpt->save();
+        $id = $rpt->id_rapat;        
+
         $peserta = $request->input('peserta');
 
-        if($peserta[0]!=null){
-            $flag = 0;
-            $rpt->save();
-            // /dd($rpt);
-            $id = $rpt->id_rapat;
-            foreach($peserta as $p){
-                $pes = new Attendee();
-                $pes->id_rapat = $id;
-                $pes->ket_attendee = $p;
-                if($pes->save()){
-                    $flag = 1;
+        $flag = 0;
+        $i = 0;
+        foreach($peserta as $p){
+            if(array_key_exists($i, $peserta)){
+                if($p!=null){
+                    $pes = new Attendee();
+                    $pes->id_rapat = $id;
+                    $pes->ket_attendee = $p;
+                    if($pes->save()){
+                        $flag = 1;
+                    }
+                    else{
+                        $flag = 0;
+                        $request->session()->flash('alert-danger', 'Rapat gagal diperbarui.');
+                        return redirect('/rapat/edit/'.$rpt->id_rapat);
+                    }    
                 }
-                else{
-                    $flag = 0;
-                    $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
-                    return redirect('/rapat/edit/'.$rpt->id_rapat);
-                }
             }
-            if($flag == 1){
-                $request->session()->flash('alert-success', 'Rapat berhasil ditambahkan.');
-                return redirect('/rapat/edit/'.$rpt->id_rapat);
-            }
+            $i++;
         }
-        else{
-            if($rpt->save()){
-                $request->session()->flash('alert-success', 'Rapat berhasil ditambahkan. Belum ada peserta rapat yang terdaftar.');
-                return redirect('/rapat/edit/'.$rpt->id_rapat);
-            }
-            else{
-                $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
-                return redirect('/rapat/edit/'.$rpt->id_rapat);
-            }
+        
+        if($flag == 1){
+            $request->session()->flash('alert-success', 'Rapat berhasil diperbarui.');
+            return redirect('/rapat/edit/'.$rpt->id_rapat);
         }
+        
     }
 
     /**
