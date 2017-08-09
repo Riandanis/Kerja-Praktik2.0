@@ -24,28 +24,28 @@
                             <div class="form-group">
                                 <label for="HeadlineRapat" class="col-sm-2 control-label">Headline Rapat <span style="color: red">*</span></label>
 
-                                <div class="col-sm-10">
+                                <div class="col-sm-8">
                                     <input type="text" class="form-control" placeholder="Headline Rapat" name="headline" value="{{$rpt->headline}}" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="DateRapat" class="col-sm-2 control-label">Tanggal Rapat </label>
 
-                                <div class="col-sm-10">
+                                <div class="col-sm-8">
                                     <input type="date" class="form-control" placeholder="YYYY-MM-DD" name="tanggal_rapat" value="{{$wkt[0]}}" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="TimeRapat" class="col-sm-2 control-label">Waktu Rapat</label>
 
-                                <div class="col-sm-10">
+                                <div class="col-sm-8">
                                     <input type="time" class="form-control" placeholder="HH:MM" name="waktu_rapat" value="{{$wkt[1]}}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="TempatRapat" class="col-sm-2 control-label">Tempat Rapat</label>
 
-                                <div class="col-sm-10">
+                                <div class="col-sm-8">
                                     <input type="text" class="form-control" placeholder="Tempat Rapat" name="tempat" value="{{$rpt->tempat_rapat}}">
                                 </div>
                             </div>
@@ -54,9 +54,12 @@
                                 <div class="form-group" id="dynamicInput">
                                     <label for="AttendeeRapat" class="col-sm-2 control-label">Attendee</label>
 
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-8">
                                         <input type="text" class="form-control" placeholder="Attendee" name="peserta[]" value="{{$atd[0]->ket_attendee}}">
                                     </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-default fa fa-times" id="delete-attendee-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>
+                                    </div>  
                                 </div>
                             </div>
                             @else
@@ -65,9 +68,11 @@
                                 <div class="form-group" id="dynamicInput">
                                     <label for="AttendeeRapat" class="col-sm-2 control-label">Attendee</label>
 
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-8">
                                         <input type="text" class="form-control" placeholder="Attendee" name="peserta[]">
                                     </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-default fa fa-times" id="delete-attendee-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>
                                 </div>
                             </div>
                             
@@ -139,6 +144,13 @@
                     totalAttendee++;
                 }
             })
+
+             $(document).on('click', '#delete-attendee-button', function(e) {
+                var btnParent = $(e.target).parents()[1];
+                totalAttendee--;
+                btnParent.remove();
+            });
+
 
         })
 
