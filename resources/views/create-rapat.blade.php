@@ -38,14 +38,14 @@
                                 <label for="TimeRapat" class="col-sm-2 control-label">Waktu Rapat</label>
 
                                 <div class="col-sm-10">
-                                    <input type="time" class="form-control" placeholder="HH:MM" name="waktu_rapat">
+                                    <input type="time" class="form-control" placeholder="HH:MM" name="waktu_rapat" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="TempatRapat" class="col-sm-2 control-label">Tempat Rapat</label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="Tempat Rapat" name="tempat">
+                                    <input type="text" class="form-control" placeholder="Tempat Rapat" name="tempat" required>
                                 </div>
                             </div>
                             <div id="attendee-section">
@@ -53,7 +53,7 @@
                                     <label for="AttendeeRapat" class="col-sm-2 control-label">Attendee</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" placeholder="Attendee" name="peserta[]">
+                                        <input type="text" class="form-control" placeholder="Attendee" name="peserta[]" required>
                                     </div>
                                 </div>
                             </div>

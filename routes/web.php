@@ -42,12 +42,15 @@ Route::middleware(['auth'])->group(function() {
   Route::get('/action','ActionController@index');
   Route::post('/action/update/{id}','ActionController@update');
   Route::get('/action/delete/{id}','ActionController@destroy');
+  Route::get('/rapat/edit/{id}','RapatController@edit');
+  Route::post('/rapat/update/{id}','RapatController@update');
 
   Route::get('/rapat', 'RapatController@rapat');
   Route::get('/rapatnya', 'RapatController@create')->name('rapatnya');
   Route::get('/detil','RapatController@show')->name('detil');
   Route::post('/rapat/store', 'RapatController@store');
   Route::get('/rapat/{id}', 'HomeController@pdfgen');
+  Route::get('/getRapat', 'RapatController@getRapat');
 
 
 });

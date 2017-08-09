@@ -6,6 +6,7 @@ use DB;
 use App\Rapat;
 use App\Attendee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class RapatController extends Controller
 {
@@ -64,6 +65,7 @@ class RapatController extends Controller
     }
     public function create()
     {
+        
         return view('create-rapat',['allNotif'=>$this->allNotif]);
     }
 
@@ -137,12 +139,25 @@ class RapatController extends Controller
      * @param  \App\Rapat  $rapat
      * @return \Illuminate\Http\Response
      */
-    public function edit(Rapat $rapat)
+    public function edit($rapat)
     {   
-/*        $att = DB::select("SELECT * FROM attendees 
-            WHERE attendees.id_rapat = ")*/
-        return view('edit-rapat',['allNotif'=>$this->allNotif]);
+        //dd($rapat);
+        $rpt = Rapat::where('id_rapat',$rapat)->first();
+        $wkt = explode(' ',$rpt->waktu_rapat);
+        //dd($wkt);
+        $atd = Attendee::where('id_rapat',$rapat)->get();
+        //dd(count($atd));
+        return view('edit-rapat',['allNotif'=>$this->allNotif,'rpt'=>$rpt,'atd'=>$atd,
+            'wkt'=>$wkt]);
     }
+     public function getRapat ()
+     {
+        $id_rapat = Input::get('idrapat');
+
+        $attendee = DB::select("SELECT Attendees.ket_attendee FROM Attendees WHERE
+            Attendees.id_rapat = '".$id_rapat."' ");
+        return json_encode($attendee);
+     }
 
     /**
      * Update the specified resource in storage.
@@ -151,9 +166,55 @@ class RapatController extends Controller
      * @param  \App\Rapat  $rapat
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Rapat $rapat)
-    {
+    public function update(Request $request, $rapat)
+    {   
+        //$rpt = DB::table('Rapats')->where('Rapats.id_rapat','=',$rapat)->first();
+        $atd = DB::table('Attendees')->where('Attendees.id_rapat','=',$rapat)->delete();
+        $rpt = Rapat::where('id_rapat',$rapat)->first(); 
+        //dd($rpt);
+        $tanggal = $request->input('tanggal_rapat');
+        $jam = $request->input('waktu_rapat');
+        $waktu = $tanggal . " " . $jam;
+
+        $rpt->headline = $request->input('headline');
+        $rpt->waktu_rapat = $waktu;
+        $rpt->tempat_rapat = $request->input('tempat');
         
+        $peserta = $request->input('peserta');
+
+        if($peserta[0]!=null){
+            $flag = 0;
+            $rpt->save();
+            // /dd($rpt);
+            $id = $rpt->id_rapat;
+            foreach($peserta as $p){
+                $pes = new Attendee();
+                $pes->id_rapat = $id;
+                $pes->ket_attendee = $p;
+                if($pes->save()){
+                    $flag = 1;
+                }
+                else{
+                    $flag = 0;
+                    $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
+                    return redirect('/rapat/edit/'.$rpt->id_rapat);
+                }
+            }
+            if($flag == 1){
+                $request->session()->flash('alert-success', 'Rapat berhasil ditambahkan.');
+                return redirect('/rapat/edit/'.$rpt->id_rapat);
+            }
+        }
+        else{
+            if($rpt->save()){
+                $request->session()->flash('alert-success', 'Rapat berhasil ditambahkan. Belum ada peserta rapat yang terdaftar.');
+                return redirect('/rapat/edit/'.$rpt->id_rapat);
+            }
+            else{
+                $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
+                return redirect('/rapat/edit/'.$rpt->id_rapat);
+            }
+        }
     }
 
     /**
