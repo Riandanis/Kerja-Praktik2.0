@@ -12,11 +12,7 @@ use Illuminate\Support\Facades\App;
 use Spipu\Html2Pdf\Html2Pdf;
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+   
     protected $allNotif;
     public function __construct()
     {
@@ -24,11 +20,6 @@ class HomeController extends Controller
         $this->allNotif = DB::select("SELECT * FROM actions WHERE actions.status = '0'");   
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view('home',['allNotif'=>$this->allNotif]);
@@ -83,9 +74,7 @@ class HomeController extends Controller
         $piece = explode(" ", $rapat[0]->waktu_rapat);
         $tanggal_rapat = $piece[0];
         $waktu_rapat = explode(":",$piece[1])[0].":".explode(":",$piece[1])[1];
-//        dd($agenda, $topik, $diskusi, $action);
-//        $pdf=PDF::loadview('newpdf', ['attendee'=>$attendee, 'rapat'=>$rapat, 'agenda'=>$agenda, 'topik'=>$topik, 'diskusi'=>$diskusi, 'action'=>$action, 'tanggal_rapat'=>$tanggal_rapat,'waktu_rapat'=>$waktu_rapat]);
-//        return $pdf->stream();
+
         return view ('newpdf', ['allNotif'=>$this->allNotif, 'attendee'=>$attendee, 'rapat'=>$rapat, 'agenda'=>$agenda, 'topik'=>$topik, 'diskusi'=>$diskusi, 'action'=>$action,'tanggal_rapat'=>$tanggal_rapat, 'waktu_rapat'=>$waktu_rapat]);
     }
 

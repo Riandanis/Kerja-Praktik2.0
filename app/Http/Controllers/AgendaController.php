@@ -34,25 +34,8 @@ class AgendaController extends Controller
         return json_encode($topik);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request, $id)
     {
-        // dd($id);
         $agenda = new Agenda;
         $agenda->id_rapat = $id;
         $agenda->nama_agenda = $request->input('nama');
@@ -67,35 +50,6 @@ class AgendaController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Agenda  $agenda
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Agenda $agenda)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Agenda  $agenda
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Agenda $agenda)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Agenda  $agenda
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $edit = Agenda::where('id_agenda', $id)->first();
@@ -112,12 +66,6 @@ class AgendaController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Agenda  $agenda
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request, $id)
     {
         $del = Agenda::find($id);

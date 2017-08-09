@@ -10,11 +10,6 @@ use Illuminate\Support\Facades\Input;
 
 class RapatController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     protected $allNotif;
     public function __construct()
     {
@@ -22,8 +17,6 @@ class RapatController extends Controller
     }
     public function index()
     {
-
-        //return view('rapat.index');
         $rapat = DB::table('rapats')->orderBy('id_rapat')->paginate(25);
         return view('home', ['rapat'=>$rapat,'allNotif'=>$this->allNotif]);
     }
@@ -31,17 +24,9 @@ class RapatController extends Controller
 
     public function rapat()
     {
-
-        //return view('rapat.index');
         $rapat = DB::table('rapats')->orderBy('id_rapat')->paginate(25);
         return view('rapat', ['rapat'=>$rapat,'allNotif'=>$this->allNotif]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function renderRapat()
     {
@@ -69,12 +54,7 @@ class RapatController extends Controller
         return view('create-rapat',['allNotif'=>$this->allNotif]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
         $tanggal = $request->input('tanggal_rapat');
@@ -85,13 +65,14 @@ class RapatController extends Controller
         $rapat->headline = $request->input('headline');
         $rapat->waktu_rapat = $waktu;
         $rapat->tempat_rapat = $request->input('tempat');
+        $rapat->save();
+        $id = $rapat->id_rapat;
         
         $peserta = $request->input('peserta');
 
         if($peserta[0]!=null){
             $flag = 0;
-            $rapat->save();
-            $id = $rapat->id_rapat;
+            
             foreach($peserta as $p){
                 $pes = new Attendee();
                 $pes->id_rapat = $id;
@@ -110,35 +91,22 @@ class RapatController extends Controller
                 return redirect('/home');
             }
         }
-        else{
-            if($rapat->save()){
+        else{           
+            $pes = new Attendee();
+            $pes->id_rapat = $id;
+            $pes->ket_attendee = 'Tidak Ada Attendee';
+            if($pes->save()){
                 $request->session()->flash('alert-success', 'Rapat berhasil ditambahkan. Belum ada peserta rapat yang terdaftar.');
-                return redirect('/home', ['allNotif'=>$this->allNotif]);
+                return redirect('/home');
             }
             else{
+                $flag = 0;
                 $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
-                return redirect('/home', ['allNotif'=>$this->allNotif]);
+                return redirect('/home');
             }
+            
         }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Rapat  $rapat
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Rapat $rapat)
-    {
-        return view('detil_rapat.create',['allNotif'=>$this->allNotif]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Rapat  $rapat
-     * @return \Illuminate\Http\Response
-     */
 
     public function edit($rapat)
     {   
@@ -161,13 +129,6 @@ class RapatController extends Controller
         return json_encode($attendee);
      }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Rapat  $rapat
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $rapat)
     {   
         //$rpt = DB::table('Rapats')->where('Rapats.id_rapat','=',$rapat)->first();
@@ -187,10 +148,11 @@ class RapatController extends Controller
         $peserta = $request->input('peserta');
 
         $flag = 0;
-        $i = 0;
+        $i = 0; $t=0;
         foreach($peserta as $p){
             if(array_key_exists($i, $peserta)){
                 if($p!=null){
+                    $t++;
                     $pes = new Attendee();
                     $pes->id_rapat = $id;
                     $pes->ket_attendee = $p;
@@ -204,24 +166,14 @@ class RapatController extends Controller
                     }    
                 }
             }
-            $i++;
+            // $t++;
         }
-        
+        dd($t);
+
         if($flag == 1){
             $request->session()->flash('alert-success', 'Rapat berhasil diperbarui.');
             return redirect('/rapat/edit/'.$rpt->id_rapat);
         }
         
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Rapat  $rapat
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Rapat $rapat)
-    {
-        //
     }
 }
