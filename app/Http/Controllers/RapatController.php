@@ -10,11 +10,6 @@ use Illuminate\Support\Facades\Input;
 
 class RapatController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     protected $allNotif;
     public function __construct()
     {
@@ -22,8 +17,6 @@ class RapatController extends Controller
     }
     public function index()
     {
-
-        //return view('rapat.index');
         $rapat = DB::table('rapats')->orderBy('id_rapat')->paginate(25);
         return view('home', ['rapat'=>$rapat,'allNotif'=>$this->allNotif]);
     }
@@ -31,17 +24,9 @@ class RapatController extends Controller
 
     public function rapat()
     {
-
-        //return view('rapat.index');
         $rapat = DB::table('rapats')->orderBy('id_rapat')->paginate(25);
         return view('rapat', ['rapat'=>$rapat,'allNotif'=>$this->allNotif]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function renderRapat()
     {
@@ -69,12 +54,7 @@ class RapatController extends Controller
         return view('create-rapat',['allNotif'=>$this->allNotif]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
         $tanggal = $request->input('tanggal_rapat');
@@ -113,32 +93,14 @@ class RapatController extends Controller
         else{
             if($rapat->save()){
                 $request->session()->flash('alert-success', 'Rapat berhasil ditambahkan. Belum ada peserta rapat yang terdaftar.');
-                return redirect('/home', ['allNotif'=>$this->allNotif]);
+                return redirect('/home');
             }
             else{
                 $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
-                return redirect('/home', ['allNotif'=>$this->allNotif]);
+                return redirect('/home');
             }
         }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Rapat  $rapat
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Rapat $rapat)
-    {
-        return view('detil_rapat.create',['allNotif'=>$this->allNotif]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Rapat  $rapat
-     * @return \Illuminate\Http\Response
-     */
 
     public function edit($rapat)
     {   
@@ -161,13 +123,6 @@ class RapatController extends Controller
         return json_encode($attendee);
      }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Rapat  $rapat
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $rapat)
     {   
         //$rpt = DB::table('Rapats')->where('Rapats.id_rapat','=',$rapat)->first();
@@ -212,16 +167,5 @@ class RapatController extends Controller
             return redirect('/rapat/edit/'.$rpt->id_rapat);
         }
         
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Rapat  $rapat
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Rapat $rapat)
-    {
-        //
     }
 }
