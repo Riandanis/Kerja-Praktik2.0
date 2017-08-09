@@ -11,7 +11,9 @@
         "jeroennoten/laravel-adminlte": "^1.19",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "laravelcollective/html": "^5.4"
+        "laravelcollective/html": "^5.4",
+        "niklasravnsborg/laravel-pdf": "^1.5",
+        "spipu/html2pdf": "^5.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -51,6 +53,7 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "secure-http": false
     }
 }

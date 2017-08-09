@@ -16,6 +16,11 @@ class TopikController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $allNotif;
+    public function __construct()
+    {
+        $this->allNotif = DB::select("SELECT * FROM actions WHERE actions.status = '0'");   
+    }
     public function index($rapat, $id)
     {
         //$rapat id_rapat, $id id_agenda
@@ -23,7 +28,9 @@ class TopikController extends Controller
         // $agenda = DB::table('agendas')->select('id_agenda', 'id_rapat', 'nama_agenda')
         //         ->where('id_agenda', '=', $id)->first();
 
+
         // return view('topik', ['topik'=>$topik, 'agenda'=>$agenda]);
+
     }
 
     /**
@@ -35,7 +42,7 @@ class TopikController extends Controller
     {
         $rapat = $rapat;
         $agenda = $id;
-        return view('create-topik', ['agenda' => $agenda, 'rapat'=>$rapat]);
+        return view('create-topik', ['agenda' => $agenda, 'rapat'=>$rapat, 'allNotif'=>$this->allNotif]);
     }
 
     /**
@@ -99,6 +106,7 @@ class TopikController extends Controller
                         $j++;
                     }
                 }
+
                 else{
                      $a = new Action;
                     $a->id_diskusi = $d->id_diskusi;
@@ -108,6 +116,7 @@ class TopikController extends Controller
 
                     $a->save(); 
                 }
+
                 $i++;
             }
         }
@@ -150,7 +159,10 @@ class TopikController extends Controller
     public function edit($id)
     {
         $topik = DB::table('topiks')->where('id_topik', '=', $id)->get();
-        return view('edit-topik', ['topik'=>$topik, 'id'=>$id]);
+
+        return view('edit-topik', ['topik'=>$topik, 'id'=>$id,'allNotif'=>$this->allNotif]);
+
+
     }
 
     public function renderAll ()
@@ -352,6 +364,7 @@ class TopikController extends Controller
         $id_rapat = DB::table('agendas')->select('id_rapat')
                     ->where('id_agenda', '=', $id_agenda)->first();
 
+
         if($del->delete())
         {
             $request->session()->flash('alert-success', 'Topik berhasil dihapus.');
@@ -362,6 +375,7 @@ class TopikController extends Controller
             $request->session()->flash('alert-danger', 'Topik gagal dihapus.');
             return redirect('/agenda/'.$id_rapat->id_rapat);
         }
+
     }
 }
 
