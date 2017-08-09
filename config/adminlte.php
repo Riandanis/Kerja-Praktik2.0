@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 2',
+    'title' => 'MOTRA',
 
     'title_prefix' => '',
 
@@ -30,9 +30,9 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>MO</b>TRA',
 
-    'logo_mini' => '<b>A</b>LT',
+    'logo_mini' => '',
 
     /*
     |--------------------------------------------------------------------------
@@ -117,7 +117,7 @@ return [
             'url'  => 'rapat/tambah',
         ],
         [
-            'text' => 'List Target',
+            'text' => 'Target',
             'url'  =>  'action',
         ],
 

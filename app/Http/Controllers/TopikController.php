@@ -182,6 +182,16 @@ class TopikController extends Controller
                     ->where('id_agenda', '=', $id_agenda)->first();
 
         $del->delete();
+        if($del->delete())
+        {
+            $request->session()->flash('alert-success-topik', 'Topik berhasil dihapus.');
+            return redirect('agenda/'.$id_rapat->id_rapat);
+        }
+        else
+        {
+            $request->session()->flash('alert-danger-topik', 'Topik gagal dihapus.');
+            return redirect ('agenda/'.$id_rapat->id_rapat);
+        }
 
     }
 }

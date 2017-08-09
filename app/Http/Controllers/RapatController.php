@@ -139,6 +139,7 @@ class RapatController extends Controller
      * @param  \App\Rapat  $rapat
      * @return \Illuminate\Http\Response
      */
+
     public function edit($rapat)
     {   
         //dd($rapat);
@@ -149,6 +150,7 @@ class RapatController extends Controller
         //dd(count($atd));
         return view('edit-rapat',['allNotif'=>$this->allNotif,'rpt'=>$rpt,'atd'=>$atd,
             'wkt'=>$wkt]);
+
     }
      public function getRapat ()
      {

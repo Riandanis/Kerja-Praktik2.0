@@ -37,7 +37,7 @@ Route::middleware(['auth'])->group(function() {
   Route::get('/topik/tambah/{rapat}/{id}', 'TopikController@create');
   Route::post('/topik/store/{rapat}/{id}', 'TopikController@store');
   Route::get('/topik/{rapat}/{id}', 'TopikController@index');
-  Route::get('/topik/delete/{id}', 'TopikController@destroy');
+  Route::get('/hapus/topik/{id}', 'TopikController@destroy');
   Route::get('/renderAll', 'TopikController@renderAll');
   Route::get('/action','ActionController@index');
   Route::post('/action/update/{id}','ActionController@update');
@@ -50,7 +50,11 @@ Route::middleware(['auth'])->group(function() {
   Route::get('/detil','RapatController@show')->name('detil');
   Route::post('/rapat/store', 'RapatController@store');
   Route::get('/rapat/{id}', 'HomeController@pdfgen');
+
   Route::get('/getRapat', 'RapatController@getRapat');
+
+  Route::get('/pdftest/{id}', 'HomeController@pdftest');
+
 
 
 });
