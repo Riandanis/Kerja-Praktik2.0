@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'MOTRA',
+    'title' => 'MeetTRA',
 
     'title_prefix' => '',
 
@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'logo' => '<b>MO</b>TRA',
+    'logo' => '<b>Meet</b>TRA',
 
     'logo_mini' => '',
 

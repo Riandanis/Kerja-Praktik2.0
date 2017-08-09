@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'MOTRA - Tambah Rapat')
+@section('title', 'MeetTRA - Tambah Rapat')
 
 @section('content_header')
     <h1>Dashboard</h1>

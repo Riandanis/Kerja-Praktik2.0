@@ -13,7 +13,7 @@ ini_set('max_execution_time', 900);
         cssStyle:[{fontSize:'30px'},{fontWeight:'bold'}]});">
     <button>render</button>
 </a> -->
-<body onload="window.start()">
+<body onload="window.print()">
 <style>
     body
     {
@@ -61,7 +61,7 @@ ini_set('max_execution_time', 900);
         width: 100%;
     }
 </style>
-<body>
+
 <div class="row">
     <div class="col-sm-12">
         <div class="col-sm-6">
