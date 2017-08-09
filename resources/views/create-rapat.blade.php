@@ -70,7 +70,7 @@
                                     <label for="AttendeeRapat" class="col-sm-2 control-label">Attendee</label>
 
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" placeholder="Attendee" name="peserta[]" required>
+                                        <input type="text" class="form-control" placeholder="Attendee" name="peserta[]">
                                     </div>
                                     <div class="col-sm-2">
                                         <button type="button" class="btn btn-default fa fa-times" id="delete-attendee-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>

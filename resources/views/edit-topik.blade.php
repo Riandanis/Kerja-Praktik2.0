@@ -89,7 +89,7 @@
 
                                                         <div class="col-sm-8">
                                                             <select class="form-control" name="keterangan[0][0]" style="width: 105px">
-                                                                <option value="keterangan" selected="selected">Keterangan</option>
+                                                                <option value="Keterangan" selected="selected">Keterangan</option>
                                                                 <option value="Informasi">Informasi</option>
                                                                 <option value="Target">Target</option>
                                                             </select>
@@ -187,7 +187,7 @@
                             discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('diskusi[0]', 'diskusi['+i+']').replace('action[0][0]', 'action['+i+']['+j+']').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+i+'"').replace('name="keterangan[0][0]"', 'name="keterangan['+i+']['+j+']"').replace('name="pic[0][0]"', 'name="pic['+i+']['+j+']"').replace('name="due_date[0][0]"', 'name="due_date['+i+']['+j+']"')
                                 .replace('placeholder="Hasil Diskusi" value=""', 'placeholder="Hasil Diskusi" value="'+flattenData[0].diskusiList[i].nama_diskusi+'"')
                                 .replace('<textarea class="form-control" name="action[0][0]" placeholder="Action"></textarea>',  '<textarea class="form-control" name="action[0][0]">'+flattenData[0].actionList[j].deskripsi+'</textarea>')
-                                .replace('<option value="keterangan" selected="selected">Keterangan</option>', '<option value="'+flattenData[0].actionList[j].jenis_action+'" selected="selected">'+flattenData[0].actionList[i].jenis_action+'</option>')
+                                .replace('<option value="Keterangan" selected="selected">Keterangan</option>', '<option value="'+flattenData[0].actionList[j].jenis_action+'" selected="selected">'+flattenData[0].actionList[i].jenis_action+'</option>')
                                 .replace('value="" placeholder="Email PIC"', 'value="'+flattenData[0].actionList[j].email_pic+'"')
                                 .replace('value="duedate"', 'value="'+tanggal+'"');
                             containerKu.append(discussionSectionClone);
@@ -198,8 +198,8 @@
                             discussionSectionClone = $("#discussion-section")[0].outerHTML.replace('diskusi[0]', 'diskusi['+i+']').replace('action[0][0]', 'action['+i+']['+j+']').replace('style="display: none"', '').replace('diskusi="0"', 'diskusi="'+i+'"').replace('name="keterangan[0][0]"', 'name="keterangan['+i+']['+j+']"').replace('name="pic[0][0]"', 'name="pic['+i+']['+j+']"').replace('name="due_date[0][0]"', 'name="due_date['+i+']['+j+']"')
                                 .replace('placeholder="Hasil Diskusi" value=""', 'placeholder="Hasil Diskusi" value="'+flattenData[0].diskusiList[i].nama_diskusi+'"')
                                 .replace('<textarea class="form-control" name="action[0][0]" placeholder="Action"></textarea>',  '<textarea class="form-control" placeholder="Action" name="action[0][0]"></textarea>')
-                                .replace('<option value="keterangan" selected="selected">Keterangan</option>', '<option selected="selected">Keterangan</option>')
-                                .replace('value="" placeholder="Email PIC"', '')
+                                .replace('<option value="Keterangan" selected="selected">Keterangan</option>', '<option selected="selected">Keterangan</option>')
+                                .replace('value="" placeholder="Email PIC"', 'placeholder="Email PIC"')
                                 .replace('value="duedate"', '');
                             containerKu.append(discussionSectionClone);
                         }
@@ -214,7 +214,7 @@
                                 var discussionActionFieldsClone = $('#action-section')[0].outerHTML.replace('name="keterangan[0][0]"', 'name="keterangan['+i+']['+x+']"').replace('name="pic[0][0]"', 'name="pic['+i+']['+x+']"').replace('name="due_date[0][0]"', 'name="due_date['+i+']['+x+']"')
                                     .replace('<textarea class="form-control" name="action[0][0]" placeholder="Action"></textarea>', '<textarea class="form-control" name="action['+i+']['+x+']">'+flattenData[0].actionList[j].deskripsi+'</textarea>')
 
-                                    .replace('<option value="keterangan" selected="selected">Keterangan</option>', '<option value="' + flattenData[0].actionList[j].jenis_action + '" selected="selected">' + flattenData[0].actionList[j].jenis_action + '</option>')
+                                    .replace('<option value="Keterangan" selected="selected">Keterangan</option>', '<option value="' + flattenData[0].actionList[j].jenis_action + '" selected="selected">' + flattenData[0].actionList[j].jenis_action + '</option>')
                                     .replace('value="" placeholder="Email PIC"', 'value="' + flattenData[0].actionList[j].email_pic + '"')
                                     .replace('value="duedate"', 'value="' + tanggal + '"');
                                 var parent = containerKu.children()[i].childNodes[9];

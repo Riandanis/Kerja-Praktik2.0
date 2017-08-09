@@ -65,13 +65,14 @@ class RapatController extends Controller
         $rapat->headline = $request->input('headline');
         $rapat->waktu_rapat = $waktu;
         $rapat->tempat_rapat = $request->input('tempat');
+        $rapat->save();
+        $id = $rapat->id_rapat;
         
         $peserta = $request->input('peserta');
 
         if($peserta[0]!=null){
             $flag = 0;
-            $rapat->save();
-            $id = $rapat->id_rapat;
+            
             foreach($peserta as $p){
                 $pes = new Attendee();
                 $pes->id_rapat = $id;
@@ -90,15 +91,20 @@ class RapatController extends Controller
                 return redirect('/home');
             }
         }
-        else{
-            if($rapat->save()){
+        else{           
+            $pes = new Attendee();
+            $pes->id_rapat = $id;
+            $pes->ket_attendee = 'Tidak Ada Attendee';
+            if($pes->save()){
                 $request->session()->flash('alert-success', 'Rapat berhasil ditambahkan. Belum ada peserta rapat yang terdaftar.');
                 return redirect('/home');
             }
             else{
+                $flag = 0;
                 $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
                 return redirect('/home');
             }
+            
         }
     }
 
@@ -142,10 +148,11 @@ class RapatController extends Controller
         $peserta = $request->input('peserta');
 
         $flag = 0;
-        $i = 0;
+        $i = 0; $t=0;
         foreach($peserta as $p){
             if(array_key_exists($i, $peserta)){
                 if($p!=null){
+                    $t++;
                     $pes = new Attendee();
                     $pes->id_rapat = $id;
                     $pes->ket_attendee = $p;
@@ -159,9 +166,10 @@ class RapatController extends Controller
                     }    
                 }
             }
-            $i++;
+            // $t++;
         }
-        
+        dd($t);
+
         if($flag == 1){
             $request->session()->flash('alert-success', 'Rapat berhasil diperbarui.');
             return redirect('/rapat/edit/'.$rpt->id_rapat);

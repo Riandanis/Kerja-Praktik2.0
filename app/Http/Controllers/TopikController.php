@@ -70,27 +70,29 @@ class TopikController extends Controller
                         $a->id_diskusi = $id_dis;
                         $a->deskripsi = $act;
                         $a->due_date = $date[$i][$j];
-                        $a->email_pic = $pic[$i][$j];
-                        $a->jenis_action = $jenis[$i][$j];
 
-                        if($jenis[$i][$j] == 'Informasi'){
-                            $a->status = 1;
-                            $a->email_pic = '-@-';
+                        if($jenis[$i][$j] == 'Target'){
+                            $a->status = 0;
+                            $a->jenis_action = 'Target';
+                            $a->email_pic = $pic[$i][$j];
                         }
                         else{
-                            $a->status = 0;
+                            $a->status = 1;
+                            $a->jenis_action = 'Informasi';
+                            $a->email_pic = 'email@email';
                         }
+
                         $a->save();
                         $j++;
                     }
                 }
 
                 else{
-                     $a = new Action;
+                    $a = new Action;
                     $a->id_diskusi = $d->id_diskusi;
                     $a->deskripsi = 'Tidak Ada Action';
                     $a->jenis_action = 'Informasi';
-                    $a->email_pic = '-@-';
+                    $a->email_pic = 'email@email';
                     $a->status = 1;
 
                     $a->save(); 
@@ -109,7 +111,7 @@ class TopikController extends Controller
             $a->id_diskusi = $d->id_diskusi;
             $a->deskripsi = 'Tidak Ada Action';
             $a->jenis_action = 'Informasi';
-            $a->email_pic = '-@-';
+            $a->email_pic = 'email@email';
             $a->status = 1;
 
             $a->save();
@@ -210,22 +212,19 @@ class TopikController extends Controller
                                 $new->id_diskusi = $id_d;
                                 $new->deskripsi = $act;
                                 $new->due_date = $tgl;
-                                $new->email_pic = $imel;
+                                // $new->email_pic = $imel;
 
-                                if($jns=='keterangan'){
-                                    $new->jenis_action = 'Informasi';
-                                    $new->status = 1;
-                                    $new->email_pic = '-@-';
+                                if($jns == 'Target'){
+                                    $new->jenis_action = 'Target';
+                                    $new->email_pic = $imel;
+                                    $new->status = 0;
                                 }
                                 else{
-                                    $new->jenis_action = $jns;
-                                    if($jns=='Informasi'){
-                                        $new->status = 1;
-                                    }
-                                    else{
-                                        $new->status = 0;
-                                    }
+                                    $new->jenis_action = 'Informasi';
+                                    $new->email_pic = 'email@email';
+                                    $new->status = 1;
                                 }
+
                                 if($new->save()){
                                     $flag = 1;
                                 }
@@ -239,16 +238,19 @@ class TopikController extends Controller
                             else{
                                 //update action
                                 $edit_a->due_date = $tgl;
-                                $edit_a->email_pic = $imel;
                                 $edit_a->jenis_action = $jns;
-                                if($jns=='Informasi'){
-                                    $edit_a->status = 1;
-                                    $edit_a->email_pic = '-@-';
+
+                                if($jns == 'Target'){
+                                    $edit_a->status = 0;
+                                    $edit_a->email_pic = $imel;
+                                    $edit_a->jenis_action = 'Target';
                                 }
                                 else{
-                                    $edit_a->status = 0;
+                                    $edit_a->status = 1;
+                                    $edit_a->email_pic = 'email@email';
+                                    $edit_a->jenis_action = 'Informasi';
                                 }
-                                
+                              
                                 if($edit_a->save()){
                                     $flag = 1;
                                 }
