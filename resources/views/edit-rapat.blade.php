@@ -117,7 +117,7 @@
 
     <script>
         $(document).ready(function(){
-            var totalAttendee=0;
+            var totalAttendee=1;
             var max_field = 99;
            
             var parentDiv = $("#attendee-section");
@@ -143,6 +143,7 @@
                         .replace('style="display:none"', '');
                         $(parentDiv).append(theDiv);
                         totalAttendee++;
+                        console.log(totalAttendee);
                     }
                 }
             })
@@ -160,6 +161,8 @@
                 if(totalAttendee < max_field) {
                     $(parentDiv).append(newdiv);
                     totalAttendee++;
+                    console.log(totalAttendee);
+
                 }
             })
 
@@ -167,7 +170,9 @@
                 var btnParent = $(e.target).parents()[1];
                 console.log(btnParent);
                 totalAttendee--;
-                btnParent.remove();
+                 console.log(totalAttendee);
+
+                 btnParent.remove();
             });
 
 
