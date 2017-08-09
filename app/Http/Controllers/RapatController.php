@@ -131,8 +131,9 @@ class RapatController extends Controller
 
     public function update(Request $request, $rapat)
     {   
+        $flag = 0;
         //$rpt = DB::table('Rapats')->where('Rapats.id_rapat','=',$rapat)->first();
-        $atd = DB::table('Attendees')->where('Attendees.id_rapat','=',$rapat)->delete();
+        // $atd = DB::table('Attendees')->where('Attendees.id_rapat','=',$rapat)->delete();
         $rpt = Rapat::where('id_rapat',$rapat)->first(); 
         //dd($rpt);
         $tanggal = $request->input('tanggal_rapat');
@@ -142,20 +143,31 @@ class RapatController extends Controller
         $rpt->headline = $request->input('headline');
         $rpt->waktu_rapat = $waktu;
         $rpt->tempat_rapat = $request->input('tempat');
-        $rpt->save();
+        if($rpt->save()){
+            $flag = 1;
+        }
+        else{
+            $flag = 0;
+            $request->session()->flash('alert-danger', 'Rapat gagal diperbarui.');
+            return redirect('/rapat/edit/'.$rpt->id_rapat);
+        }
         $id = $rpt->id_rapat;        
-
         $peserta = $request->input('peserta');
 
-        $flag = 0;
-        $i = 0; $t=0;
-        foreach($peserta as $p){
+        //DISINI
+
+        $max = max(array_keys($peserta));
+        dd($peserta, $max);
+
+        $i = 0;
+        while($i<=$max){
             if(array_key_exists($i, $peserta)){
-                if($p!=null){
-                    $t++;
+                if($peserta[$i]!=null){
+                    // $t++;
+                    // echo($p);
                     $pes = new Attendee();
                     $pes->id_rapat = $id;
-                    $pes->ket_attendee = $p;
+                    $pes->ket_attendee = $peserta[$i];
                     if($pes->save()){
                         $flag = 1;
                     }
@@ -164,11 +176,37 @@ class RapatController extends Controller
                         $request->session()->flash('alert-danger', 'Rapat gagal diperbarui.');
                         return redirect('/rapat/edit/'.$rpt->id_rapat);
                     }    
-                }
+                }   
             }
-            // $t++;
+            $i++;
         }
-        dd($t);
+
+        // $flag = 0;
+        // $i = 0; $t=0;
+        // foreach($peserta as $p){
+        //     if(array_key_exists($i, $peserta)){
+        //         if($p!=null){
+        //             $t++;
+        //             echo($p);
+        //             $pes = new Attendee();
+        //             $pes->id_rapat = $id;
+        //             $pes->ket_attendee = $p;
+        //             if($pes->save()){
+        //                 $flag = 1;
+        //             }
+        //             else{
+        //                 $flag = 0;
+        //                 $request->session()->flash('alert-danger', 'Rapat gagal diperbarui.');
+        //                 return redirect('/rapat/edit/'.$rpt->id_rapat);
+        //             }    
+        //         }   
+        //     }
+        //     else{
+        //         $i++;
+        //     }
+        //     $i++;
+        // }
+        // dd($t, $i, $peserta);
 
         if($flag == 1){
             $request->session()->flash('alert-success', 'Rapat berhasil diperbarui.');
