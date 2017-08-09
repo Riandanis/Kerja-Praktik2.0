@@ -132,8 +132,8 @@ class RapatController extends Controller
     public function update(Request $request, $rapat)
     {   
         $flag = 0;
-        //$rpt = DB::table('Rapats')->where('Rapats.id_rapat','=',$rapat)->first();
-        // $atd = DB::table('Attendees')->where('Attendees.id_rapat','=',$rapat)->delete();
+        // $rpt = DB::table('Rapats')->where('Rapats.id_rapat','=',$rapat)->first();
+        $atd = DB::table('Attendees')->where('Attendees.id_rapat','=',$rapat)->delete();
         $rpt = Rapat::where('id_rapat',$rapat)->first(); 
         //dd($rpt);
         $tanggal = $request->input('tanggal_rapat');
@@ -157,7 +157,7 @@ class RapatController extends Controller
         //DISINI
 
         $max = max(array_keys($peserta));
-        dd($peserta, $max);
+        // dd($peserta, $max);
 
         $i = 0;
         while($i<=$max){
