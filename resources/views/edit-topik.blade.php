@@ -1,6 +1,6 @@
-@extends('adminlte::page')
+    @extends('adminlte::page')
 
-@section('title', 'AdminLTE')
+@section('title', 'MEETTRA - Perbarui Topik')
 
 @section('content_header')
     <h1>Agenda</h1>
@@ -19,6 +19,23 @@
         }
     </style>
     <div class="row">
+        @if(Session::has('alert-success'))
+            <div class="col-md-12">
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                    {{Session::get('alert-success')}}
+                </div>
+            </div>
+        @elseif(Session::has('alert-danger'))
+            <div class="col-md-12">
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-times"></i> Gagal!</h4>
+                    {{Session::get('alert-danger')}}
+                </div>
+            </div>
+        @endif
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header">
@@ -187,13 +204,16 @@
                             containerKu.append(discussionSectionClone);
                         }
                         totalDiscussion++;
+                        var x=1;
                         for (j=1; j<flattenData[0].actionList.length;j++) {
                             console.log(flattenData[0].actionList[j].isAppended);
                             if (flattenData[0].diskusiList[i].id_diskusi == flattenData[0].actionList[j].id_diskusi && flattenData[0].actionList[j].isAppended==0) {
 //                                console.log(flattenData[0].actionList[j].id_diskusi);
                                 tanggal = flattenData[0].actionList[j].due_date;
-                                var discussionActionFieldsClone = $('#action-section')[0].outerHTML.replace('name="keterangan[0][0]"', 'name="keterangan['+i+']['+j+']"').replace('name="pic[0][0]"', 'name="pic['+i+']['+j+']"').replace('name="due_date[0][0]"', 'name="due_date['+i+']['+j+']"')
-                                    .replace('<textarea class="form-control" name="action[0][0]" placeholder="Action"></textarea>', '<textarea class="form-control" name="action['+i+']['+j+']">'+flattenData[0].actionList[j].deskripsi+'</textarea>')
+
+                                var discussionActionFieldsClone = $('#action-section')[0].outerHTML.replace('name="keterangan[0][0]"', 'name="keterangan['+i+']['+x+']"').replace('name="pic[0][0]"', 'name="pic['+i+']['+x+']"').replace('name="due_date[0][0]"', 'name="due_date['+i+']['+x+']"')
+                                    .replace('<textarea class="form-control" name="action[0][0]" placeholder="Action"></textarea>', '<textarea class="form-control" name="action['+i+']['+x+']">'+flattenData[0].actionList[j].deskripsi+'</textarea>')
+
                                     .replace('<option value="keterangan" selected="selected">Keterangan</option>', '<option value="' + flattenData[0].actionList[j].jenis_action + '" selected="selected">' + flattenData[0].actionList[j].jenis_action + '</option>')
                                     .replace('value="" placeholder="Email PIC"', 'value="' + flattenData[0].actionList[j].email_pic + '"')
                                     .replace('value="duedate"', 'value="' + tanggal + '"');
@@ -201,7 +221,7 @@
                                 $(parent).append(discussionActionFieldsClone);
                                 totalAction++;
                                 flattenData[0].actionList[j].isAppended=1;
-
+                                x++;
                             }
                         }
 

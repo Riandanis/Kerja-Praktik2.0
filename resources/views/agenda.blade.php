@@ -262,7 +262,9 @@
                     data.forEach(function(obj){
                         var str ="\{\{url(\'topik/edit\','+obj.id_topik+')\}\}";
                         console.log(str);
+
                         $('#insert-topik').append('<tr><td width="500px">'+obj.nama_topik+'</td><td width="30px"><a href="/topik/edit/'+obj.id_topik+'"><button class="btn btn-default">Edit</button></a></td><td><a href="/hapus/topik/'+obj.id_topik+'"><button class="btn btn-danger">Hapus</button></a></td></tr>');
+
                     });
                 }
             })
