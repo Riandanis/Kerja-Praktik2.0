@@ -155,7 +155,7 @@
                  .replace('<label for="AttendeeRapat" class="col-sm-2 control-label">Attendee</label>', '<label for="AttendeeRapat" class="col-sm-2 control-label"></label>')
                  .replace('<div class="form-group" id="dynamicInput">', '<div class="form-group">')
                  .replace('value="{{$atd[0]->ket_attendee}}"', '')
-                 .replace('name=peserta[]', 'peserta['+x+']"')
+                 .replace('name="peserta[]"', 'name="peserta['+x+']"')
                  .replace('style="display:none"', '');
                 if(totalAttendee < max_field) {
                     $(parentDiv).append(newdiv);
