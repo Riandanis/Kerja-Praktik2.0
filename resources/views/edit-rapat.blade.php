@@ -164,10 +164,10 @@
             })
 
              $(document).on('click', '#delete-attendee-button', function(e) {
-                var btnParent = $(e.target).parents();
+                var btnParent = $(e.target).parents()[1];
                 console.log(btnParent);
                 totalAttendee--;
-//                btnParent.remove();
+                btnParent.remove();
             });
 
 
