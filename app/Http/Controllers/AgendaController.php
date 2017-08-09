@@ -104,11 +104,11 @@ class AgendaController extends Controller
 
         if($edit->save()){
             $request->session()->flash('alert-success', 'Agenda berhasil diperbarui.');
-            return redirect('agenda/'.$id_rapat , ['allNotif'=>$this->allNotif]);
+            return redirect('agenda/'.$id_rapat);
         }
         else{
             $request->session()->flash('alert-danger', 'Agenda gagal diperbarui.');
-            return redirect('agenda/'.$id_rapat , ['allNotif'=>$this->allNotif]);
+            return redirect('agenda/'.$id_rapat);
         }
     }
 

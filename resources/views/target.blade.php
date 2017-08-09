@@ -79,6 +79,7 @@
                                     <span data-widget="Hapus agenda" data-toggle="tooltip" title="Hapus agenda">
                                          <button type="button" class="btn btn-default delete-button" 
                                          data-id="{{$a->id_action}}" 
+                                         data-deskripsi="{{$a->deskripsi}}"
                                          data-toggle="modal" data-target="#modal-danger">
                                         <i class="fa fa-trash"></i>
                                     </button>
@@ -100,6 +101,8 @@
                                 <h4 class="modal-title">Edit Action</h4>
                             </div>
                             <div class="modal-body">
+                                <form class="form-horizontal" method="post" action="" id="form-edit">
+                                    {{ csrf_field() }}
                                     <div class="box-body">
                                         <div class="form-group">
                                             <label for="IDAgenda" class="col-sm-2 control-label">
@@ -211,9 +214,10 @@
         });
         $(document).on("click",".delete-button", function () {
             var id_action = $(this).data('id');
+            var deskripsi = $(this).data('deskripsi')
             //var nama_agenda = $(this).data('name');
             $("#del-btn").attr('href','{{url('action/delete')}}' + '/' + id_action)
-            $("#show-name").html('Anda yakin ingin menghapus agenda ' + id_action + '?')
+            $("#show-name").html('Anda yakin ingin menghapus Action ' + deskripsi + '?')
         });
 
     </script>

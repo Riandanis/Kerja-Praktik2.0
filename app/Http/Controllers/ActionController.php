@@ -109,11 +109,11 @@ class ActionController extends Controller
 
         if($edit->save()){
             $request->session()->flash('alert-success', 'Action berhasil diperbarui.');
-            return redirect('/action',['allNotif'=>$this->allNotif]);
+            return redirect('/action');
         }
         else{
             $request->session()->flash('alert-danger', 'Action gagal diperbarui.');
-            return redirect('/action',['allNotif'=>$this->allNotif]);
+            return redirect('/action');
         }
     }
 
@@ -131,12 +131,12 @@ class ActionController extends Controller
         if($del->delete())
         {
             $request->session()->flash('alert-success', 'Agenda berhasil dihapus.');
-            return redirect('/action',['allNotif'=>$this->allNotif]);
+            return redirect('/action');
         }
         else
         {
             $request->session()->flash('alert-danger', 'Agenda gagal dihapus.');
-            return redirect ('/action',['allNotif'=>$this->allNotif]);
+            return redirect ('/action');
         }
     }
     
