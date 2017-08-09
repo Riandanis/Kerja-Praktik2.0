@@ -99,6 +99,15 @@ class TopikController extends Controller
                         $j++;
                     }
                 }
+                else{
+                     $a = new Action;
+                    $a->id_diskusi = $d->id_diskusi;
+                    $a->deskripsi = 'Tidak Ada Action';
+                    $a->jenis_action = 'Informasi';
+                    $a->status = 1;
+
+                    $a->save(); 
+                }
                 $i++;
             }
         }
@@ -187,6 +196,7 @@ class TopikController extends Controller
 
         $i = 0;
         $j = 0;
+        $flag = 0;
 
         foreach($diskusi as $d){
             if($d!=null){
@@ -197,7 +207,12 @@ class TopikController extends Controller
                     $baru = new Diskusi();
                     $baru->id_topik = $id;
                     $baru->nama_diskusi = $d;
-                    $baru->save();
+                    if($baru->save()){
+                        $flag = 1;
+                    }
+                    else{
+                        $flag = 0;
+                    }
                     $id_d = $baru->id_diskusi;
                 }
                 else{
@@ -208,81 +223,120 @@ class TopikController extends Controller
                 $j = 0;
                 $cek = array();
                 foreach($action[$i] as $act){
-                    $tgl = $date[$i][$j];
-                    $imel = $pic[$i][$j];
-                    $jns = $jenis[$i][$j];    
-                    if($act!=null){
-                        $edit_a = Action::where('deskripsi', $act)
-                                    ->where('id_diskusi', $id_d)
-                                    ->first();
-                        // dd($edit_a);
-                        if($edit_a==null){
-                            //bikin baru
-                            $new = new Action();
-                            $new->id_diskusi = $id_d;
-                            $new->deskripsi = $act;
-                            $new->due_date = $tgl;
-                            $new->email_pic = $imel;
+                    if(array_key_exists($j, $action[$i])){
+                        $tgl = $date[$i][$j];
+                        $imel = $pic[$i][$j];
+                        $jns = $jenis[$i][$j];    
+                        if($act!=null){
+                            $edit_a = Action::where('deskripsi', $act)
+                                        ->where('id_diskusi', $id_d)
+                                        ->first();
+                            // dd($edit_a);
+                            if($edit_a==null){
+                                //bikin baru
+                                $new = new Action();
+                                $new->id_diskusi = $id_d;
+                                $new->deskripsi = $act;
+                                $new->due_date = $tgl;
+                                $new->email_pic = $imel;
 
-                            if($jns=='keterangan'){
-                                $new->jenis_action = 'Informasi';
-                                $new->status = 1;
-                            }
-                            else{
-                                $new->jenis_action = $jns;
-                                if($jns=='Informasi'){
+                                if($jns=='keterangan'){
+                                    $new->jenis_action = 'Informasi';
                                     $new->status = 1;
                                 }
                                 else{
-                                    $new->status = 0;
+                                    $new->jenis_action = $jns;
+                                    if($jns=='Informasi'){
+                                        $new->status = 1;
+                                    }
+                                    else{
+                                        $new->status = 0;
+                                    }
                                 }
-                            }
-                            $new->save();
-                            // array_push($cek, $act);
-                        }
-                        else{
-                            //update action
-                            $edit_a->due_date = $tgl;
-                            $edit_a->email_pic = $imel;
-                            $edit_a->jenis_action = $jns;
-                            if($jns=='Informasi'){
-                                $edit_a->status = 1;
+                                if($new->save()){
+                                    $flag = 1;
+                                }
+                                else{
+                                    $flag = 0;
+                                    $request->session()->flash('alert-danger', 'Topik gagal diperbarui.');
+                                    return redirect('/topik/edit/'.$id);
+                                }
+                                // array_push($cek, $act);
                             }
                             else{
-                                $edit_a->status = 0;
+                                //update action
+                                $edit_a->due_date = $tgl;
+                                $edit_a->email_pic = $imel;
+                                $edit_a->jenis_action = $jns;
+                                if($jns=='Informasi'){
+                                    $edit_a->status = 1;
+                                }
+                                else{
+                                    $edit_a->status = 0;
+                                }
+                                
+                                if($edit_a->save()){
+                                    $flag = 1;
+                                }
+                                else{
+                                    $flag = 0;
+                                    $request->session()->flash('alert-danger', 'Topik gagal diperbarui.');
+                                    return redirect('/topik/edit/'.$id);
+                                } 
+
                             }
-                            $edit_a->save();    
-                        // array_push($cek, $edit_a->deskripsi);
+
                         }
-                        array_push($cek, $act);
-                    }   
-                    $j++;       
+                    }
+                    if($act!=null){
+                        array_push($cek, $act);    
+                    }
                     
-                
+                    $j++;       
                     
                     // dd($act);
                 }
-
-                $dba = Action::where('id_diskusi', $id_d)
-                        ->whereNotIn('deskripsi', $cek)
+                
+                $dba = Action::whereNotIn('deskripsi', $cek)
+                        ->where('id_diskusi', $id_d)
                         ->get();
+                        
                 foreach($dba as $ha){
-                    $ha->delete();
+                    if($ha->delete()){
+                        $flag = 1;
+                    }
+                    else{
+                        $flag = 0;
+                        $request->session()->flash('alert-danger', 'Topik gagal diperbarui.');
+                        return redirect('/topik/edit/'.$id);
+                    }
                 }
             }
 
             $i++;
+            
         }
 
-        // dd($cek);
+        // dd($cek, $dba);
+        // dd($id_d, $cek, $dba);
         $db = Diskusi::where('id_topik', $id)
                 ->whereNotIn('nama_diskusi', $diskusi)
                 ->get();
         foreach($db as $hapus){
-            $hapus->delete();
+            if($hapus->delete()){
+                $flag = 1;
+            }
+            else{
+                $flag = 0;
+                $request->session()->flash('alert-danger', 'Topik gagal diperbarui.');
+                return redirect('/topik/edit/'.$id);
+            }
         }
 
-        return redirect('/topik/edit/'.$id);
+        if($flag==1){
+            $request->session()->flash('alert-success', 'Topik berhasil diperbarui.');
+            return redirect('/topik/edit/'.$id);
+        }
     }
 
     /**
