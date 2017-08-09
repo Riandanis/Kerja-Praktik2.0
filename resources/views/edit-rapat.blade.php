@@ -74,7 +74,7 @@
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control" placeholder="Attendee" name="peserta[]" value="{{$atd[0]->ket_attendee}}">
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-2" style="display:none">
                                         <button type="button" class="btn btn-default fa fa-times" id="delete-attendee-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>
                                     </div>  
                                 </div>
@@ -84,12 +84,12 @@
                             <div id="attendee-section">
                                 <div class="form-group" id="dynamicInput">
                                     <label for="AttendeeRapat" class="col-sm-2 control-label">Attendee</label>
-
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" placeholder="Attendee" name="peserta[]">
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <button type="button" class="btn btn-default fa fa-times" id="delete-attendee-button" style="margin-left:10px; margin-top: 0px; height: 34px"></button>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" placeholder="Attendee" name="peserta[]">
+                                        </div>
+                                        <div class="col-sm-2" style=" display:none;">
+                                            <button type="button" class="btn btn-default fa fa-times" id="delete-attendee-button" style="margin-left:10px; margin-top: 0px; height: 34px;"></button>
+                                        </div>
                                 </div>
                             </div>
                             
@@ -131,16 +131,16 @@
                 },
                 success: function(data) {
                     data = JSON.parse(data);
-                    var i;
-                    var containerAtt = '<div></div>';
+                    var i=0;
 
                     for (i=1; i<data.length; i++){
                         console.log(data[i].ket_attendee);
                         var theDiv = $("#dynamicInput")[0].outerHTML
-                    .replace('<label for="AttendeeRapat" class="col-sm-2 control-label">Attendee</label>', '<label for="AttendeeRapat" class="col-sm-2 control-label"></label>')
-                    .replace('<div class="form-group" id="dynamicInput">', '<div class="form-group">')
-                    .replace('value="{{$atd[0]->ket_attendee}}"', 'value="'+data[i].ket_attendee+'"')
-                    .replace('name="peserta[]"', 'name="peserta['+i+']"');    
+                        .replace('<label for="AttendeeRapat" class="col-sm-2 control-label">Attendee</label>', '<label for="AttendeeRapat" class="col-sm-2 control-label"></label>')
+                        .replace('<div class="form-group" id="dynamicInput">', '<div class="form-group">')
+                        .replace('value="{{$atd[0]->ket_attendee}}"', 'value="'+data[i].ket_attendee+'"')
+                        .replace('name="peserta[]"', 'name="peserta['+i+']"')
+                        .replace('style="display:none"', '');
                         $(parentDiv).append(theDiv);
                         totalAttendee++;
                     }
@@ -155,7 +155,8 @@
                  .replace('<label for="AttendeeRapat" class="col-sm-2 control-label">Attendee</label>', '<label for="AttendeeRapat" class="col-sm-2 control-label"></label>')
                  .replace('<div class="form-group" id="dynamicInput">', '<div class="form-group">')
                  .replace('value="{{$atd[0]->ket_attendee}}"', '')
-                 .replace('name=peserta[]', 'peserta['+x+']"');
+                 .replace('name=peserta[]', 'peserta['+x+']"')
+                 .replace('style="display:none"', '');
                 if(totalAttendee < max_field) {
                     $(parentDiv).append(newdiv);
                     totalAttendee++;
@@ -163,9 +164,10 @@
             })
 
              $(document).on('click', '#delete-attendee-button', function(e) {
-                var btnParent = $(e.target).parents()[1];
+                var btnParent = $(e.target).parents();
+                console.log(btnParent);
                 totalAttendee--;
-                btnParent.remove();
+//                btnParent.remove();
             });
 
 
