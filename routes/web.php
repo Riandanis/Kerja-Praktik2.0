@@ -45,6 +45,7 @@ Route::middleware(['auth'])->group(function() {
   Route::get('/action/delete/{id}','ActionController@destroy');
   Route::get('/rapat/edit/{id}','RapatController@edit');
   Route::post('/rapat/update/{id}','RapatController@update');
+  Route::get('/rapat/delete/{id}', 'RapatController@destroy');
 
   Route::get('/rapat', 'RapatController@rapat');
   // Route::get('/rapatnya', 'RapatController@create')->name('rapatnya');

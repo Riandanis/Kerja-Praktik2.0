@@ -129,6 +129,22 @@ class RapatController extends Controller
         return json_encode($attendee);
      }
 
+    public function destroy(Request $request, $id)
+    {
+        $del = Rapat::find($id);
+        // dd($del);
+        if($del->delete()){
+            $request->session()->flash('alert-success', 'Rapat berhasil dihapus.');
+            return redirect('/home');
+        }
+        else{
+            $request->session()->flash('alert-danger', 'Rapat gagal dihapus.');
+            return redirect('/home');
+        }
+    }
+
+
+
     public function update(Request $request, $rapat)
     {   
         $flag = 0;
