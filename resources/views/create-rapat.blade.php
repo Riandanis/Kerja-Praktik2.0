@@ -45,29 +45,43 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="DateRapat" class="col-sm-2 control-label">Tanggal Rapat </label>
+                                <label for="DateRapat" class="col-sm-2 control-label">Tanggal Rapat <span style="color: red">*</span></label>
 
                                 <div class="col-sm-8">
                                     <input type="date" class="form-control" placeholder="YYYY-MM-DD" name="tanggal_rapat" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="TimeRapat" class="col-sm-2 control-label">Waktu Rapat</label>
+                                <label for="TimeRapat" class="col-sm-2 control-label">Waktu Rapat <span style="color: red">*</span></label>
 
                                 <div class="col-sm-8">
                                     <input type="time" class="form-control" placeholder="HH:MM" name="waktu_rapat" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="TempatRapat" class="col-sm-2 control-label">Tempat Rapat</label>
+                                <label for="TempatRapat" class="col-sm-2 control-label">Tempat Rapat <span style="color: red">*</span></label>
 
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" placeholder="Tempat Rapat" name="tempat" required>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="NamaLeader" class="col-sm-2 control-label">Nama Leader <span style="color: red">*</span></label>
+
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" placeholder="Nama Leader" name="leader" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="EmailLeader" class="col-sm-2 control-label">Email Leader <span style="color: red">*</span></label>
+
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control" placeholder="Email Leader" name="email_leader" required>
+                                </div>
+                            </div>
                             <div id="attendee-section" >
                                 <div class="form-group" id="dynamicInput" style="display: none">
-                                    <label for="AttendeeRapat" class="col-sm-2 control-label">Attendee</label>
+                                    <label for="AttendeeRapat" class="col-sm-2 control-label">Attendee <span style="color: red">*</span></label>
 
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control" placeholder="Attendee" name="peserta[]">
@@ -104,7 +118,7 @@
             var totalAttendee=0;
             var max_field = 99;
             var newdiv = $("#dynamicInput")[0].outerHTML
-            .replace('<label for="AttendeeRapat" class="col-sm-2 control-label">Attendee</label>', '<label for="AttendeeRapat" class="col-sm-2 control-label"></label>')
+            .replace('<label for="AttendeeRapat" class="col-sm-2 control-label">Attendee <span style="color: red">*</span></label>', '<label for="AttendeeRapat" class="col-sm-2 control-label"></label>')
             .replace('<div class="form-group" id="dynamicInput">', '<div class="form-group">')
             .replace('style="display: none"', '');
             var parentDiv = $("#attendee-section");

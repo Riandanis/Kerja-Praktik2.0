@@ -39,7 +39,7 @@
                         <div class="box-body">
                             <input type="hidden" id="id_rap" value="{{$rpt->id_rapat}}" data-id="{{$rpt->id_rapat}}">
                             <div class="form-group">
-                                <label for="HeadlineRapat" class="col-sm-2 control-label">Headline Rapat <span style="color: red">*</span></label>
+                                <label for="HeadlineRapat" class="col-sm-2 control-label">Headline Rapat </label>
 
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" placeholder="Headline Rapat" name="headline" value="{{$rpt->headline}}" required>
@@ -64,6 +64,20 @@
 
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" placeholder="Tempat Rapat" name="tempat" value="{{$rpt->tempat_rapat}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="NamaLeader" class="col-sm-2 control-label">Nama Leader</label>
+
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" placeholder="Nama Leader" name="leader" value="{{$rpt->leader}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="EmailLeader" class="col-sm-2 control-label">Email Leader</label>
+
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control" placeholder="Email Leader" name="email_leader" value="{{$rpt->email_leader}}">
                                 </div>
                             </div>
                             @if(count($atd) > 0)
