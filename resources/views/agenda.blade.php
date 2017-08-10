@@ -193,11 +193,9 @@
                                 <h4 class="modal-title">Topik</h4>
                             </div>
                             <div class="modal-body">
-                                <table class="table table-responsive">
-                                    <tbody id="insert-topik">
+                                <div id="insert-topik">
 
-                                    </tbody>
-                                </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -246,7 +244,7 @@
                         var str ="\{\{url(\'topik/edit\','+obj.id_topik+')\}\}";
                         console.log(str);
 
-                        $('#insert-topik').append('<tr><td width="500px">'+obj.nama_topik+'</td><td width="30px"><a href="/topik/edit/'+obj.id_topik+'"><button class="btn btn-default">Edit</button></a></td><td><a href="/hapus/topik/'+obj.id_topik+'"><button class="btn btn-danger">Hapus</button></a></td></tr>');
+                        $('#insert-topik').append('<div class="row"><div class="col-sm-12"><div class="col-sm-8">'+obj.nama_topik+'</div><div class="col-sm-2"><a href="/topik/edit/'+obj.id_topik+'"><button class="btn btn-default" style="margin-left: 40px">Edit</button></a></div><div class="col-sm-2"><a href="/hapus/topik/'+obj.id_topik+'"><button class="btn btn-danger">Hapus</button></a></div></div></div>');
 
                     });
                 }

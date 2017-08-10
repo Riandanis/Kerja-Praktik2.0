@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
-@section('title', 'MeetTRA - Tambah Topik')
-
+@section('title',
+'MeetTRA - Tambah Topik')
 @section('content_header')
     <h1>Agenda</h1>
 @stop
@@ -88,19 +88,19 @@
                                                             <label for="KeteranganAct" class="col-sm-4 control-label">Keterangan</label>
 
                                                             <div class="col-sm-8">
-                                                                <select class="form-control" name="keterangan[0][]" style="width: 105px">
-                                                                    <option>Informasi</option>
+                                                                <select class="form-control" name="keterangan[0][]" style="width: 105px" id="select-form1">
                                                                     <option>Target</option>
+                                                                    <option>Informasi</option>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-4" style="margin-left: -110px">
+                                                    <div class="col-sm-4" style="margin-left: -80px">
                                                         <div class="form-group">
-                                                            <label for="PICAct" class="col-sm-4 control-label">PIC</label>
+                                                            <label for="PICAct" class="col-sm-4 control-label">Email PIC</label>
 
                                                             <div class="col-sm-8">
-                                                                <input type="email" name="pic[0][]" class="form-control">
+                                                                <input type="email" name="pic[0][]" placeholder="example@email.com" class="form-control">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -187,6 +187,19 @@
                 var btnParent = $(e.target.parentNode.parentNode.parentNode);
                 totalDiscussion--;
                 btnParent.remove();
+            });
+
+            $(document).on('change', '#select-form1', function(e){
+                var parentEmail = this.parentNode.parentNode.parentNode.parentNode.childNodes[3].childNodes[1].childNodes[3].childNodes[1];
+                var parentDate = this.parentNode.parentNode.parentNode.parentNode.childNodes[5].childNodes[1].childNodes[3].childNodes[1];
+                if (this.value == 'Informasi') {
+                    $(parentDate).prop("disabled", true);
+                    $(parentEmail).prop("disabled", true);
+                }
+                else if (this.value == 'Target') {
+                    $(parentDate).prop("disabled", false);
+                    $(parentEmail).prop("disabled", false);
+                }
             });
 
         })

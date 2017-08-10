@@ -97,12 +97,12 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-4" style="margin-left: -110px">
+                                                    <div class="col-sm-4" style="margin-left: -80px">
                                                         <div class="form-group">
-                                                            <label for="PICAct" class="col-sm-4 control-label">PIC</label>
+                                                            <label for="PICAct" class="col-sm-4 control-label">Email PIC</label>
 
                                                             <div class="col-sm-8">
-                                                                <input type="email" name="pic[0][0]" value="" placeholder="Email PIC" class="form-control">
+                                                                <input type="email" name="pic[0][0]" value="" placeholder="example@email.com" class="form-control">
                                                             </div>
                                                         </div>
                                                     </div>
