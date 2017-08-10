@@ -13,7 +13,7 @@ ini_set('max_execution_time', 900);
         cssStyle:[{fontSize:'30px'},{fontWeight:'bold'}]});">
     <button>render</button>
 </a> -->
-<body onload="window.print()">
+<body>
 <style>
     body
     {
@@ -76,7 +76,7 @@ ini_set('max_execution_time', 900);
         <table class="table">
             <tr>
                 <td><strong>Date: </strong></td>
-                <td style="font-family: 'Arial'">{{$tanggal_rapat}}</td>
+                <td style="font-family: 'Arial'">{{$tanggal}}</td>
             </tr>
             <tr>
                 <td><strong>Place: </strong></td>
@@ -84,7 +84,7 @@ ini_set('max_execution_time', 900);
             </tr>
             <tr>
                 <td><strong>Time: </strong></td>
-                <td>{{$waktu_rapat}}</td>
+                <td>{{$waktu}}</td>
             </tr>
              <tr>
                 <td><strong>Leader: </strong></td>

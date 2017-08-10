@@ -31,8 +31,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->call('App\Http\Controllers\NotifController@email')
-            ->everyMinute()/*->dailyAt('11:35')*/->timezone('Asia/Jakarta');
-
+            ->everyMinute()->timezone('Asia/Jakarta');
+        /*$schedule->call('App\Http\Controllers\NotifController@emailmom')
+            ->everyMinute()/*->dailyAt('11:35')*///->timezone('Asia/Jakarta');
     }
 
     /**
