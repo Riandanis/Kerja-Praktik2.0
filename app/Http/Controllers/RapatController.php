@@ -65,6 +65,8 @@ class RapatController extends Controller
         $rapat->headline = $request->input('headline');
         $rapat->waktu_rapat = $waktu;
         $rapat->tempat_rapat = $request->input('tempat');
+        $rapat->leader = $request->input('leader');
+        $rapat->email_leader = $request->input('email_leader');
         $rapat->save();
         $id = $rapat->id_rapat;
         
@@ -159,6 +161,8 @@ class RapatController extends Controller
         $rpt->headline = $request->input('headline');
         $rpt->waktu_rapat = $waktu;
         $rpt->tempat_rapat = $request->input('tempat');
+        $rpt->leader = $request->input('leader');
+        $rpt->email_leader = $request->input('email_leader');
         if($rpt->save()){
             $flag = 1;
         }
