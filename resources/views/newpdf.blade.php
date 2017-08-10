@@ -113,9 +113,9 @@ ini_set('max_execution_time', 900);
                 <thead>
                 <tr>
                     <th style="width: 30px">No.</th>
-                    <th>Topik</th>
-                    <th>Hasil Diskusi</th>
-                    <th>Action</th>
+                    <th style="width: 350px">Topik</th>
+                    <th style="width: 500px">Hasil Diskusi</th>
+                    <th style="width: 500px">Action</th>
                 </tr>
                 </thead>
                 <?php $no=1?>
@@ -143,11 +143,15 @@ ini_set('max_execution_time', 900);
                                             </td>
                                             <td>
                                                 @if($beforeDis != $act->id_diskusi)
-                                                    {{$act->nama_diskusi}}
+                                                    <ul>
+                                                        <li style="margin-left: -23px">{{$act->nama_diskusi}}</li>
+                                                    </ul>
                                                 @endif
                                             </td>
                                             <td>
-                                                {{$act->deskripsi}}
+                                                <ul>
+                                                    <li style="margin-left: -23px">{{$act->deskripsi}}</li>
+                                                </ul>
                                             </td>
                                         </tr>
                                     @endif
