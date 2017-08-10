@@ -69,22 +69,26 @@ class RapatController extends Controller
         $id = $rapat->id_rapat;
         
         $peserta = $request->input('peserta');
+        // dd($request->input('headline'), $peserta);
 
-        if($peserta[0]!=null){
+        if($peserta[1]!=null){
             $flag = 0;
             
             foreach($peserta as $p){
-                $pes = new Attendee();
-                $pes->id_rapat = $id;
-                $pes->ket_attendee = $p;
-                if($pes->save()){
-                    $flag = 1;
+                if($p!=null){
+                    $pes = new Attendee();
+                    $pes->id_rapat = $id;
+                    $pes->ket_attendee = $p;
+                    if($pes->save()){
+                        $flag = 1;
+                    }
+                    else{
+                        $flag = 0;
+                        $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
+                        return redirect('/home');
+                    }    
                 }
-                else{
-                    $flag = 0;
-                    $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
-                    return redirect('/home');
-                }
+
             }
             if($flag == 1){
                 $request->session()->flash('alert-success', 'Rapat berhasil ditambahkan.');
@@ -104,7 +108,6 @@ class RapatController extends Controller
                 $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
                 return redirect('/home');
             }
-            
         }
     }
 
