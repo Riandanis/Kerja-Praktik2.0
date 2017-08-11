@@ -41,14 +41,13 @@ class TopikController extends Controller
 
         //get id_topik
         $topik = $top->id_topik;
-        
+
         //get value from form
         $diskusi = $request->input('diskusi');
         $action = $request->input('action');
         $jenis = $request->input('keterangan');
         $pic = $request->input('pic');
         $date = $request->input('due_date');
-       
 
         if($diskusi[0]!=null){
             //insert diskusi
@@ -63,6 +62,7 @@ class TopikController extends Controller
 
                 if($action[$i][0]!=null Or !(array_key_exists(0, $action[$i]))){
                     $j = 0;
+                    $p = 0;
 
                     //insert action
                     foreach($action[$i] as $act){
@@ -74,8 +74,9 @@ class TopikController extends Controller
                         if($jenis[$i][$j] == 'Target'){
                             $a->status = 0;
                             $a->jenis_action = 'Target';
-                            $a->email_pic = $pic[$i][$j];
-                            $a->due_date = $date[$i][$j];
+                            $a->email_pic = $pic[$i][$p];
+                            $a->due_date = $date[$i][$p];
+                            $p++;
                         }
                         else{
                             $a->status = 1;
@@ -86,7 +87,9 @@ class TopikController extends Controller
 
                         $a->save();
                         $j++;
+
                     }
+
                 }
 
                 else{
@@ -101,6 +104,8 @@ class TopikController extends Controller
                 }
 
                 $i++;
+//                dd($diskusi, $action, $jenis,$pic, $date);
+
             }
         }
         else{

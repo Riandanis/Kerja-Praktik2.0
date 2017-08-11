@@ -192,7 +192,7 @@
                                 .replace('placeholder="Hasil Diskusi" value=""', 'placeholder="Hasil Diskusi" value="'+flattenData[0].diskusiList[i].nama_diskusi+'"')
                                 .replace('<textarea class="form-control" name="action[0][0]" placeholder="Action"></textarea>',  '<textarea class="form-control" name="action[0][0]">'+flattenData[0].actionList[j].deskripsi+'</textarea>')
                                 .replace('<option value="Keterangan" selected="selected">Keterangan</option>', '<option value="'+flattenData[0].actionList[j].jenis_action+'" selected="selected">'+flattenData[0].actionList[i].jenis_action+'</option>')
-                                .replace('value="" placeholder="Email PIC"', 'value="'+flattenData[0].actionList[j].email_pic+'"')
+                                .replace('value="" placeholder="example@email.com"', 'value="'+flattenData[0].actionList[j].email_pic+'"')
                                 .replace('value="duedate"', 'value="'+tanggal+'"')
                                 .replace('id="action-hidden" style="display: none"', 'id="action-hidden"');
                             containerKu.append(discussionSectionClone);
@@ -206,7 +206,7 @@
                                 .replace('placeholder="Hasil Diskusi" value=""', 'placeholder="Hasil Diskusi" value="'+flattenData[0].diskusiList[i].nama_diskusi+'"')
                                 .replace('<textarea class="form-control" name="action[0][0]" placeholder="Action"></textarea>',  '<textarea class="form-control" placeholder="Action"></textarea>')
                                 .replace('<option value="Keterangan" selected="selected">Keterangan</option>', '<option selected="selected">Keterangan</option>')
-                                .replace('value="" placeholder="Email PIC"', 'placeholder="Email PIC"')
+                                .replace('value="" placeholder="example@email.com"', 'placeholder="example@email.com"')
                                 .replace('value="duedate"', '');
                             containerKu.append(discussionSectionClone);
                             j++;
@@ -222,7 +222,7 @@
                                 var discussionActionFieldsClone = $('#action-section')[0].outerHTML.replace('name="keterangan[0][0]"', 'name="keterangan['+i+']['+x+']"').replace('name="pic[0][0]"', 'name="pic['+i+']['+x+']"').replace('name="due_date[0][0]"', 'name="due_date['+i+']['+x+']"')
                                     .replace('<textarea class="form-control" name="action[0][0]" placeholder="Action"></textarea>', '<textarea class="form-control" name="action['+i+']['+x+']">'+flattenData[0].actionList[j].deskripsi+'</textarea>')
                                     .replace('<option value="Keterangan" selected="selected">Keterangan</option>', '<option value="' + flattenData[0].actionList[j].jenis_action + '" selected="selected">' + flattenData[0].actionList[j].jenis_action + '</option>')
-                                    .replace('value="" placeholder="Email PIC"', 'value="' + flattenData[0].actionList[j].email_pic + '"')
+                                    .replace('value="" placeholder="example@email.com"', 'value="' + flattenData[0].actionList[j].email_pic + '"')
                                     .replace('value="duedate"', 'value="' + tanggal + '"')
                                     .replace('id="action-hidden" style="display: none"', 'id="action-hidden"');
                                 var parent = containerKu.children()[i].childNodes[9];
