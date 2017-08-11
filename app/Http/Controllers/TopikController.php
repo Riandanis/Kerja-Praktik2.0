@@ -164,7 +164,15 @@ class TopikController extends Controller
         //edit topik
         $edit_top = Topik::where('id_topik', $id)->first();
         $edit_top->nama_topik = $request->input('topik');
-        $edit_top->save();
+        //ALERT
+        if($edit_top->save()){
+            $flag = 1;
+        }
+        else{
+            $flag = 0;
+            $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
+            return redirect('/topik/edit/'.$id);
+        }
         $id_topik = $id;
 
         $diskusi = $request->input('diskusi');
@@ -173,8 +181,6 @@ class TopikController extends Controller
         $email_pic = $request->input('pic');
         $date = $request->input('due_date');
 
-        // dd($diskusi);
-        // dd($id_topik, $diskusi, $action, $jenis, $email_pic, $date);
         $flag = 0;
         $jml_d = 0;
         $jml_a = 0;
@@ -189,12 +195,15 @@ class TopikController extends Controller
                     $dis = new Diskusi;
                     $dis->id_topik = $id_topik;
                     $dis->nama_diskusi = $d;
+                    //ALERT
                     if($dis->save()){
                         $flag = 1;
                         $id_d = $dis->id_diskusi;
                     }
                     else{
                         $flag = 0;
+                        $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
+                        return redirect('/topik/edit/'.$id);
                     }
                 }
                 else{
@@ -204,7 +213,6 @@ class TopikController extends Controller
                 array_push($hapus_diskusi, $d);
                 $jml_d++;
 
-                // dd($diskusi, $i);
                 
                 //ACTION
                 $i = array_search($d, $diskusi);
@@ -235,7 +243,16 @@ class TopikController extends Controller
                                     $aksi->due_date = null;
                                     $aksi->status = 1;
                                 }
-                                $aksi->save();
+                                
+                                //ALERT
+                                if($aksi->save()){
+                                    $flag = 1;
+                                }
+                                else{
+                                    $flag = 0;
+                                    $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
+                                    return redirect('/topik/edit/'.$id);
+                                }
                             }
                             else{
                                 //edit
@@ -252,7 +269,16 @@ class TopikController extends Controller
                                     $cek_a->due_date = null;
                                     $cek_a->status = 1;
                                 }
-                                $cek_a->save();
+
+                                //ALERT
+                                if($cek_a->save()){
+                                    $flag = 1;
+                                }
+                                else{
+                                    $flag = 0;
+                                    $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
+                                    return redirect('/topik/edit/'.$id);
+                                }
                             }
 
                             array_push($hapus_action, $act);
@@ -261,14 +287,20 @@ class TopikController extends Controller
                     }
                 }
 
-                
-
                 $db_a = Action::where('id_diskusi', $id_d)
                         ->whereNotIn('deskripsi', $hapus_action)
                         ->get();
 
                 foreach($db_a as $hap){
-                    $hap->delete();
+                    //ALERT
+                    if($hap->delete()){
+                        $flag = 1;
+                    }
+                    else{
+                        $flag = 0;
+                        $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
+                        return redirect('/topik/edit/'.$id);
+                    }
                 }
 
                 if($jml_a==0){
@@ -280,7 +312,15 @@ class TopikController extends Controller
                     $eksyen->email_pic = 'example@email.com';
                     $eksyen->jenis_action = 'Informasi';
                     $eksyen->status = 1;
-                    $eksyen->save();
+                    //ALERT
+                    if($eksyen->save()){
+                        $flag = 1;
+                    }
+                    else{
+                        $flag = 0;
+                        $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
+                        return redirect('/topik/edit/'.$id);
+                    }
                 }
             }
         }
@@ -290,7 +330,15 @@ class TopikController extends Controller
                 ->get();
 
         foreach($db_d as $hapus){
-            $hapus->delete();
+            //ALERT
+            if($hapus->delete()){
+                $flag = 1;
+            }
+            else{
+                $flag = 0;
+                $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
+                return redirect('/topik/edit/'.$id);
+            }
         }
 
         if($jml_d==0  && $jml_a==0){
@@ -298,9 +346,16 @@ class TopikController extends Controller
             $disc = new Diskusi();
             $disc->id_topik = $id_topik;
             $disc->nama_diskusi = 'Tidak Ada Diskusi';
-            $disc->save();
+            //ALERT
+            if($disc->save()){
+                $flag = 1;
+            }
+            else{
+                $flag = 0;
+                $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
+                return redirect('/topik/edit/'.$id);
+            }
             $id_disc = $disc->id_diskusi;
-            // dd($id_disc);
 
             $acti = new Action();
             $acti->id_diskusi = $id_disc;
@@ -309,7 +364,21 @@ class TopikController extends Controller
             $acti->email_pic = 'example@email.com';
             $acti->jenis_action = 'Informasi';
             $acti->status = 1;
-            $acti->save();
+            //ALERT
+            if($acti->save()){
+                $flag = 1;
+            }
+            else{
+                $flag = 0;
+                $request->session()->flash('alert-danger', 'Rapat gagal ditambahkan.');
+                return redirect('/topik/edit/'.$id);
+            }
+        }
+
+        //ALERT
+        if($flag == 1){
+            $request->session()->flash('alert-success', 'Rapat berhasil ditambahkan.');
+            return redirect('/topik/edit/'.$id);
         }
         
     }
