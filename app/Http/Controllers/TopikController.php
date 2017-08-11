@@ -57,7 +57,7 @@ class TopikController extends Controller
         $date = $request->input('due_date');
 
         $jml_d = 0;
-        $jml_a = 0
+        $jml_a = 0;
         foreach($diskusi as $d){
             if($d!=null){
                 $disk = new Diskusi();
@@ -77,7 +77,7 @@ class TopikController extends Controller
                 $i = array_search($d, $diskusi);
                 $jml_a = 0;
 
-                if(array_key_exists($i, $action){
+                if(array_key_exists($i, $action)){
                     foreach($action[$i] as $act){
                         if($act!=null){
                             $j = array_search($act, $action[$i]);
