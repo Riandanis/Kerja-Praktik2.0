@@ -46,12 +46,12 @@
                     <form class="form-horizontal" method="post" action="{{url('/topik/update/'.$id)}}">
                         {{csrf_field()}}
                         <div class="box-body">
-                            <input type="hidden" id="id_top" value="{{$topik[0]->id_topik}}" data-id="{{$topik[0]->id_topik}}">
+                            <input type="hidden" id="id_top" value="{{$topik->id_topik}}" data-id="{{$topik->id_topik}}">
                             <div class="form-group">
                                 <label for="Topik" class="col-sm-2 control-label">Topik <span style="color: red">*</span></label>
 
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" name="topik" value="{{$topik[0]->nama_topik}}" required>
+                                    <input type="text" class="form-control" name="topik" value="{{$topik->nama_topik}}" required>
                                 </div>
                             </div>
                             <div id="discussion-coy">
@@ -131,7 +131,7 @@
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">
-                            <a href="#">
+                            <a href="{{url('/agenda/'.$rapat)}}">
                                 <button type="button" class="btn btn-default">Batal</button>
                             </a>
                             <button type="submit" class="btn btn-success pull-right">Simpan</button>
