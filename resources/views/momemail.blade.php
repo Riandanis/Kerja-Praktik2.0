@@ -1,8 +1,3 @@
-<?php
-ini_set('max_execution_time', 900);
-
-?>
-
 
 <link rel="stylesheet" href="{{ asset('vendor/adminlte/bootstrap/css/bootstrap.min.css') }}">
 
@@ -76,7 +71,7 @@ ini_set('max_execution_time', 900);
         <table class="table">
             <tr>
                 <td><strong>Date: </strong></td>
-                <td style="font-family: 'Arial'">{{$tanggal}}</td>
+                <td style="font-family: 'Arial'">{{$tanggal_rapat}}</td>
             </tr>
             <tr>
                 <td><strong>Place: </strong></td>
@@ -84,9 +79,9 @@ ini_set('max_execution_time', 900);
             </tr>
             <tr>
                 <td><strong>Time: </strong></td>
-                <td>{{$waktu}}</td>
+                <td>{{$waktu_rapat}}</td>
             </tr>
-             <tr>
+            <tr>
                 <td><strong>Leader: </strong></td>
                 <td>{{$rapat[0]->leader}}</td>
             </tr>
@@ -113,9 +108,9 @@ ini_set('max_execution_time', 900);
                 <thead>
                 <tr>
                     <th style="width: 30px">No.</th>
-                    <th>Topik</th>
-                    <th>Hasil Diskusi</th>
-                    <th>Action</th>
+                    <th style="width: 150px">Topik</th>
+                    <th style="width: auto">Hasil Diskusi</th>
+                    <th style="width: auto">Action</th>
                 </tr>
                 </thead>
                 <?php $no=1?>
@@ -141,13 +136,17 @@ ini_set('max_execution_time', 900);
                                                     {{$act->nama_topik}}
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td style="text-align: justify">
                                                 @if($beforeDis != $act->id_diskusi)
-                                                    {{$act->nama_diskusi}}
+                                                    <ul>
+                                                        <li style="margin-left: -23px">{{$act->nama_diskusi}}</li>
+                                                    </ul>
                                                 @endif
                                             </td>
-                                            <td>
-                                                {{$act->deskripsi}}
+                                            <td style="text-align: justify">
+                                                <ul>
+                                                    <li style="margin-left: -23px">{{$act->deskripsi}}</li>
+                                                </ul>
                                             </td>
                                         </tr>
                                     @endif

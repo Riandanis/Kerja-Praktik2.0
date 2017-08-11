@@ -1,8 +1,3 @@
-<?php
-ini_set('max_execution_time', 900);
-
-?>
-
 
 <link rel="stylesheet" href="{{ asset('vendor/adminlte/bootstrap/css/bootstrap.min.css') }}">
 
