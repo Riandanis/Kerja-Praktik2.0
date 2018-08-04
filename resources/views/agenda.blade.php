@@ -244,7 +244,7 @@
                         var str ="\{\{url(\'topik/edit\','+obj.id_topik+')\}\}";
                         console.log(str);
 
-                        $('#insert-topik').append('<div class="row"><div class="col-sm-12"><div class="col-sm-8">'+obj.nama_topik+'</div><div class="col-sm-2"><a href="/topik/edit/'+obj.id_topik+'"><button class="btn btn-default" style="margin-left: 40px">Edit</button></a></div><div class="col-sm-2"><a href="/hapus/topik/'+obj.id_topik+'"><button class="btn btn-danger">Hapus</button></a></div></div></div>');
+                        $('#insert-topik').append('<div class="row" style="margin-bottom:5px"><div class="col-sm-12"><div class="col-sm-8">'+obj.nama_topik+'</div><div class="col-sm-2"><a href="/topik/edit/'+obj.id_topik+'"><button class="btn btn-default" style="margin-left: 40px">Edit</button></a></div><div class="col-sm-2"><a href="/hapus/topik/'+obj.id_topik+'"><button class="btn btn-danger">Hapus</button></a></div></div></div>');
 
                     });
                 }
